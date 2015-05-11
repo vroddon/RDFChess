@@ -1,0 +1,18 @@
+@prefix schema: <http://schema.org/> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dcat:  <http://www.w3.org/ns/dcat#> .
+@prefix foaf:  <http://xmlns.com/foaf/spec/> .
+@prefix dct:   <http://purl.org/dc/terms/> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix void:  <http://rdfs.org/ns/void#> .
+@prefix ldr:   <http://purl.oclc.org/NET/ldr/ns#> .
+@prefix cc:    <http://creativecommons.org/ns#> .
+@prefix ldp:   <http://www.w3.org/ns/ldp#> .
+@prefix odrl:  <http://www.w3.org/ns/odrl/2/> .
+
+:sample1 dct:source <http://www.pgnmentor.com/players/Fischer.zip> .
+:sample2 dct:source <http://ratings.fide.com/view_pgn.phtml?code=105803> .
+:sample3 dct:source <http://www.angelfire.com/games3/smartbridge/> .
+:sample4 dct:source <http://www.angelfire.com/games3/smartbridge/> .
+
+
