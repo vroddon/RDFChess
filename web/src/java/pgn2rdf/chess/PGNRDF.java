@@ -33,20 +33,30 @@ public class PGNRDF {
         Resource r = modelo.createResource("http://purl.org/NET/chess/resource/" + id);
         Resource r2 = modelo.createResource("http://purl.org/NET/chess/ontology/ChessGame");
         modelo.add(r, RDF.type, r2);
+        Property r96 = modelo.createProperty("http://purl.org/NET/chess/ontology/hasWhitePlayerName");
+        Property r97 = modelo.createProperty("http://purl.org/NET/chess/ontology/hasBlackPlayerName");
+        Property r98 = modelo.createProperty("http://purl.org/NET/chess/ontology/hasWhitePlayer");
+        Property r99 = modelo.createProperty("http://purl.org/NET/chess/ontology/hasBlackPlayer");
 
         RDFNode rdfwhite = null;
         String swhite = g.getWhite();
         if (swhite.startsWith("http")) {
             rdfwhite = modelo.createResource(swhite);
+            modelo.add(r, r98, rdfwhite);
         } else {
             rdfwhite = modelo.createLiteral(swhite);
+            modelo.add(r, r96, rdfwhite);
         }
         RDFNode rdfblack = null;
         String sblack = g.getBlack();
         if (sblack.startsWith("http")) {
             rdfblack = modelo.createResource(sblack);
+            modelo.add(r, r98, rdfwhite);
+            
         } else {
             rdfblack = modelo.createLiteral(sblack);
+            modelo.add(r, r97, rdfblack);
+            
         }
         RDFNode rdfsite = null;
         String ssite = g.getSite();
@@ -60,7 +70,7 @@ public class PGNRDF {
 
         modelo.add(r, RDF.type, r2);
 
-        Resource r4 = modelo.createResource("http://purl.org/NET/chess/ontology/roleWhite");
+  /*      Resource r4 = modelo.createResource("http://purl.org/NET/chess/ontology/roleWhite");
         Resource r3 = modelo.createResource("http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#Agent");
         modelo.add(r4, RDF.type, r3);
         modelo.add(r4, RDFS.label, "White");
@@ -71,6 +81,9 @@ public class PGNRDF {
         modelo.add(r4, r6, rdfwhite);
         modelo.add(r5, r6, rdfblack);
 
+*/
+        
+        
         Property r7 = modelo.createProperty("http://semanticweb.cs.vu.nl/2009/11/sem/subEventOf");
         
         String sround = g.getRound();
@@ -81,22 +94,24 @@ public class PGNRDF {
         modelo.add(r, r7, r9);
 
         Resource r10 = modelo.createResource("http://purl.org/NET/chess/ontology/ChessCompetition");
-        Resource r11 = modelo.createResource("http://purl.org/NET/chess/ontology/chessCompetition"+UUID.randomUUID().toString());
+        Resource r11 = modelo.createResource("http://purl.org/NET/chess/ontology/atChessCompetition"+UUID.randomUUID().toString());
         modelo.add(r11, RDF.type, r10);
         modelo.add(r9, r7, r11);
 
         Property r12 = modelo.createProperty("http://purl.org/dc/terms/spatial");
+        //MAPEO
+        r12 = modelo.createProperty("http://purl.org/NET/chess/ontology/hasChessGameAtNamedPlace");
         modelo.add(r, r12, rdfsite);
         
-        Property r13 = modelo.createProperty("http://purl.org/NET/chess/ontology/hasOpening");
+        Property r13 = modelo.createProperty("http://purl.org/NET/chess/ontology/hasECOOpening");
         modelo.add(r, r13, g.getECO());
         
         Property r14 = modelo.createProperty("http://purl.org/NET/chess/ontology/nextHalfMove");
-        Resource r15 = modelo.createResource("http://purl.org/NET/chess/ontology/halfMove");
+        Resource r15 = modelo.createResource("http://purl.org/NET/chess/ontology/HalfMove");
         Resource r16 = modelo.createResource("http://purl.org/NET/chess/ontology/firstMove");
         Resource r17 = modelo.createResource("http://purl.org/NET/chess/ontology/lastMove");
         Property r18 = modelo.createProperty("http://purl.org/NET/chess/ontology/halfMoveRecord");
-        Property r19 = modelo.createProperty("http://purl.org/NET/chess/ontology/hasResult");
+        Property r19 = modelo.createProperty("http://purl.org/NET/chess/ontology/hasPGNResult");
         
         g.gotoStart();
         Resource pm = null;
