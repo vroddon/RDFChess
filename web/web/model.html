@@ -101,12 +101,21 @@
     <div class="col-md-10">
         <div class="well">
             <h1><img src="img/rdfchess32.png" alt="RDFChess" align="left" style="PADDING-RIGHT: 5px"> Linked Chess Data</h1> 
-            <p>This site provides the models for representing chess games and a dataset of games in RDF, as well as a service to transform PGN games into RDF game</p> 
+            <p>This site provides the models for representing chess games and a dataset of games in RDF, as well as a service to transform PGN games into RDF games</p> 
         </div>
-        <div class="panel panel-default">
+<!--        <div class="panel panel-default">
             <div class="panel-heading"><h2>Model</h2></div>
-            <div class="panel-body">
-            <!-- https://www.yworks.com/en/products_download.php -->
+            <div class="panel-body">        </div>
+        </div> -->
+                
+    <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+        <li class="active"><a href="#pattern" data-toggle="tab">Pattern</a></li>
+        <li><a href="#datamodel" data-toggle="tab">Data Model</a></li>
+    </ul>  
+    <div id="my-tab-content" class="tab-content">
+        <div class="tab-pane active" id="pattern">
+            <h1>Pattern</h1>
+            <p>The pattern is the abstract, general model capable of tackling all the specificities in particular instantiation</p>
 <script type="text/javascript" language="javascript">
 <!--
 
@@ -116,7 +125,7 @@
         "width", "95%",
         "height", "600",  
         "overview", "true",
-        "toolbar", "false",
+        "toolbar", "true",
         "tooltips", "true",
         "movable", "true",
         "links", "true",
@@ -126,9 +135,41 @@
     }
      
 //-->
-</script>       
+</script>                
         </div>
+        <div class="tab-pane active" id="datamodel">
+            <h1>Data Model</h1>
+            <p>The data model is a compact instantiation of the the pattern. The figure shows the pattern and the shortcuts towards a simpler data model suitable for the data publication in a shorter form.</p>
+<script type="text/javascript" language="javascript">
+<!--
+
+    // The default parameters are used here
+
+    if (!RunPlayer("graphURL", "model/datamodel.graphml",
+        "width", "95%",
+        "height", "600",  
+        "overview", "true",
+        "toolbar", "true",
+        "tooltips", "true",
+        "movable", "true",
+        "links", "true",
+        "linksInNewWindow", "true",
+        "viewport", "full")) {
+        document.write("Cannot start GraphMLViewer!");
+    }
+     
+//-->
+</script>                
         </div>
+    </div>
+        
+                
+                
+                
+                
+            <!-- https://www.yworks.com/en/products_download.php -->
+   
+
         
         <div class="panel panel-default"> 
             <div class="panel-heading"><h2>Ontology pattern</h2></div>
@@ -155,7 +196,11 @@
    //      alert('por fin');
       });
     </script>
-    
+    <script type="text/javascript">
+    jQuery(document).ready(function ($) {
+        $('#tabs').tab();
+    });
+</script>
 
     
 
