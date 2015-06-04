@@ -9,6 +9,7 @@ import static pgn2rdf.mappings.DBpediaSpotlight.parseDBPediaXML;
 import static pgn2rdf.mappings.DBpediaSpotlight.queryDBPedia;
 
 /**
+ * This is the servlet in charge of the conversion
  */
 public class Pgn2rdfServlet extends HttpServlet {
 

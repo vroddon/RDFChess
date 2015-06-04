@@ -27,7 +27,7 @@ import pgn2rdf.mappings.DBpediaSpotlight;
 import pgn2rdf.mappings.ManagerGeonames;
 
 /**
- *
+ * This class parses and processes the PGN 
  * @author vroddon
  */
 public class PGNProcessor {
