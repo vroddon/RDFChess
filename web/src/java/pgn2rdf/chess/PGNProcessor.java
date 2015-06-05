@@ -114,8 +114,8 @@ public class PGNProcessor {
         modelo.setNsPrefix("gr", "http://purl.org/goodrelations/");
         modelo.setNsPrefix("prov", "http://www.w3.org/ns/prov#");
         modelo.setNsPrefix("sem", "http://semanticweb.cs.vu.nl/2009/11/sem/");
-        modelo.setNsPrefix("chess", "http://purl.org/NET/chess/ontology/");
-        modelo.setNsPrefix("ex", "http://purl.org/NET/chess/resource/");
+        modelo.setNsPrefix("chess-o", "http://purl.org/NET/rdfchess/ontology/");
+        modelo.setNsPrefix("chess", "http://purl.org/NET/rdfchess/resource/");
         
         
         
