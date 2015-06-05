@@ -4,9 +4,17 @@
         <servlet-name>pgn2rdf</servlet-name>
         <servlet-class>pgn2rdf.servlets.Pgn2rdfServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>resource</servlet-name>
+        <servlet-class>pgn2rdf.servlets.GameServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>pgn2rdf</servlet-name>
         <url-pattern>/pgn2rdf</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>resource</servlet-name>
+        <url-pattern>/resource/*</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

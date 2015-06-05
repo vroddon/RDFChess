@@ -27,7 +27,7 @@ import pgn2rdf.mappings.DBpediaSpotlight;
 import pgn2rdf.mappings.ManagerGeonames;
 
 /**
- *
+ * This class parses and processes the PGN 
  * @author vroddon
  */
 public class PGNProcessor {
@@ -114,8 +114,8 @@ public class PGNProcessor {
         modelo.setNsPrefix("gr", "http://purl.org/goodrelations/");
         modelo.setNsPrefix("prov", "http://www.w3.org/ns/prov#");
         modelo.setNsPrefix("sem", "http://semanticweb.cs.vu.nl/2009/11/sem/");
-        modelo.setNsPrefix("chess", "http://purl.org/NET/chess/ontology/");
-        modelo.setNsPrefix("ex", "http://purl.org/NET/chess/resource/");
+        modelo.setNsPrefix("chess-o", "http://purl.org/NET/rdfchess/ontology/");
+        modelo.setNsPrefix("chess", "http://purl.org/NET/rdfchess/resource/");
         RDFDataMgr.write(sw, modelo, lang);
         return sw.toString();       
     }
