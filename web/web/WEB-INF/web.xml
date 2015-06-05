@@ -5,7 +5,7 @@
         <servlet-class>pgn2rdf.servlets.Pgn2rdfServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>data</servlet-name>
+        <servlet-name>resource</servlet-name>
         <servlet-class>pgn2rdf.servlets.GameServlet</servlet-class>
     </servlet>
     <servlet-mapping>
@@ -13,8 +13,8 @@
         <url-pattern>/pgn2rdf</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>data</servlet-name>
-        <url-pattern>/data/*</url-pattern>
+        <servlet-name>resource</servlet-name>
+        <url-pattern>/resource/*</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
