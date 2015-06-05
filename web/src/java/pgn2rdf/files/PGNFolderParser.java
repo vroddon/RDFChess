@@ -55,12 +55,10 @@ public class PGNFolderParser {
       List<String> ls = loadFiles(zipfile, l);
       final File fout = new File(l+".zip");
       final ZipOutputStream out = new ZipOutputStream(new FileOutputStream(fout));
-      final StringBuilder sb = new StringBuilder();
       for(String s : ls)
       {
           try{
             String id=getId(s);
-//            System.out.println(s);
             ZipEntry e = new ZipEntry(id+".pgn");
             out.putNextEntry(e);
             byte[] data = s.getBytes();
@@ -68,13 +66,15 @@ public class PGNFolderParser {
             out.closeEntry();
           }catch(Exception e)
           {
-              System.err.println("EXcepcion: " + s);
+              System.err.println("Excepcion: " + s + "\n"+e.getMessage());
           }
       }
       out.close();
-      
     }
     
+    /**
+     * Adds the game identifier
+     */
     private static String getId(String str)
     {
         String id ="";
@@ -87,7 +87,10 @@ public class PGNFolderParser {
         }
         return id;
     }
-    
+
+    /**
+     * Loads the internal sources file
+     */
     private static List<String> loadSources()
     {
         List<String> ls = new ArrayList();
@@ -102,6 +105,9 @@ public class PGNFolderParser {
             return ls;
     }
 
+    /**
+     * 
+     */
     public static List<String> loadFiles(String sfolder, String letra) {
         List<String> pgns = new ArrayList();
         List<String> sources = loadSources();
@@ -114,14 +120,12 @@ public class PGNFolderParser {
             for (int i = 0; i < listOfFiles.length; i++) {
                 String source = sources.get(i);
                 if (listOfFiles[i].isFile()) {
-     //               System.out.println("Parsing: "+listOfFiles[i].getName());
                     FileInputStream fis = new FileInputStream(listOfFiles[i]);
                     ZipInputStream zipIn = new ZipInputStream(fis);
                     ZipEntry entry = zipIn.getNextEntry();
                     StringWriter writer = new StringWriter();
                     IOUtils.copy(zipIn, writer, "UTF-8");
                     String pgnwithgames = writer.toString();
-                    
                     int lastindex=0;
                     int index=0;
                     while(true)
@@ -131,16 +135,10 @@ public class PGNFolderParser {
                             break;
                         String str = pgnwithgames.substring(lastindex, index);
                         lastindex=index;
-                        
-                        
                         String letter = getFirstLetter(str);
                         if (!letter.equalsIgnoreCase(letra))
                             continue;
-                        
                         str = enrich(str, source);
-                        
-//                        appendOrCreate(letter, str);
-                        
                         pgns.add(str);
                         if (count%1000 ==0)
                         {
