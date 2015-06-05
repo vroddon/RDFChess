@@ -90,9 +90,9 @@ public class PGNProcessor {
         }
         return sw.toString();
     }
-
-    public static String getTTL(String pgn) {
-        String ttl = "";
+    public static String getRDF(String pgn, org.apache.jena.riot.Lang lang)
+    {
+         String ttl = "";
         Reader reader = new StringReader(pgn);
         PGNReader pgnreader = new PGNReader(reader, "web");
         StringWriter sw = new StringWriter();
@@ -116,12 +116,13 @@ public class PGNProcessor {
         modelo.setNsPrefix("sem", "http://semanticweb.cs.vu.nl/2009/11/sem/");
         modelo.setNsPrefix("chess", "http://purl.org/NET/chess/ontology/");
         modelo.setNsPrefix("ex", "http://purl.org/NET/chess/resource/");
-        
-        
-        
-        
-        RDFDataMgr.write(sw, modelo, Lang.TTL);
-        return sw.toString();
+        RDFDataMgr.write(sw, modelo, lang);
+        return sw.toString();       
+    }
+
+    public static String getTTL(String pgn) {
+        return getRDF(pgn, Lang.TTL);
+
     }
     //C:\Users\vroddon\AppData\Roaming\NetBeans\8.0.2\config\GF_4.1\domain1\config\log1.txt
     public static void log(String pgn, String filename) {
