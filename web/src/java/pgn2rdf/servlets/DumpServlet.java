@@ -35,7 +35,7 @@ public class DumpServlet extends HttpServlet {
         response.setHeader("Content-Disposition", "attachment;filename=data.tar");
         String mimeType = "application/x-tar";
         response.setContentType(mimeType);
-        String sfile = request.getRequestURI().replace("/RDFChess/dump/", "d:\\data\\rdfchess\\");
+        String sfile = request.getRequestURI().replace("/RDFChess/dump/", "F:\\data\\rdfchess\\");
 //        sfile = "d:\\data\\test.nq";
         InputStream in = null;
         OutputStream out = null;
