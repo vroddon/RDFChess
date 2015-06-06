@@ -1,14 +1,22 @@
 package pgn2rdf.servlets;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.io.IOUtils;
 
 /**
- * This Servlet serves the RDF dump hosted in a different folder (not within the .war file)
+ * This Servlet serves the RDF dump hosted in a different folder (not within the
+ * .war file)
+ *
  * @author vrodriguez
  */
 public class DumpServlet extends HttpServlet {
@@ -22,21 +30,28 @@ public class DumpServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet DumpServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet DumpServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        response.setHeader("Content-Disposition", "attachment;filename=data.tar");
+        String mimeType = "application/x-tar";
+        response.setContentType(mimeType);
+        String sfile = request.getRequestURI().replace("/RDFChess/dump/", "d:\\data\\rdfchess\\");
+//        sfile = "d:\\data\\test.nq";
+        InputStream in = null;
+        OutputStream out = null;
+        try {
+            FileInputStream fis = new FileInputStream(new File(sfile));
+            out = response.getOutputStream();
+            IOUtils.copy(fis, out);
+        } catch(Exception e)
+        {
+            e.printStackTrace();
         }
+            finally {
+            IOUtils.closeQuietly(in);
+            IOUtils.closeQuietly(out);
+        }
+        response.setStatus(HttpServletResponse.SC_FOUND);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

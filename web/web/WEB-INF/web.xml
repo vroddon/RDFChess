@@ -22,7 +22,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>dump</servlet-name>
-        <url-pattern>/dump</url-pattern>
+        <url-pattern>/dump/*</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
