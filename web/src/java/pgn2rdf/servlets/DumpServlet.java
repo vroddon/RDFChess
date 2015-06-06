@@ -45,6 +45,7 @@ public class DumpServlet extends HttpServlet {
             IOUtils.copy(fis, out);
         } catch(Exception e)
         {
+            System.err.println("Error processing request");
             e.printStackTrace();
         }
             finally {
