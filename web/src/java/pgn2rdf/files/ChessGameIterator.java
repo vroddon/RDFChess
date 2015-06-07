@@ -15,6 +15,8 @@ import java.util.Iterator;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.StringWriter;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import org.apache.commons.compress.archivers.ArchiveStreamFactory;
@@ -23,6 +25,7 @@ import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.commons.io.IOUtils;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
+import static pgn2rdf.files.PGNFolderParser.MD5;
 
 /**
  * This class browses the games present in a tar file The tar file is supposed
@@ -38,6 +41,7 @@ public class ChessGameIterator implements Iterator {
     TarArchiveEntry tarentry = null;
     ZipEntry zentry = null;
     ZipInputStream zipIn = null;
+    static Set<String> hashes = new HashSet();
 
     public static void main(String[] args) {
 
@@ -59,11 +63,27 @@ public class ChessGameIterator implements Iterator {
                 if (rgame!=null)
                 {
                     Property cwhite = model.createProperty("http://purl.org/NET/rdfchess/ontology/hasWhitePlayerName");
-                    NodeIterator rit2 = model.listObjectsOfProperty(rgame, cwhite);
+                    Property cblack = model.createProperty("http://purl.org/NET/rdfchess/ontology/hasBlackPlayerName");
+                    Literal lita=null;
+                    Literal litb=null;
+                    NodeIterator rita = model.listObjectsOfProperty(rgame, cwhite);
+                    if (rita.hasNext())
+                        lita = rita.next().asLiteral();
+                    NodeIterator rit2 = model.listObjectsOfProperty(rgame, cblack);
                     if (rit2.hasNext())
+                        litb = rit2.next().asLiteral();
+                    if (litb.toString().contains("Fischer"))
                     {
-                        Literal lit = rit2.next().asLiteral();
-                        System.out.println(lit.toString());
+                        String moves = getMoves(model, rgame.getURI());
+                        String md5 = MD5(moves);
+                        int siz = hashes.size();
+                        hashes.add(md5);
+                        if (hashes.size()-siz==1)
+                        {
+                            System.out.println(lita.toString()+" - "+litb.toString());
+                            System.out.println(moves+" "+ md5);
+                            RDFStore.write(rgame.getURI(), rdf);
+                        }
                     }
                 }
                 
@@ -73,6 +93,32 @@ public class ChessGameIterator implements Iterator {
             }
         }
     }
+    
+    public static String getMoves(Model model, String game)
+    {
+        String s ="";
+        Resource rgame = model.createResource(game);
+        ResIterator rf = model.listResourcesWithProperty(RDF.type, model.createResource("http://purl.org/NET/rdfchess/ontology/firstMove"));
+        if (!rf.hasNext())
+            return s;
+        Resource fm = rf.next().asResource();
+
+        int conta=0;
+        do{
+            NodeIterator it2 = model.listObjectsOfProperty(fm,model.createProperty("http://purl.org/NET/rdfchess/ontology/halfMoveRecord"));
+            if (!it2.hasNext())
+                return s;
+            s+=it2.next().asLiteral().toString()+" ";
+            NodeIterator it3 = model.listObjectsOfProperty(fm,model.createProperty("http://purl.org/NET/rdfchess/ontology/nextHalfMove"));
+            if (!it3.hasNext())
+                return s;
+            fm = it3.next().asResource();
+        }while(conta<200);
+        
+        return s;
+    }
+            
+    
 
     @Override
     public boolean hasNext() {
