@@ -76,8 +76,11 @@ public class PGNFolderParser {
 
     }
 
+    /**
+    * Parses and converts from PGN to RDF systematically all the files, compressing them.
+    */
     private static void fromPGNToRDF(String source, String dest) throws Exception {
-        char c = 'K';
+        char c = 'A';
         while (c <= 'P') {
 
         
