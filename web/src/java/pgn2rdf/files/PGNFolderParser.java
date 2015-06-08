@@ -52,7 +52,8 @@ public class PGNFolderParser {
             final File sinf = new File(folder + "\\" + c + ".zip");
             FileInputStream fis = new FileInputStream(sinf);
             ZipInputStream zipIn = new ZipInputStream(fis);
-            FileOutputStream hash = new FileOutputStream(new File("C:\\data\\pgn\\hash.txt"));
+            
+            FileOutputStream hash = new FileOutputStream(new File("hash.txt"));
             
             while (true) {
                 ZipEntry entry = zipIn.getNextEntry();

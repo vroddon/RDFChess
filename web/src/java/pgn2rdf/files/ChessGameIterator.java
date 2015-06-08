@@ -25,6 +25,7 @@ import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.commons.io.IOUtils;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
+import pgn2rdf.chess.RDFChessConfig;
 import static pgn2rdf.files.PGNFolderParser.MD5;
 
 /**
@@ -35,7 +36,7 @@ import static pgn2rdf.files.PGNFolderParser.MD5;
  */
 public class ChessGameIterator implements Iterator {
 
-    static String rdftar = "D:\\data\\chess\\rdfchess.tar";
+    static String rdftar = RDFChessConfig.get("rdfchessdump","D:\\data\\chess\\rdfchess.tar");
     InputStream is = null;
     TarArchiveInputStream debInputStream = null;
     TarArchiveEntry tarentry = null;
@@ -50,7 +51,13 @@ public class ChessGameIterator implements Iterator {
             String rdf = (String) it.next();
             if (rdf.isEmpty())
                 break;
+            
+            //This is to correct an error that was made while creating the dataset
             rdf=rdf.replace("http://purl.org/NET/chess", "http://purl.org/NET/rdfchess");
+            
+            //http://purl.org/NET/rdfchess/resource/
+            rdf = rdf.replace("http://purl.org/NET/rdfchess/resource/", "http://lider1.dia.fi.upm.es:8088/rdfchess/resource/");
+            
             try{
                 Model model = ModelFactory.createDefaultModel();
                 InputStream stream = new ByteArrayInputStream(rdf.getBytes("UTF-8"));
@@ -72,6 +79,9 @@ public class ChessGameIterator implements Iterator {
                     NodeIterator rit2 = model.listObjectsOfProperty(rgame, cblack);
                     if (rit2.hasNext())
                         litb = rit2.next().asLiteral();
+                    
+                    System.out.println(lita.toString()+" - "+litb.toString());
+                    
                     if (litb.toString().contains("Fischer"))
                     {
                         String moves = getMoves(model, rgame.getURI());
@@ -80,7 +90,6 @@ public class ChessGameIterator implements Iterator {
                         hashes.add(md5);
                         if (hashes.size()-siz==1)
                         {
-                            System.out.println(lita.toString()+" - "+litb.toString());
                             System.out.println(moves+" "+ md5);
                             RDFStore.write(rgame.getURI(), rdf);
                         }
@@ -89,7 +98,7 @@ public class ChessGameIterator implements Iterator {
                 
             }catch(Exception e)
             {
-                System.err.println("Could not be loaded");
+                System.err.println("Could not be loaded. " + e.toString());
             }
         }
     }
@@ -164,6 +173,8 @@ public class ChessGameIterator implements Iterator {
             StringWriter writer = new StringWriter();
             IOUtils.copy(zipIn, writer, "UTF-8");
             String pgn = writer.toString();
+            if (pgn.isEmpty())
+                pgn="?";
             
             
             

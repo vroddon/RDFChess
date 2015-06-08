@@ -39,7 +39,8 @@ public class RDFStore {
     public static void write(String gameid, String game)
     {
         try{
-        String serviceURI = "http://localhost:3030/RDFChess/data";
+            //localhost
+        String serviceURI = "http://lider1.dia.fi.upm.es:3030/RDFChess/data";
         DatasetAccessor dataAccessor = DatasetAccessorFactory.createHTTP(serviceURI);
         Model model = ModelFactory.createDefaultModel();
         InputStream stream = new ByteArrayInputStream(game.getBytes("UTF-8"));

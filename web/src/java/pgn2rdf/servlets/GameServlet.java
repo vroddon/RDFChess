@@ -9,7 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *
+ * This web processes queries of the style
+ * http://purl.org/NET/rdfchess/resource/45bee133-d88c-42e4-89bd-681c81170702
  * @author vroddon
  */
 public class GameServlet extends HttpServlet {
@@ -26,8 +27,7 @@ public class GameServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
-        String gameid = request.getRequestURI().replace("/RDFChess/data/", "");
+        String gameid = request.getRequestURI().replace("/rdfchess/resource/", "");
         
         
         try (PrintWriter out = response.getWriter()) {

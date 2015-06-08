@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.IOUtils;
+import pgn2rdf.chess.RDFChessConfig;
 
 /**
  * This Servlet serves the RDF dump hosted in a different folder (not within the
@@ -35,7 +36,8 @@ public class DumpServlet extends HttpServlet {
         response.setHeader("Content-Disposition", "attachment;filename=data.tar");
         String mimeType = "application/x-tar";
         response.setContentType(mimeType);
-        String sfile = request.getRequestURI().replace("/RDFChess/dump/", "F:\\data\\rdfchess\\");
+        String dumpfolder = RDFChessConfig.get("dumpfolder", "F:\\data\\rdfchess\\");
+        String sfile = request.getRequestURI().replace("/RDFChess/dump/", dumpfolder);
 //        sfile = "d:\\data\\test.nq";
         InputStream in = null;
         OutputStream out = null;
