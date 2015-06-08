@@ -2,7 +2,7 @@ package pgn2rdf.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-
+import java.util.Enumeration;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -33,6 +33,7 @@ public class GameServlet extends HttpServlet {
         
         gameid = "http://salonica.dia.fi.upm.es:8080/rdfchess/resource/"+gameid;
         String ttl = RDFStore.read(gameid);
+        
         if (ttl.isEmpty())
         {
             response.getWriter().println("Not found " + gameid + "\n" + gameid);
@@ -42,9 +43,26 @@ public class GameServlet extends HttpServlet {
         
         
         try (PrintWriter out = response.getWriter()) {
-            response.getWriter().println(ttl);
+            
+            if(isRDFXML(request))
+            {
+                response.getWriter().println(RDFStore.readXML(gameid));
+                response.setContentType("application/rdf+xml;charset=utf-8");
+            }
+            else if (isRDFTTL(request))
+            {
+                response.getWriter().println(ttl);
+                response.setContentType("text/turtle;charset=utf-8");
+            }
+            else{
+                response.getWriter().println("<html><head> <script src=\"https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js\"></script></head>");
+                response.getWriter().println("<body><pre class=\"prettyprint\">");
+                String ttl2= StringUtils.replaceEach(ttl, new String[]{"&", "\"", "<", ">"}, new String[]{"&amp;", "&quot;", "&lt;", "&gt;"});
+                response.getWriter().println(ttl2);
+                response.getWriter().println("</pre></body></html>");
+                response.setContentType("text/html;charset=utf-8");
+            }
             response.setStatus(HttpServletResponse.SC_OK);
-            response.setContentType("text/turtle;charset=utf-8");
             
         }
     }
@@ -88,4 +106,50 @@ public class GameServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    public static boolean isRDFTTL(HttpServletRequest request) {
+        String uri = request.getRequestURI();
+        boolean human = true;
+        Enumeration enume = request.getHeaderNames();
+        while (enume.hasMoreElements()) {
+            String hname = (String) enume.nextElement();
+            Enumeration<String> enum2 = request.getHeaders(hname);
+            //      System.out.print(hname + "\t");
+            while (enum2.hasMoreElements()) {
+                String valor = enum2.nextElement();
+                if (hname.equals("Accept")) {
+                    if (valor.equals("text/turtle")) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    
+    
+    /**
+     * Determina si la petición ha de ser servida a un humano o directamente el RDF
+     * @param request HTTP request
+     */
+    public static boolean isRDFXML(HttpServletRequest request) {
+        String uri = request.getRequestURI();
+        boolean human = true;
+        Enumeration enume = request.getHeaderNames();
+        while (enume.hasMoreElements()) {
+            String hname = (String) enume.nextElement();
+            Enumeration<String> enum2 = request.getHeaders(hname);
+            //      System.out.print(hname + "\t");
+            while (enum2.hasMoreElements()) {
+                String valor = enum2.nextElement();
+                if (hname.equals("Accept")) {
+                    if (valor.equals("application/rdf+xml")) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    
+    
 }

@@ -40,6 +40,17 @@ public class RDFStore {
         RDFDataMgr.write(sw, model, RDFFormat.TURTLE_PRETTY);
         return sw.toString();
     }
+    /**
+     * Reads a chess game from the store
+     */
+    public static String readXML(String gameid) {
+        String serviceURI = RDFChessConfig.get("fuseki", "http://localhost:3030/RDFChess/data");
+        DatasetAccessor dataAccessor = DatasetAccessorFactory.createHTTP(serviceURI);
+        Model model = dataAccessor.getModel(gameid);
+        StringWriter sw = new StringWriter();
+        RDFDataMgr.write(sw, model, RDFFormat.RDFXML);
+        return sw.toString();
+    }
 
     /**
      * Writes a chess game in the store

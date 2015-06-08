@@ -32,7 +32,7 @@ static Set<String> hashes = new HashSet();
      */
     public static void main(String[] args) {
 
-        int total = 3;
+        int total = 0;
         
         Iterator it = new ChessGameIterator();
         while (it.hasNext()) {
@@ -82,7 +82,7 @@ static Set<String> hashes = new HashSet();
                             System.out.println(moves+" "+ md5);
                             RDFStore.write(rgame.getURI(), rdf);
                             total++;
-                            if (total==3)
+                            if (total==1000)
                                 return;
                         }
                     }
