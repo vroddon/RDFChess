@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.net.URLDecoder;
 import javax.servlet.http.*;
+import org.apache.jena.riot.Lang;
 import pgn2rdf.chess.PGNProcessor;
 import static pgn2rdf.mappings.DBpediaSpotlight.parseDBPediaXML;
 import static pgn2rdf.mappings.DBpediaSpotlight.queryDBPedia;
@@ -56,7 +57,7 @@ public class Pgn2rdfServlet extends HttpServlet {
         if (action.contains("enrich"))
             rdf = PGNProcessor.enrichPGN(pgn);
         else
-            rdf= PGNProcessor.getTTL(pgn);
+            rdf= PGNProcessor.getRDF(pgn, Lang.TTL);
         resp.getWriter().println(rdf);
         resp.setContentType("text/plain");
     }    

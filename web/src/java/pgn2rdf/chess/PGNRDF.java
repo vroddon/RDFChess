@@ -18,7 +18,7 @@ import java.util.UUID;
  */
 public class PGNRDF {
 
-    static Model pgn2rdf(Game g) {
+    private static Model pgn2rdf(Game g) {
 
         Model modelo = ModelFactory.createDefaultModel();
         modelo.setNsPrefix("dct", "http://purl.org/dc/terms/");
@@ -70,20 +70,6 @@ public class PGNRDF {
         
 
         modelo.add(r, RDF.type, r2);
-
-  /*      Resource r4 = modelo.createResource("http://purl.org/NET/chess/ontology/roleWhite");
-        Resource r3 = modelo.createResource("http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#Agent");
-        modelo.add(r4, RDF.type, r3);
-        modelo.add(r4, RDFS.label, "White");
-        Resource r5 = modelo.createResource("http://purl.org/NET/chess/ontology/roleBlack");
-        modelo.add(r5, RDF.type, r3);
-        modelo.add(r5, RDFS.label, "Black");
-        Property r6 = modelo.createProperty("http://purl.org/NET/chess/ontology/isPerformedBy");
-        modelo.add(r4, r6, rdfwhite);
-        modelo.add(r5, r6, rdfblack);
-
-*/
-        
         
         Property r7 = modelo.createProperty("http://semanticweb.cs.vu.nl/2009/11/sem/subEventOf");
         

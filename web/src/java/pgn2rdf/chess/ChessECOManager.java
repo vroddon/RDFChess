@@ -5,21 +5,27 @@ import java.util.Map;
 
 /**
  * Class in charge of naming the ECO Chess Openings
- *
- * @author vroddon
+ * It contains the hard-coded list of openings. 
+ * @author Victor Rodriguez
  */
 public class ChessECOManager {
 
-    public static Map<String, String> mapa = init();
-
+    /**
+     * Returns an English string naming a known opening. 
+     * @param eco ECO code of opening. For examle: "C41"
+     * @return En English string. For example: "Philidor Defense"
+     */
     public static String getName(String eco) {
         String name = "";
-
         name = mapa.get(eco);
         return name;
     }
 
-    public static Map<String, String> init() {
+    /************************* PRIVATE METHODS ********************************/
+    
+    private  static Map<String, String> mapa = init();
+
+    private static Map<String, String> init() {
         Map<String, String> mapa = new HashMap();
         mapa.put("A00", "Uncommon Opening");
         mapa.put("A01", "Nimzovich-Larsen Attack");
