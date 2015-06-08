@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.lang3.StringEscapeUtils;
 import pgn2rdf.files.RDFStore;
 
 /**
@@ -57,7 +58,7 @@ public class GameServlet extends HttpServlet {
             else{
                 response.getWriter().println("<html><head> <script src=\"https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js\"></script></head>");
                 response.getWriter().println("<body><pre class=\"prettyprint\">");
-                String ttl2= StringUtils.replaceEach(ttl, new String[]{"&", "\"", "<", ">"}, new String[]{"&amp;", "&quot;", "&lt;", "&gt;"});
+                String ttl2= StringEscapeUtils.escapeHtml4(ttl);
                 response.getWriter().println(ttl2);
                 response.getWriter().println("</pre></body></html>");
                 response.setContentType("text/html;charset=utf-8");
