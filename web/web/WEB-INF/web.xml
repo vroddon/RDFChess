@@ -8,6 +8,10 @@
         <servlet-name>resource</servlet-name>
         <servlet-class>pgn2rdf.servlets.GameServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>dump</servlet-name>
+        <servlet-class>pgn2rdf.servlets.DumpServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>pgn2rdf</servlet-name>
         <url-pattern>/pgn2rdf</url-pattern>
@@ -15,6 +19,10 @@
     <servlet-mapping>
         <servlet-name>resource</servlet-name>
         <url-pattern>/resource/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>dump</servlet-name>
+        <url-pattern>/dump/*</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

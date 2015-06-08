@@ -9,10 +9,11 @@ import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.vocabulary.RDF;
 import com.hp.hpl.jena.vocabulary.RDFS;
+
 import java.util.UUID;
 
 /**
- *
+ * Converter class
  * @author vroddon
  */
 public class PGNRDF {
@@ -30,13 +31,13 @@ public class PGNRDF {
         modelo.setNsPrefix("prov", "http://www.w3.org/ns/prov#");
 
         String id = UUID.randomUUID().toString();
-        Resource r = modelo.createResource("http://purl.org/NET/chess/resource/" + id);
-        Resource r2 = modelo.createResource("http://purl.org/NET/chess/ontology/ChessGame");
+        Resource r = modelo.createResource("http://purl.org/NET/rdfchess/resource/" + id);
+        Resource r2 = modelo.createResource("http://purl.org/NET/rdfchess/ontology/ChessGame");
         modelo.add(r, RDF.type, r2);
-        Property r96 = modelo.createProperty("http://purl.org/NET/chess/ontology/hasWhitePlayerName");
-        Property r97 = modelo.createProperty("http://purl.org/NET/chess/ontology/hasBlackPlayerName");
-        Property r98 = modelo.createProperty("http://purl.org/NET/chess/ontology/hasWhitePlayer");
-        Property r99 = modelo.createProperty("http://purl.org/NET/chess/ontology/hasBlackPlayer");
+        Property r96 = modelo.createProperty("http://purl.org/NET/rdfchess/ontology/hasWhitePlayerName");
+        Property r97 = modelo.createProperty("http://purl.org/NET/rdfchess/ontology/hasBlackPlayerName");
+        Property r98 = modelo.createProperty("http://purl.org/NET/rdfchess/ontology/hasWhitePlayer");
+        Property r99 = modelo.createProperty("http://purl.org/NET/rdfchess/ontology/hasBlackPlayer");
 
         RDFNode rdfwhite = null;
         String swhite = g.getWhite();
@@ -106,12 +107,12 @@ public class PGNRDF {
         Property r13 = modelo.createProperty("http://purl.org/NET/chess/ontology/hasECOOpening");
         modelo.add(r, r13, g.getECO());
         
-        Property r14 = modelo.createProperty("http://purl.org/NET/chess/ontology/nextHalfMove");
-        Resource r15 = modelo.createResource("http://purl.org/NET/chess/ontology/HalfMove");
-        Resource r16 = modelo.createResource("http://purl.org/NET/chess/ontology/firstMove");
-        Resource r17 = modelo.createResource("http://purl.org/NET/chess/ontology/lastMove");
-        Property r18 = modelo.createProperty("http://purl.org/NET/chess/ontology/halfMoveRecord");
-        Property r19 = modelo.createProperty("http://purl.org/NET/chess/ontology/hasPGNResult");
+        Property r14 = modelo.createProperty("http://purl.org/NET/rdfchess/ontology/nextHalfMove");
+        Resource r15 = modelo.createResource("http://purl.org/NET/rdfchess/ontology/HalfMove");
+        Resource r16 = modelo.createResource("http://purl.org/NET/rdfchess/ontology/firstMove");
+        Resource r17 = modelo.createResource("http://purl.org/NET/rdfchess/ontology/lastMove");
+        Property r18 = modelo.createProperty("http://purl.org/NET/rdfchess/ontology/halfMoveRecord");
+        Property r19 = modelo.createProperty("http://purl.org/NET/rdfchess/ontology/hasPGNResult");
         
         g.gotoStart();
         Resource pm = null;
@@ -119,7 +120,7 @@ public class PGNRDF {
         {
             Move m = g.getNextMove();
             
-            Resource rm = modelo.createResource("http://purl.org/NET/chess/resource/"+UUID.randomUUID().toString());
+            Resource rm = modelo.createResource("http://purl.org/NET/rdfchess/resource/"+UUID.randomUUID().toString());
             modelo.add(rm, RDF.type, r15);
             modelo.add(rm, r18, m.getSAN());
             if (pm!=null)
