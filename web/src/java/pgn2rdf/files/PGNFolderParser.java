@@ -1,6 +1,5 @@
 package pgn2rdf.files;
 
-import java.lang.Exception;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,6 +13,7 @@ import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
+
 import org.apache.commons.io.IOUtils;
 
 /**
