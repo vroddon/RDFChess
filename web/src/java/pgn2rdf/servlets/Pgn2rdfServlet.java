@@ -6,8 +6,7 @@ import java.net.URLDecoder;
 import javax.servlet.http.*;
 import org.apache.jena.riot.Lang;
 import pgn2rdf.chess.PGNProcessor;
-import static pgn2rdf.mappings.DBpediaSpotlight.parseDBPediaXML;
-import static pgn2rdf.mappings.DBpediaSpotlight.queryDBPedia;
+import pgn2rdf.mappings.DBpediaSpotlight;
 
 /**
  * This is the servlet in charge of the conversion

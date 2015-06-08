@@ -42,67 +42,12 @@ public class ChessGameIterator implements Iterator {
     TarArchiveEntry tarentry = null;
     ZipEntry zentry = null;
     ZipInputStream zipIn = null;
-    static Set<String> hashes = new HashSet();
-
-    public static void main(String[] args) {
-
-        Iterator it = new ChessGameIterator();
-        while (it.hasNext()) {
-            String rdf = (String) it.next();
-            if (rdf.isEmpty())
-                break;
-            
-            //This is to correct an error that was made while creating the dataset
-            rdf=rdf.replace("http://purl.org/NET/chess", "http://purl.org/NET/rdfchess");
-            
-            //http://purl.org/NET/rdfchess/resource/
-            rdf = rdf.replace("http://purl.org/NET/rdfchess/resource/", "http://lider1.dia.fi.upm.es:8088/rdfchess/resource/");
-            
-            try{
-                Model model = ModelFactory.createDefaultModel();
-                InputStream stream = new ByteArrayInputStream(rdf.getBytes("UTF-8"));
-                RDFDataMgr.read(model, stream, Lang.TTL);
-                Resource rgamec=model.createResource("http://purl.org/NET/rdfchess/ontology/ChessGame");
-                ResIterator rit = model.listSubjectsWithProperty(RDF.type, rgamec);
-                Resource rgame = null;
-                if (rit.hasNext())
-                    rgame=rit.next();
-                if (rgame!=null)
-                {
-                    Property cwhite = model.createProperty("http://purl.org/NET/rdfchess/ontology/hasWhitePlayerName");
-                    Property cblack = model.createProperty("http://purl.org/NET/rdfchess/ontology/hasBlackPlayerName");
-                    Literal lita=null;
-                    Literal litb=null;
-                    NodeIterator rita = model.listObjectsOfProperty(rgame, cwhite);
-                    if (rita.hasNext())
-                        lita = rita.next().asLiteral();
-                    NodeIterator rit2 = model.listObjectsOfProperty(rgame, cblack);
-                    if (rit2.hasNext())
-                        litb = rit2.next().asLiteral();
-                    
-                    System.out.println(lita.toString()+" - "+litb.toString());
-                    
-                    if (litb.toString().contains("Fischer"))
-                    {
-                        String moves = getMoves(model, rgame.getURI());
-                        String md5 = MD5(moves);
-                        int siz = hashes.size();
-                        hashes.add(md5);
-                        if (hashes.size()-siz==1)
-                        {
-                            System.out.println(moves+" "+ md5);
-                            RDFStore.write(rgame.getURI(), rdf);
-                        }
-                    }
-                }
-                
-            }catch(Exception e)
-            {
-                System.err.println("Could not be loaded. " + e.toString());
-            }
-        }
-    }
     
+
+    
+    /**
+     * Gets the moves of a given game. 
+     */
     public static String getMoves(Model model, String game)
     {
         String s ="";
@@ -175,12 +120,7 @@ public class ChessGameIterator implements Iterator {
             String pgn = writer.toString();
             if (pgn.isEmpty())
                 pgn="?";
-            
-            
-            
-//            System.out.println(zentry.getName());
             return pgn;
-//            return pgn;
         } catch (Exception e) {
             e.printStackTrace();
         }

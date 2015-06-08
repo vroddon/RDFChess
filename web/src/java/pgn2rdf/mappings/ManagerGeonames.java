@@ -14,9 +14,9 @@ import org.geonames.WebService;
 
 
 /**
- *
- * Referencias: http://www.geonames.org/source-code/
- * @author Victor
+ * Wrapper class to access the Geonames API
+ * References: http://www.geonames.org/source-code/
+ * @author Victor Rodriguez Doncel
  */
 public class ManagerGeonames {
 

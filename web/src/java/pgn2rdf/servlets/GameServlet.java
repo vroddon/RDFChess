@@ -9,7 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * This web processes queries of the style
+ * This web processes queries of the style serving RDF Chess games as linked data
+ * RDF chess games contain the string /rdfchess/resource/<id>
  * http://purl.org/NET/rdfchess/resource/45bee133-d88c-42e4-89bd-681c81170702
  * @author vroddon
  */

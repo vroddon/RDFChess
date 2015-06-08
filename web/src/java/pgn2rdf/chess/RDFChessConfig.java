@@ -1,14 +1,5 @@
 package pgn2rdf.chess;
 
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.Properties;
-import java.util.TreeSet;
-import org.apache.log4j.Logger;
 //JAVA
 import java.io.FileInputStream;
 import java.io.FileWriter;
@@ -25,8 +16,7 @@ import org.apache.log4j.Logger;
 /**
  * Reads and writes parameters in a configfile
  * 
- * El archivo es <i>"ldr.config"</i> y debe estar en la misma carpeta que el jar
- * Parámetros (ejemplo):
+ * The file is <i>"RDFChess.config"</i> and must be located together with jar or at least in the java path.
  * @author Victor Rodriguez Doncel
  */
 public class RDFChessConfig {
