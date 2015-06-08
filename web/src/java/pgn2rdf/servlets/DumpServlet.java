@@ -34,9 +34,9 @@ public class DumpServlet extends HttpServlet {
         response.setHeader("Content-Disposition", "attachment;filename=data.tar");
         String mimeType = "application/x-tar";
         response.setContentType(mimeType);
-        String dumpfolder = RDFChessConfig.get("dumpfolder", "F:\\data\\rdfchess\\");
+        String dumpfolder = RDFChessConfig.get("dumpfolder", "E:\\Data\\RDFChess\\");
         String sfile = request.getRequestURI().replace("/RDFChess/dump/", dumpfolder);
-//        sfile = "d:\\data\\test.nq";
+        sfile = sfile.replace("/rdfchess/dump/", dumpfolder);
         InputStream in = null;
         OutputStream out = null;
         try {

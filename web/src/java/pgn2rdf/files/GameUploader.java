@@ -32,6 +32,8 @@ static Set<String> hashes = new HashSet();
      */
     public static void main(String[] args) {
 
+        int total = 3;
+        
         Iterator it = new ChessGameIterator();
         while (it.hasNext()) {
             String rdf = (String) it.next();
@@ -42,7 +44,8 @@ static Set<String> hashes = new HashSet();
             rdf=rdf.replace("http://purl.org/NET/chess", "http://purl.org/NET/rdfchess");
             
             //http://purl.org/NET/rdfchess/resource/
-            rdf = rdf.replace("http://purl.org/NET/rdfchess/resource/", "http://lider1.dia.fi.upm.es:8088/rdfchess/resource/");
+            rdf = rdf.replace("http://purl.org/NET/rdfchess/resource/", "http://salonica.dia.fi.upm.es:8080/rdfchess/resource/");
+//            rdf = rdf.replace("http://purl.org/NET/rdfchess/resource/", "http://lider1.dia.fi.upm.es:8088/rdfchess/resource/");
             
             try{
                 Model model = ModelFactory.createDefaultModel();
@@ -78,6 +81,9 @@ static Set<String> hashes = new HashSet();
                         {
                             System.out.println(moves+" "+ md5);
                             RDFStore.write(rgame.getURI(), rdf);
+                            total++;
+                            if (total==3)
+                                return;
                         }
                     }
                 }

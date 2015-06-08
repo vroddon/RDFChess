@@ -36,7 +36,7 @@ import static pgn2rdf.files.PGNFolderParser.MD5;
  */
 public class ChessGameIterator implements Iterator {
 
-    static String rdftar = RDFChessConfig.get("rdfchessdump","D:\\data\\chess\\rdfchess.tar");
+    static String rdftar = RDFChessConfig.get("rdfchessdump","E:\\data\\chess\\rdfchess.tar");
     InputStream is = null;
     TarArchiveInputStream debInputStream = null;
     TarArchiveEntry tarentry = null;

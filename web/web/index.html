@@ -111,12 +111,24 @@
                     <center><a class="btn btn-success" href="dump/rdfchess.tar" download><span class="glyphicon glyphicon-download-alt"></span> RDF dataset</a></center>
                     
                     
-                    
+                     
                     <a href="data/void.ttl">Metadata</a>
                 </div>
             </div>
+            
+            <div class="panel panel-default"> 
+                <div class="panel-header"><h2>Querying</h2></div>
+                <div class="panel-body">
+                    You can start browsing linked chess data games!
+                    <center><a href="http://salonica.dia.fi.upm.es:8080/rdfchess/resource/45bee133-d88c-42e4-89bd-681c81170702">http://salonica.dia.fi.upm.es:8080/rdfchess/resource/45bee133-d88c-42e4-89bd-681c81170702</a></center>
+                    Also, you may like querying our SPARQL endpoint at: <pre>http://salonica.dia.fi.upm.es:3030/RDFChess/query</pre><br/>
+                    You can query from a generic SPARQL endpoint, for example: <a href="http://sparqlclient.eionet.europa.eu/sparqlClient.action;?endpoint=http%3A%2F%2Fsalonica.dia.fi.upm.es%3A3030%2FRDFChess%2Fquery&query=SELECT+DISTINCT+%3Fg%0D%0AWHERE+%7B%0D%0A++GRAPH+%3Fg+%7B%0D%0A++++%3Fs+%3Fp+%3Fo%0D%0A++%7D%0D%0A%7D&execute=Execute">http://sparqlclient.eionet.europa.eu/</a>
+                    
+                </div>
+            </div>
+            
         </div>
-
+        
         <div id="footer">
             <div class="container">
                 <hr/>

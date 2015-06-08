@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import pgn2rdf.files.RDFStore;
 
 /**
  * This web processes queries of the style serving RDF Chess games as linked data
@@ -25,25 +26,25 @@ public class GameServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String gameid = request.getRequestURI().replace("/rdfchess/resource/", "");
+        gameid = gameid.replace("/RDFChess/resource/", "");
+        
+        gameid = "http://salonica.dia.fi.upm.es:8080/rdfchess/resource/"+gameid;
+        String ttl = RDFStore.read(gameid);
+        if (ttl.isEmpty())
+        {
+            response.getWriter().println("Not found " + gameid + "\n" + gameid);
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            return;
+        }
         
         
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Game</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet Game at " + gameid + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-            
-            
+            response.getWriter().println(ttl);
+            response.setStatus(HttpServletResponse.SC_OK);
+            response.setContentType("text/turtle;charset=utf-8");
             
         }
     }
