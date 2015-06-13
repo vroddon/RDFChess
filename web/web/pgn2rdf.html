@@ -87,6 +87,13 @@
         <li><a href="model.html">Model</a></li>
         <li class="active"><a href="pgn2rdf.html">PGN2RDF</a></li> 
       </ul>
+        
+<!-- <ul class="nav navbar-nav navbar-right">
+        <li><a href="/account"><span class="glyphicon glyphicon-log-in"></span> Account</a></li>
+</ul> -->
+        
+        
+        
     </div>
   </div>
 </nav>      
@@ -169,7 +176,7 @@ function submitform1()
     var pgnencoded = encodeURI(pgn);
     console.info(pgn);
     var params = "pgn=" + pgnencoded+"&action=enrich";
-    http.open("POST", "/RDFChess/pgn2rdf", true); //true
+    http.open("POST", "/rdfchess/pgn2rdf", true); //true
     http.setRequestHeader("Content-type","application/x-www-form-urlencoded;charset=UTF-8");
     http.setRequestHeader("Content-length", params.length);    
     http.setRequestHeader("Connection", "close");
@@ -188,7 +195,7 @@ function submitform2()
     var pgnencoded = encodeURI(pgn);
     console.info(pgn);
     var params = "pgn=" + pgnencoded+"&action=translate";
-    http.open("POST", "/RDFChess/pgn2rdf", true); //true
+    http.open("POST", "/rdfchess/pgn2rdf", true); //true
     http.setRequestHeader("Content-type","application/x-www-form-urlencoded;charset=UTF-8");
     http.setRequestHeader("Content-length", params.length);    
     http.setRequestHeader("Connection", "close");

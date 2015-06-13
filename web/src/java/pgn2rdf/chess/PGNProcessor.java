@@ -207,7 +207,8 @@ public class PGNProcessor {
         modelo.add(r, r12, rdfsite);
         
         Property r13 = modelo.createProperty("http://purl.org/NET/chess/ontology/hasECOOpening");
-        modelo.add(r, r13, g.getECO());
+        if (g.getECO()!=null && !g.getECO().isEmpty())
+            modelo.add(r, r13, g.getECO());
         
         Property r14 = modelo.createProperty("http://purl.org/NET/rdfchess/ontology/nextHalfMove");
         Resource r15 = modelo.createResource("http://purl.org/NET/rdfchess/ontology/HalfMove");
@@ -249,9 +250,9 @@ public class PGNProcessor {
      */
     public static void main(String[] args) throws IOException {
 
-        String input = new String(Files.readAllBytes(Paths.get("samples/Steinitz.pgn")));
+        String input = new String(Files.readAllBytes(Paths.get("samples/test.pgn")));
         String output = PGNProcessor.getRDF(input, Lang.TTL);
-        PrintWriter out = new PrintWriter("samples/Steinitz_out.ttl");
+        PrintWriter out = new PrintWriter("samples/test.ttl");
         out.println(output);
     }
     

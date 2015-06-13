@@ -41,22 +41,25 @@ public class GameServlet extends HttpServlet {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             return;
         }
-        System.out.println("Game has been loaded");
         
         
         try (PrintWriter out = response.getWriter()) {
             
             if(isRDFXML(request))
             {
+                System.out.println("Serving RDF/XML for " + gameid);
                 response.getWriter().println(RDFStore.readXML(gameid));
                 response.setContentType("application/rdf+xml;charset=utf-8");
             }
             else if (isRDFTTL(request))
             {
+                System.out.println("Serving TTL for " + gameid);
                 response.getWriter().println(ttl);
                 response.setContentType("text/turtle;charset=utf-8");
             }
             else{
+                System.out.println("Serving HTML for " + gameid);
+
                 response.getWriter().println("<html><head> <script src=\"https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js\"></script></head>");
                 response.getWriter().println("<body><pre class=\"prettyprint\">");
                 String ttl2= StringEscapeUtils.escapeHtml4(ttl);
@@ -118,7 +121,7 @@ public class GameServlet extends HttpServlet {
             //      System.out.print(hname + "\t");
             while (enum2.hasMoreElements()) {
                 String valor = enum2.nextElement();
-                if (hname.equals("Accept")) {
+                if (hname.equalsIgnoreCase("Accept") ) {
                     if (valor.equals("text/turtle")) {
                         return true;
                     }
@@ -143,8 +146,10 @@ public class GameServlet extends HttpServlet {
             //      System.out.print(hname + "\t");
             while (enum2.hasMoreElements()) {
                 String valor = enum2.nextElement();
-                if (hname.equals("Accept")) {
-                    if (valor.equals("application/rdf+xml")) {
+                    if (valor.contains("application/rdf+xml")) 
+                        return true;
+                if (hname.equalsIgnoreCase("Accept")) {
+                    if (valor.contains("application/rdf+xml")) {
                         return true;
                     }
                 }
