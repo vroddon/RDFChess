@@ -9,6 +9,7 @@ import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.RDFNode;
+import com.hp.hpl.jena.rdf.model.ResIterator;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.vocabulary.RDF;
 import com.hp.hpl.jena.vocabulary.RDFS;
@@ -25,6 +26,7 @@ import java.nio.file.Paths;
 import java.util.UUID;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
+import pgn2rdf.files.RDFStore;
 import pgn2rdf.mappings.DBpediaSpotlight;
 import pgn2rdf.mappings.ManagerGeonames;
 
@@ -106,8 +108,8 @@ public class PGNProcessor {
         modelo.setNsPrefix("gr", "http://purl.org/goodrelations/");
         modelo.setNsPrefix("prov", "http://www.w3.org/ns/prov#");
         modelo.setNsPrefix("sem", "http://semanticweb.cs.vu.nl/2009/11/sem/");
-        modelo.setNsPrefix("chess-o", "http://purl.org/NET/rdfchess/ontology/");
-        modelo.setNsPrefix("chess", "http://purl.org/NET/rdfchess/resource/");
+        modelo.setNsPrefix("chess-o", RDFChess.ONTOLOGY_URI);
+        modelo.setNsPrefix("chess", RDFChess.DATA_URI);
         RDFDataMgr.write(sw, modelo, lang);
         return sw.toString();       
     }
@@ -149,7 +151,7 @@ public class PGNProcessor {
         modelo.setNsPrefix("prov", "http://www.w3.org/ns/prov#");
 
         String id = UUID.randomUUID().toString();
-        Resource r = modelo.createResource("http://purl.org/NET/rdfchess/resource/" + id);
+        Resource r = modelo.createResource(RDFChess.DATA_URI + id);
         Resource r2 = modelo.createResource("http://purl.org/NET/rdfchess/ontology/ChessGame");
         modelo.add(r, RDF.type, r2);
         Property r96 = modelo.createProperty("http://purl.org/NET/rdfchess/ontology/hasWhitePlayerName");
@@ -223,7 +225,7 @@ public class PGNProcessor {
         {
             Move m = g.getNextMove();
             
-            Resource rm = modelo.createResource("http://purl.org/NET/rdfchess/resource/"+UUID.randomUUID().toString());
+            Resource rm = modelo.createResource(RDFChess.DATA_URI + UUID.randomUUID().toString());
             modelo.add(rm, RDF.type, r15);
             modelo.add(rm, r18, m.getSAN());
             if (pm!=null)
@@ -237,13 +239,28 @@ public class PGNProcessor {
             g.goForward();
         }
         modelo.add(pm, RDF.type,r17);
-        
         String resultado = (g.getResultStr()==null) ? "" : g.getResultStr();
-
         modelo.add(r, r19, resultado);
-        
         return modelo;
     }    
+    
+    public static void uploadRDF(String pgn) {
+        RDFStore.write("", pgn);
+    }
+    
+    public static String getChessId(Model model)
+    {
+        String id="";
+        Resource r2 = model.createResource("http://purl.org/NET/rdfchess/ontology/ChessGame");
+        ResIterator rit = model.listSubjectsWithProperty(RDF.type, r2);
+        while(rit.hasNext())
+        {
+            Resource r = rit.next();
+            id=r.getURI();
+        }
+        return id;
+    }
+    
     
     /**
      * @param args the command line arguments
@@ -255,6 +272,7 @@ public class PGNProcessor {
         PrintWriter out = new PrintWriter("samples/test.ttl");
         out.println(output);
     }
+
     
 
 }

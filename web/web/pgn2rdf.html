@@ -127,7 +127,13 @@
                         <p>Get a RDF chess game!</p>
                     </center>
                 </div>
-                <div class="col-xs-5"><textarea style="font-family:monospace;" readonly class="form-control" rows="12" id="rdf" name="rdf"></textarea></div>
+                <div class="col-xs-5"><textarea style="font-family:monospace;" readonly class="form-control" rows="12" id="rdf" name="rdf"></textarea>
+                    <div class="control-group">
+                    <a id="boton3" class="btn btn-primary ladda-button" data-style="zoom-in" href="javascript: submitform3()"><span class="ladda-label">Upload</span><span class="glyphicon glyphicon-upload"></span></a>                        
+                    </div>
+                
+                
+                </div>
             </div>
          </form>           
             
@@ -205,6 +211,28 @@ function submitform2()
         l.stop();
     }       
 }
+
+function submitform3()
+{
+    var l = Ladda.create(document.getElementById("boton3"));
+    l.start();    
+    var http = new XMLHttpRequest();
+    var rdf = document.getElementById("rdf").value;
+    var pgnencoded = encodeURI(rdf);
+    console.info(rdf);
+    var params = "pgn=" + pgnencoded+"&action=upload";
+    http.open("POST", "/rdfchess/pgn2rdf", true); //true
+    http.setRequestHeader("Content-type","application/x-www-form-urlencoded;charset=UTF-8");
+    http.setRequestHeader("Content-length", params.length);    
+    http.setRequestHeader("Connection", "close");
+    http.send(params);
+    http.onload = function() {
+        alert('Game uploaded')
+//        document.getElementById("rdf").value = http.responseText;
+        l.stop();
+    }       
+}
+
 </script>    
     
     
