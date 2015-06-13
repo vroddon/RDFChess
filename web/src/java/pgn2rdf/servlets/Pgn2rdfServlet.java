@@ -50,7 +50,7 @@ public class Pgn2rdfServlet extends HttpServlet {
         else if (action.contains("translate"))
             rdf= PGNProcessor.getRDF(pgn, Lang.TTL);
         else if (action.contains("upload"))
-            PGNProcessor.uploadRDF(pgn);
+            rdf = PGNProcessor.uploadRDF(pgn);
         resp.getWriter().println(rdf);
         resp.setContentType("text/plain");
     }    

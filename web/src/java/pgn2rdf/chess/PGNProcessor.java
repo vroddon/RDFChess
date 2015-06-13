@@ -244,8 +244,9 @@ public class PGNProcessor {
         return modelo;
     }    
     
-    public static void uploadRDF(String pgn) {
-        RDFStore.write("", pgn);
+    public static String uploadRDF(String pgn) {
+        String id = RDFStore.write("", pgn);
+        return id;
     }
     
     public static String getChessId(Model model)

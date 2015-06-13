@@ -65,7 +65,7 @@ public class RDFStore {
     /**
      * Writes a chess game in the store
      */
-    public static boolean write(String gameid, String game) {
+    public static String write(String gameid, String game) {
         try {
             String serviceURI = RDFChessConfig.get("fuseki", "http://localhost:3030/RDFChess/data");
             DatasetAccessor dataAccessor = DatasetAccessorFactory.createHTTP(serviceURI);
@@ -75,10 +75,10 @@ public class RDFStore {
             if (gameid.isEmpty())
                 gameid = PGNProcessor.getChessId(model);
             dataAccessor.putModel(gameid, model); //gameid
-            return true;
+            return gameid;
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
+            return "";
         }
 
     }
