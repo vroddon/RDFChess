@@ -64,6 +64,8 @@ public class RDFStore {
 
     /**
      * Writes a chess game in the store
+     * @param gameid Game id
+     * @param game TTL serialization of a game
      */
     public static String write(String gameid, String game) {
         try {
