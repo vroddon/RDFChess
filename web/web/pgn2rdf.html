@@ -227,7 +227,16 @@ function submitform3()
     http.setRequestHeader("Connection", "close");
     http.send(params);
     http.onload = function() {
-        alert('Game uploaded as: ' + http.responseText);
+        if (strValue) {
+            alert('Game uploaded as: ' + http.responseText);
+            window.open(http.responseText);
+        }
+        else
+        {
+            alert('No game has been uploaded');
+        }
+        
+        
 //        document.getElementById("rdf").value = http.responseText;
         l.stop();
     }       
