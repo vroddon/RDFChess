@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringEscapeUtils;
+import pgn2rdf.chess.Main;
 import pgn2rdf.files.RDFStore;
 
 /**
@@ -28,19 +29,19 @@ public class GameServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+       try{ Main.init();}catch(Exception e){}
         String gameid = request.getRequestURI().replace("/rdfchess/resource/", "");
         gameid = gameid.replace("/RDFChess/resource/", "");
         
         gameid = "http://salonica.dia.fi.upm.es:8080/rdfchess/resource/"+gameid;
         String ttl = RDFStore.read(gameid);
-        
         if (ttl.isEmpty())
         {
             response.getWriter().println("Not found " + gameid + "\n" + gameid);
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             return;
         }
+        System.out.println("Game has been loaded");
         
         
         try (PrintWriter out = response.getWriter()) {

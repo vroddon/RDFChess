@@ -1,6 +1,7 @@
 package pgn2rdf.chess;
 
 //JAVA
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.InputStream;
@@ -64,6 +65,9 @@ public class RDFChessConfig {
     public static boolean Load() {
         InputStream is;
         try {
+            File f = new File(CONFIGFILE);
+            if (!f.exists())
+                return false;
             is = new FileInputStream(CONFIGFILE);
             prop.load(is);
             Logger.getLogger("ldr").info("Config file read from " + CONFIGFILE);

@@ -22,24 +22,33 @@ import pgn2rdf.chess.RDFChessConfig;
  */
 public class RDFStore {
 
-    
     public static void main(String[] args) throws Exception {
 
         String ttl = RDFStore.read("http://salonica.dia.fi.upm.es:8080/rdfchess/resource/45bee133-d88c-42e4-89bd-681c81170702");
         System.out.println(ttl);
 
     }
+
     /**
      * Reads a chess game from the store
      */
     public static String read(String gameid) {
         String serviceURI = RDFChessConfig.get("fuseki", "http://localhost:3030/RDFChess/data");
-        DatasetAccessor dataAccessor = DatasetAccessorFactory.createHTTP(serviceURI);
-        Model model = dataAccessor.getModel(gameid);
-        StringWriter sw = new StringWriter();
-        RDFDataMgr.write(sw, model, RDFFormat.TURTLE_PRETTY);
-        return sw.toString();
+        try {
+            DatasetAccessor dataAccessor = DatasetAccessorFactory.createHTTP(serviceURI);
+            Model model = dataAccessor.getModel(gameid);
+            if (model == null) {
+                return "The game " + gameid + " does not exist";
+            }
+            StringWriter sw = new StringWriter();
+            RDFDataMgr.write(sw, model, RDFFormat.TURTLE_PRETTY);
+            return sw.toString();
+
+        } catch (Exception e) {
+            return "The game " + gameid + " could not be loaded as RDF <BR>" + e.getMessage();
+        }
     }
+
     /**
      * Reads a chess game from the store
      */
