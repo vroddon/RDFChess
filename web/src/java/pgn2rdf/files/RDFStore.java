@@ -13,6 +13,7 @@ import java.io.StringWriter;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.riot.RDFFormat;
+import pgn2rdf.chess.PGNProcessor;
 import pgn2rdf.chess.RDFChessConfig;
 
 /**
@@ -66,16 +67,20 @@ public class RDFStore {
      * @param gameid Game id
      * @param game TTL serialization of a game
      */
-    public static void write(String gameid, String game) {
+    public static boolean write(String gameid, String game) {
         try {
             String serviceURI = RDFChessConfig.get("fuseki", "http://localhost:3030/RDFChess/data");
             DatasetAccessor dataAccessor = DatasetAccessorFactory.createHTTP(serviceURI);
             Model model = ModelFactory.createDefaultModel();
             InputStream stream = new ByteArrayInputStream(game.getBytes("UTF-8"));
             RDFDataMgr.read(model, stream, Lang.TTL);
-            dataAccessor.putModel(gameid, model);
+            if (gameid.isEmpty())
+                gameid = PGNProcessor.getChessId(model);
+            dataAccessor.putModel(gameid, model); //gameid
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
 
     }

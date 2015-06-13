@@ -10,6 +10,10 @@ import pgn2rdf.mappings.DBpediaSpotlight;
 
 /**
  * This is the servlet in charge of the conversion
+ * /rdfchess/pgn2rdf?pgn=PGN&action=ACTION
+ * 
+ * ACTION can be [enrich | translate | delete ]
+ * PGN is a URLEncoded PGN game
  */
 public class Pgn2rdfServlet extends HttpServlet {
 
@@ -32,31 +36,21 @@ public class Pgn2rdfServlet extends HttpServlet {
         int i = tot.indexOf("&action=");
         String pgn=tot.substring(4, i);
         PGNProcessor.log(pgn, "log1.txt");
-
         pgn = java.net.URLDecoder.decode(pgn, "UTF-8");
         String action = tot.substring(i+8, tot.length()-1);
-        
-//        String pgn = req.getParameter("pgn"); BUG BUG BUG
-//        String action = req.getParameter("action"); BUG BUG BUG
         if (pgn == null || pgn.isEmpty()) {
             resp.getWriter().println("");
             return;
         }
-//        if (queryString!=null)
-//            PGNProcessor.log(queryString, "log0.txt");
         PGNProcessor.log(pgn, "log2.txt");
- //       pgn = java.net.URLDecoder.decode(pgn, "UTF-8");
-//        PGNProcessor.log(pgn, "log2.txt");
-        
-        //esto mata los comentarios pero hace que todo funcione bien
         pgn = pgn.replaceAll("\\{.*?\\}", "");
-        
-        
         String rdf="Ooops";
         if (action.contains("enrich"))
             rdf = PGNProcessor.enrichPGN(pgn);
-        else
+        else if (action.contains("translate"))
             rdf= PGNProcessor.getRDF(pgn, Lang.TTL);
+        else if (action.contains("upload"))
+            PGNProcessor.uploadRDF(pgn);
         resp.getWriter().println(rdf);
         resp.setContentType("text/plain");
     }    
