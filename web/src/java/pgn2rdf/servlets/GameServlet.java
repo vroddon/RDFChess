@@ -34,7 +34,7 @@ public class GameServlet extends HttpServlet {
         gameid = gameid.replace("/RDFChess/resource/", "");
         
         gameid = "http://salonica.dia.fi.upm.es:8080/rdfchess/resource/"+gameid;
-        String ttl = RDFStore.read(gameid);
+        String ttl = RDFStore.readGame(gameid);
         if (ttl.isEmpty())
         {
             response.getWriter().println("Not found " + gameid + "\n" + gameid);

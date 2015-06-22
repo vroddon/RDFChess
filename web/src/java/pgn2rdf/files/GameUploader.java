@@ -80,7 +80,7 @@ static Set<String> hashes = new HashSet();
                         if (hashes.size()-siz==1)
                         {
                             System.out.println(moves+" "+ md5);
-                            RDFStore.write(rgame.getURI(), rdf);
+                            RDFStore.writeGame(rgame.getURI(), rdf);
                             total++;
                             if (total==1000)
                                 return;

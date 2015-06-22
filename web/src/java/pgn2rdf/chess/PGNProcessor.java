@@ -245,7 +245,7 @@ public class PGNProcessor {
     }    
     
     public static String uploadRDF(String pgn) {
-        String id = RDFStore.write("", pgn);
+        String id = RDFStore.writeGame("", pgn);
         return id;
     }
     
