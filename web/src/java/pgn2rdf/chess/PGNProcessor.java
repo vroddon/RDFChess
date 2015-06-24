@@ -98,7 +98,7 @@ public class PGNProcessor {
                 modelo.add(m);
             }
         }catch(Exception e){}
-        
+         
         modelo.setNsPrefix("dct", "http://purl.org/dc/terms/");
         modelo.setNsPrefix("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
         modelo.setNsPrefix("rdfs", "http://www.w3.org/2000/01/rdf-schema#");
@@ -110,6 +110,7 @@ public class PGNProcessor {
         modelo.setNsPrefix("sem", "http://semanticweb.cs.vu.nl/2009/11/sem/");
         modelo.setNsPrefix("chess-o", RDFChess.ONTOLOGY_URI);
         modelo.setNsPrefix("chess", RDFChess.DATA_URI);
+        System.out.println("XXXXXXXXXXXXX " + RDFChess.DATA_URI);
         RDFDataMgr.write(sw, modelo, lang);
         return sw.toString();       
     }

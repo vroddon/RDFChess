@@ -13,6 +13,7 @@ import org.apache.http.impl.client.HttpClients;
 /**
  * http://stackoverflow.com/questions/15906842/solr-4-2-1-sslinitializationexception
  *
+ * Important for debugging with Glassfish and Netbeans: http://www.javahispano.org/java-ee/post/2433388
  * @author Victor
  */
 public class Main {

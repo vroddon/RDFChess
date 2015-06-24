@@ -1,10 +1,12 @@
 package pgn2rdf.chess;
 
 //JAVA
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -65,12 +67,9 @@ public class RDFChessConfig {
     public static boolean Load() {
         InputStream is;
         try {
-            File f = new File(CONFIGFILE);
-            if (!f.exists())
-                return false;
-            is = new FileInputStream(CONFIGFILE);
-            prop.load(is);
-            Logger.getLogger("ldr").info("Config file read from " + CONFIGFILE);
+            InputStream is_local = RDFChessConfig.class.getResourceAsStream(CONFIGFILE);
+            prop.load(is_local);
+            Logger.getLogger("rdfchess").info("Config file read from " + CONFIGFILE);
             return true;
         } catch (Exception ex) {
             ex.printStackTrace(); //todavía no está el logger
@@ -96,6 +95,7 @@ public class RDFChessConfig {
             tmp.store(new FileWriter(CONFIGFILE), null);
         } catch (Exception ex) {
             Logger.getLogger("ldr").error("Error opening config file" + ex.toString());
+            System.out.println("Error trying to write config file");
         }
     }
 }

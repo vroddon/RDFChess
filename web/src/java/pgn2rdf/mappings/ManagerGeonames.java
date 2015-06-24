@@ -19,21 +19,10 @@ import org.geonames.WebService;
  * @author Victor Rodriguez Doncel
  */
 public class ManagerGeonames {
-
-    public static void main(String[] args) {
-        try {
-            WebService.setUserName("vroddon"); // add your username here
-            ToponymSearchCriteria searchCriteria = new ToponymSearchCriteria();
-            searchCriteria.setQ("Vienna");
-            ToponymSearchResult searchResult = WebService.search(searchCriteria);
-            for (Toponym toponym : searchResult.getToponyms()) {
-                System.out.println(toponym.getName() + " " + toponym.getCountryName() + " " + toponym.getGeoNameId());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
     
+    /**
+     * Gets the most likely resource given a certain entry
+     */
     public static String getMostLikelyResource(String texto)
     {
         String res="";
@@ -120,4 +109,19 @@ public class ManagerGeonames {
         }
         return null;
     }
+    
+    
+    public static void main(String[] args) {
+        try {
+            WebService.setUserName("vroddon"); // add your username here
+            ToponymSearchCriteria searchCriteria = new ToponymSearchCriteria();
+            searchCriteria.setQ("Vienna");
+            ToponymSearchResult searchResult = WebService.search(searchCriteria);
+            for (Toponym toponym : searchResult.getToponyms()) {
+                System.out.println(toponym.getName() + " " + toponym.getCountryName() + " " + toponym.getGeoNameId());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }    
 }
