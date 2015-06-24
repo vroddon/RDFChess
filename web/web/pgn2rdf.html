@@ -119,19 +119,19 @@
                 <div class="col-xs-5"><textarea style="font-family:monospace;" class="form-control" rows="12" id="pgn" name="pgn"></textarea></div>
                 <div class="col-xs-2">
                     <center>
-                        <a id="boton1" class="btn btn-primary ladda-button" data-style="zoom-in" href="javascript: submitform1()"><span class="ladda-label">Link PGN</span><span class="glyphicon glyphicon-chevron-right"></span></a>
+                        <a id="boton1" class="btn btn-primary ladda-button" data-style="zoom-in" href="javascript: submitform1()"><span class="ladda-label">Link PGN </span><span class="glyphicon glyphicon-chevron-right"></span></a>
                         <p>Get a linked chess game!</p>
                     </center>
                     <center>
-                        <a id="boton2" class="btn btn-primary ladda-button" data-style="zoom-in" href="javascript: submitform2()"><span class="ladda-label">PGN to RDF</span><span class="glyphicon glyphicon-chevron-right"></span></a>
+                        <a id="boton2" class="btn btn-primary ladda-button" data-style="zoom-in" href="javascript: submitform2()"><span class="ladda-label">PGN to RDF </span><span class="glyphicon glyphicon-chevron-right"></span></a>
                         <p>Get a RDF chess game!</p>
                     </center>
                 </div>
                 <div class="col-xs-5"><textarea style="font-family:monospace;" readonly class="form-control" rows="12" id="rdf" name="rdf"></textarea>
                     <div class="control-group">
-                    <a id="boton3" class="btn btn-primary ladda-button" data-style="zoom-in" href="javascript: submitform3()"><span class="ladda-label">Upload</span><span class="glyphicon glyphicon-upload"></span></a>                        
+                    <a id="boton3" class="btn btn-primary ladda-button" data-style="zoom-in" href="javascript: submitform3()"><span class="ladda-label">Upload </span><span class="glyphicon glyphicon-upload"></span></a>                        
+                    <a id="boton4" class="btn btn-primary ladda-button" data-style="zoom-in" href="javascript: submitform4()"><span class="ladda-label">Expand </span><span class="glyphicon glyphicon-resize-full"></span></a>                        
                     </div>
-                
                 
                 </div>
             </div>
@@ -173,8 +173,11 @@
     </script>
     
 <script type="text/javascript">
+
+//enrich
 function submitform1()
 {
+    console.info("Starting the enrich action");
     var l = Ladda.create(document.getElementById("boton1"));
     l.start();    
     var http = new XMLHttpRequest();
@@ -192,8 +195,11 @@ function submitform1()
         l.stop();
     }    
 }
+
+//translate
 function submitform2()
 {
+    console.info("Starting the translate action");
     var l = Ladda.create(document.getElementById("boton2"));
     l.start();    
     var http = new XMLHttpRequest();
@@ -212,9 +218,11 @@ function submitform2()
     }       
 }
 
+//upload
 function submitform3()
 {
-    var l = Ladda.create(document.getElementById("boton3"));
+    console.info("Starting the upload action");
+    var l = Ladda.create(document.getElementById("boton3")); 
     l.start();    
     var http = new XMLHttpRequest();
     var rdf = document.getElementById("rdf").value;
@@ -238,6 +246,29 @@ function submitform3()
         }
     }       
 }
+
+//expand
+function submitform4()
+{
+    var l = Ladda.create(document.getElementById("boton4"));
+    console.info("Starting the expansion action");
+    l.start();    
+    var http = new XMLHttpRequest();
+    var rdf = document.getElementById("rdf").value;
+    var pgnencoded = encodeURI(rdf);
+    console.info(rdf);
+    var params = "pgn=" + pgnencoded+"&action=expand";
+    http.open("POST", "/rdfchess/pgn2rdf", true); //true
+    http.setRequestHeader("Content-type","application/x-www-form-urlencoded;charset=UTF-8");
+    http.setRequestHeader("Content-length", params.length);    
+    http.setRequestHeader("Connection", "close");
+    http.send(params);
+    http.onload = function() {
+         document.getElementById("rdf").value = http.responseText;
+         l.stop();
+    }       
+}
+
 
 </script>    
     

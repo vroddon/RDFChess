@@ -51,6 +51,8 @@ public class Pgn2rdfServlet extends HttpServlet {
             rdf= PGNProcessor.getRDF(pgn, Lang.TTL);
         else if (action.contains("upload"))
             rdf = PGNProcessor.uploadRDF(pgn);
+        else if (action.contains("expand"))
+            rdf = PGNProcessor.expandRDF(pgn);
         resp.getWriter().println(rdf);
         resp.setContentType("text/plain");
     }    

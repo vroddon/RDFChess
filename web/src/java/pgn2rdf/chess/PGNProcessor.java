@@ -4,23 +4,41 @@ import chesspresso.game.Game;
 import chesspresso.move.Move;
 import chesspresso.pgn.PGNReader;
 import chesspresso.pgn.PGNWriter;
+import com.hp.hpl.jena.graph.Graph;
+import com.hp.hpl.jena.mem.GraphMem;
+import com.hp.hpl.jena.query.Dataset;
+import com.hp.hpl.jena.query.Query;
+import com.hp.hpl.jena.query.QueryExecution;
+import com.hp.hpl.jena.query.QueryExecutionFactory;
+import com.hp.hpl.jena.query.QueryFactory;
+import com.hp.hpl.jena.query.ResultSet;
 
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
+import com.hp.hpl.jena.rdf.model.NodeIterator;
 import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.rdf.model.ResIterator;
 import com.hp.hpl.jena.rdf.model.Resource;
+import com.hp.hpl.jena.sparql.core.DatasetGraphFactory;
+import com.hp.hpl.jena.sparql.core.DatasetGraphMaker;
+import com.hp.hpl.jena.sparql.core.DatasetImpl;
+import com.hp.hpl.jena.update.GraphStore;
+import com.hp.hpl.jena.update.GraphStoreFactory;
+import com.hp.hpl.jena.update.UpdateAction;
 import com.hp.hpl.jena.vocabulary.RDF;
 import com.hp.hpl.jena.vocabulary.RDFS;
 import java.io.BufferedWriter;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.UUID;
@@ -28,6 +46,7 @@ import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
 import pgn2rdf.files.RDFStore;
 import pgn2rdf.mappings.DBpediaSpotlight;
+import pgn2rdf.mappings.ManagerDBpedia;
 import pgn2rdf.mappings.ManagerGeonames;
 
 /**
@@ -86,7 +105,7 @@ public class PGNProcessor {
      */
     public static String getRDF(String pgn, org.apache.jena.riot.Lang lang)
     {
-         String ttl = "";
+        String ttl = "";
         Reader reader = new StringReader(pgn);
         PGNReader pgnreader = new PGNReader(reader, "web");
         StringWriter sw = new StringWriter();
@@ -110,10 +129,123 @@ public class PGNProcessor {
         modelo.setNsPrefix("sem", "http://semanticweb.cs.vu.nl/2009/11/sem/");
         modelo.setNsPrefix("chess-o", RDFChess.ONTOLOGY_URI);
         modelo.setNsPrefix("chess", RDFChess.DATA_URI);
-        System.out.println("XXXXXXXXXXXXX " + RDFChess.DATA_URI);
         RDFDataMgr.write(sw, modelo, lang);
         return sw.toString();       
     }
+    
+    
+    /*
+       String sparql ="SELECT DISTINCT ?g\n" +
+        "WHERE {\n" +
+        "  GRAPH ?g {\n" +
+        "    ?s ?p ?o\n" +
+        "  }\n" +
+        "} ";
+
+       String sparql2="SELECT *\n" +
+        "WHERE {\n" +
+        "    ?s ?p ?o .\n" +
+        "} ";       
+    */    
+    public static String uploadRDF(String pgn) {
+        String id = RDFStore.writeGame("", pgn);
+        return id;
+    }
+    
+    
+    private String execSELECT(Dataset dataxet, String sparql)
+    {
+        QueryExecution qexec = QueryExecutionFactory.create(QueryFactory.create(sparql),dataxet);
+        ResultSet results = qexec.execSelect() ;
+        for ( ; results.hasNext() ; )
+        {   
+            System.out.println(results.next().toString());
+        }
+        return "";
+    }
+    
+    /**
+     * Applies the view expansion
+     * chess:e9fcb74a-301e-4dd4-854a-b98b33554dde
+     */ 
+    public static String expandRDF(String rdf) {
+        System.out.println("A view expansion is going to take place");
+        InputStream is = new ByteArrayInputStream(rdf.getBytes(StandardCharsets.UTF_8));
+        
+        //We read the id of the game
+        Model model = ModelFactory.createDefaultModel();
+        RDFDataMgr.read(model, is, Lang.TTL);
+        try{is.reset();}catch(Exception e){}
+        String id=PGNProcessor.getChessId(model);
+        System.out.println("The game id is: " + id);
+        
+        //We load the game as a graph
+        DatasetGraphFactory.GraphMaker maker = new DatasetGraphFactory.GraphMaker() {
+            public Graph create() {
+                return new GraphMem();
+            }
+        };
+        Dataset dataxet = DatasetImpl.wrap(new DatasetGraphMaker(maker));
+        RDFDataMgr.read(dataxet, is, Lang.TTL);
+        GraphStore graphStore = GraphStoreFactory.create(dataxet) ;
+        
+        
+        String blanco = PGNProcessor.getWhitePlayerFromView(model);
+        String dbblanco = DBpediaSpotlight.getDBPediaResource(blanco, "/chess/chess_player", "chess");
+        if (!dbblanco.equals(blanco))
+        {
+            String literal = blanco;
+            String dbpedia = dbblanco;
+            String newname = ManagerDBpedia.getLabel(dbblanco);        
+            String idw = RDFChess.DATA_URI + UUID.randomUUID().toString();
+            String sparql="PREFIX chess: <http://purl.org/NET/rdfchess/ontology/>\n" +
+                "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+                "PREFIX skos: <http://www.w3.org/2004/02/skos/core#>\n" +
+                "DELETE { <" + id +"> chess:hasWhitePlayerName \""+literal+"\" . }\n" +
+                "INSERT {\n<" +
+                id + "> chess:hasWhitePlayer <"+idw + "> .\n" +
+                "<"+ idw +"> rdf:type chess:Agent .\n" +
+                "<"+ idw +"> chess:hasName \""+newname+"\" .\n" +
+                "<"+ idw +"> skos:closeMatch <"+dbpedia+"> .\n" +
+                "}\n" +
+                "WHERE { <" + id + "> chess:hasWhitePlayerName \""+literal+"\" }";
+            System.out.println(sparql);
+            UpdateAction.parseExecute(sparql,graphStore);         //DROP ALL
+        }
+
+        String negro = PGNProcessor.getBlackPlayerFromView(model);
+        String dbnegro = DBpediaSpotlight.getDBPediaResource(negro, "/chess/chess_player", "chess");
+        if (!negro.equals(dbnegro))
+        {
+            String literal = negro;
+            String dbpedia = dbnegro;
+            String newname = ManagerDBpedia.getLabel(dbnegro);        
+            String idw = RDFChess.DATA_URI + UUID.randomUUID().toString();
+            String sparql="PREFIX chess: <http://purl.org/NET/rdfchess/ontology/>\n" +
+                "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+                "PREFIX skos: <http://www.w3.org/2004/02/skos/core#>\n" +
+                "DELETE { <" + id +"> chess:hasBlackPlayerName \""+literal+"\" . }\n" +
+                "INSERT {\n<" +
+                id + "> chess:hasBlackPlayer <"+idw + "> .\n" +
+                "<"+ idw +"> rdf:type chess:Agent .\n" +
+                "<"+ idw +"> chess:hasName \""+newname+"\" .\n" +
+                "<"+ idw +"> skos:closeMatch <"+dbpedia+"> .\n" +
+                "}\n" +
+                "WHERE { <" + id + "> chess:hasBlackPlayerName \""+literal+"\" }";
+            System.out.println(sparql);
+            UpdateAction.parseExecute(sparql,graphStore);         //DROP ALL
+        }
+        
+        
+        
+        StringWriter sw = new StringWriter();
+        RDFDataMgr.write(sw, dataxet, Lang.NQUADS);
+        
+        System.out.println(sw);
+        
+        return sw.toString();
+    }    
+    
     
     //C:\Users\vroddon\AppData\Roaming\NetBeans\8.0.2\config\GF_4.1\domain1\config\log1.txt
     /**
@@ -136,9 +268,15 @@ public class PGNProcessor {
             e.printStackTrace();
         }
     }
+    
+    
+    
 
     /***************** PRIVATE METHODS *************************************/
     
+    /**
+     * 
+     */
     private static Model pgn2rdf(Game g) {
 
         Model modelo = ModelFactory.createDefaultModel();
@@ -245,11 +383,12 @@ public class PGNProcessor {
         return modelo;
     }    
     
-    public static String uploadRDF(String pgn) {
-        String id = RDFStore.writeGame("", pgn);
-        return id;
-    }
+
+
     
+    /**
+     * Obtains the chessid for a given model
+     */
     public static String getChessId(Model model)
     {
         String id="";
@@ -265,15 +404,55 @@ public class PGNProcessor {
     
     
     /**
+     * Obtains the chessid for a given model
+     */
+    public static String getWhitePlayerFromView(Model model)
+    {
+        String id="";
+        Property r2 = model.createProperty("http://purl.org/NET/rdfchess/ontology/hasWhitePlayerName");
+        NodeIterator nit = model.listObjectsOfProperty(r2);
+        while(nit.hasNext())
+        {
+            RDFNode r = nit.next();
+            return r.asLiteral().toString();
+        }
+        return "";
+    }
+    
+    /**
+     * Obtains the chessid for a given model
+     */
+    public static String getBlackPlayerFromView(Model model)
+    {
+        String id="";
+        Property r2 = model.createProperty("http://purl.org/NET/rdfchess/ontology/hasBlackPlayerName");
+        NodeIterator nit = model.listObjectsOfProperty(r2);
+        while(nit.hasNext())
+        {
+            RDFNode r = nit.next();
+            return r.asLiteral().toString();
+        }
+        return "";
+    }
+    
+    
+    
+    /**
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException {
 
         String input = new String(Files.readAllBytes(Paths.get("samples/test.pgn")));
         String output = PGNProcessor.getRDF(input, Lang.TTL);
+        
+        String expandido = PGNProcessor.expandRDF(output);
+//        System.out.println(expandido);
+        
+        
         PrintWriter out = new PrintWriter("samples/test.ttl");
         out.println(output);
     }
+
 
     
 

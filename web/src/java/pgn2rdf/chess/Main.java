@@ -1,6 +1,7 @@
 package pgn2rdf.chess;
 
 import java.security.KeyStoreException;
+import javax.xml.parsers.DocumentBuilderFactory;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.SSLContextBuilder;
@@ -21,6 +22,8 @@ public class Main {
     public static boolean initialized = false;
 
     public static void init() throws Exception {
+        System.out.println("Initializing RDFChess");
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         /*if (initialized == true) {
             return;
         }
