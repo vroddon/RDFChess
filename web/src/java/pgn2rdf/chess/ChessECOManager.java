@@ -21,9 +21,36 @@ public class ChessECOManager {
         return name;
     }
 
+    public static String getLibraryOfCongress(String eco)
+    {
+        String name = "";
+        name = mapaloc.get(eco);
+        return name;
+    }
+    
     /************************* PRIVATE METHODS ********************************/
     
     private  static Map<String, String> mapa = init();
+    private  static Map<String, String> mapaloc = initloc();
+    
+    private static Map<String, String> initloc() {
+        Map<String, String> map = new HashMap();
+        
+        String str="";
+        for(int i=60;i<99;i++)
+        {
+            map.put("C"+i, "http://id.loc.gov/authorities/subjects/sh98003603");
+        }
+        for(int i=60;i<79;i++)
+        {
+            map.put("B"+i, "http://id.loc.gov/authorities/subjects/sh200100818");
+        }
+        
+
+        map.put("E83", "http://id.loc.gov/authorities/subjects/sh00008710");
+        
+        return map;
+    }
 
     private static Map<String, String> init() {
         Map<String, String> mapa = new HashMap();

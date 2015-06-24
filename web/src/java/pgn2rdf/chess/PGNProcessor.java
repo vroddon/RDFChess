@@ -12,6 +12,7 @@ import com.hp.hpl.jena.query.QueryExecution;
 import com.hp.hpl.jena.query.QueryExecutionFactory;
 import com.hp.hpl.jena.query.QueryFactory;
 import com.hp.hpl.jena.query.ResultSet;
+import com.hp.hpl.jena.rdf.model.Literal;
 
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
@@ -20,6 +21,8 @@ import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.rdf.model.ResIterator;
 import com.hp.hpl.jena.rdf.model.Resource;
+import com.hp.hpl.jena.rdf.model.Statement;
+import com.hp.hpl.jena.rdf.model.StmtIterator;
 import com.hp.hpl.jena.sparql.core.DatasetGraphFactory;
 import com.hp.hpl.jena.sparql.core.DatasetGraphMaker;
 import com.hp.hpl.jena.sparql.core.DatasetImpl;
@@ -189,7 +192,7 @@ public class PGNProcessor {
         RDFDataMgr.read(dataxet, is, Lang.TTL);
         GraphStore graphStore = GraphStoreFactory.create(dataxet) ;
         
-        
+        //FIRST EXPANSION, WHITE PLAYER
         String blanco = PGNProcessor.getWhitePlayerFromView(model);
         String dbblanco = DBpediaSpotlight.getDBPediaResource(blanco, "/chess/chess_player", "chess");
         if (!dbblanco.equals(blanco))
@@ -213,6 +216,7 @@ public class PGNProcessor {
             UpdateAction.parseExecute(sparql,graphStore);         //DROP ALL
         }
 
+        //SECOND EXPANSION, WHITE PLAYER
         String negro = PGNProcessor.getBlackPlayerFromView(model);
         String dbnegro = DBpediaSpotlight.getDBPediaResource(negro, "/chess/chess_player", "chess");
         if (!negro.equals(dbnegro))
@@ -236,6 +240,34 @@ public class PGNProcessor {
             UpdateAction.parseExecute(sparql,graphStore);         //DROP ALL
         }
         
+        //THIRD EXPANSION, ECO OPENING
+        String eco = PGNProcessor.getECO(model);
+        String econame = ChessECOManager.getName(eco);
+        System.out.println("ECO: " + eco +" " + econame);
+        String sx = eco + " " + econame + " ";
+        String loc=ChessECOManager.getLibraryOfCongress(eco);
+
+        String dbpedia = DBpediaSpotlight.getDBPediaResource(sx, "", "");
+        if (dbpedia.equals(sx))
+            dbpedia="";
+        String literal = eco;
+        String idw = RDFChess.DATA_URI + UUID.randomUUID().toString();
+        String sparql="PREFIX chess: <http://purl.org/NET/rdfchess/ontology/>\n" +
+            "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+            "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
+            "PREFIX skos: <http://www.w3.org/2004/02/skos/core#>\n" +
+            "DELETE { <" + id +"> <http://purl.org/NET/chess/ontology/hasECOOpening> \""+literal+"\" . }\n" +
+            "INSERT {\n<" +
+            id + "> <http://purl.org/NET/chess/ontology/hasChessGameOpening> <"+idw + "> .\n" +
+            "<"+ idw +"> rdf:type chess:ChessGameOpening .\n" +
+            "<"+ idw +"> chess:ECOID \""+eco +"\" .\n" +
+            "<"+ idw +"> rdfs:label \""+econame +"\" .\n" +
+            "<"+ idw +"> skos:closeMatch <"+loc+"> .\n" +
+            "<"+ idw +"> skos:closeMatch <"+dbpedia+"> .\n" +
+            "}\n" +
+            "WHERE { <" + id + "> <http://purl.org/NET/chess/ontology/hasECOOpening> \""+literal+"\" }";
+        System.out.println(sparql);
+        UpdateAction.parseExecute(sparql,graphStore);         //DROP ALL
         
         
         StringWriter sw = new StringWriter();
@@ -426,6 +458,32 @@ public class PGNProcessor {
     {
         String id="";
         Property r2 = model.createProperty("http://purl.org/NET/rdfchess/ontology/hasBlackPlayerName");
+        NodeIterator nit = model.listObjectsOfProperty(r2);
+        while(nit.hasNext())
+        {
+            RDFNode r = nit.next();
+            return r.asLiteral().toString();
+        }
+        return "";
+    }
+    
+    /**
+     * Obtains the chessid for a given model
+     */
+    public static String getECO(Model model)
+    {
+        String id="";                       
+        
+        /*String s = getChessId(model);
+        Resource j = ModelFactory.createDefaultModel().createResource(s);
+        StmtIterator lstm = model.listStatements(j, (Property)null, (Literal)null);
+        while(lstm.hasNext())
+        {
+            Statement st=lstm.next();
+            System.out.println(st);
+        }*/
+        
+        Property r2 = model.createProperty("http://purl.org/NET/chess/ontology/hasECOOpening");
         NodeIterator nit = model.listObjectsOfProperty(r2);
         while(nit.hasNext())
         {
