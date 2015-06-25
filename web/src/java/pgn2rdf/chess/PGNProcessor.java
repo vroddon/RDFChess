@@ -199,6 +199,7 @@ public class PGNProcessor {
         {
             String literal = blanco;
             String dbpedia = dbblanco;
+            System.out.println("Expanding " + blanco +" to " + dbblanco);
             String newname = ManagerDBpedia.getLabel(dbblanco);        
             String idw = RDFChess.DATA_URI + UUID.randomUUID().toString();
             String sparql="PREFIX chess: <http://purl.org/NET/rdfchess/ontology/>\n" +
@@ -212,7 +213,6 @@ public class PGNProcessor {
                 "<"+ idw +"> skos:closeMatch <"+dbpedia+"> .\n" +
                 "}\n" +
                 "WHERE { <" + id + "> chess:hasWhitePlayerName \""+literal+"\" }";
-            System.out.println(sparql);
             UpdateAction.parseExecute(sparql,graphStore);         //DROP ALL
         }
 
@@ -221,6 +221,7 @@ public class PGNProcessor {
         String dbnegro = DBpediaSpotlight.getDBPediaResource(negro, "/chess/chess_player", "chess");
         if (!negro.equals(dbnegro))
         {
+            System.out.println("Expanding " + negro +" to " + dbnegro);
             String literal = negro;
             String dbpedia = dbnegro;
             String newname = ManagerDBpedia.getLabel(dbnegro);        
@@ -236,7 +237,6 @@ public class PGNProcessor {
                 "<"+ idw +"> skos:closeMatch <"+dbpedia+"> .\n" +
                 "}\n" +
                 "WHERE { <" + id + "> chess:hasBlackPlayerName \""+literal+"\" }";
-            System.out.println(sparql);
             UpdateAction.parseExecute(sparql,graphStore);         //DROP ALL
         }
         
@@ -266,8 +266,32 @@ public class PGNProcessor {
             "<"+ idw +"> skos:closeMatch <"+dbpedia+"> .\n" +
             "}\n" +
             "WHERE { <" + id + "> <http://purl.org/NET/chess/ontology/hasECOOpening> \""+literal+"\" }";
-        System.out.println(sparql);
+        System.out.println("Expanding " + eco +" to " + econame);
         UpdateAction.parseExecute(sparql,graphStore);         //DROP ALL
+        
+        //FOURTH EXPANSION, GEONAMES
+        String site =  PGNProcessor.getSite(model);
+        String site2 = ManagerGeonames.getMostLikelyResource(site);        
+        if (!site.isEmpty() && site2!=null && !site2.isEmpty() && !site2.equals(site))
+        {
+            System.out.println("Expanding " + site +" to " + site2);
+            idw = RDFChess.DATA_URI + UUID.randomUUID().toString();
+            sparql="PREFIX chess: <http://purl.org/NET/rdfchess/ontology/>\n" +
+            "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+            "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
+            "PREFIX skos: <http://www.w3.org/2004/02/skos/core#>\n" +
+            "DELETE { <" + id +"> <http://purl.org/NET/chess/ontology/hasChessGameAtNamedPlace> \""+site+"\" . }\n" +
+            "INSERT {\n<" +
+            id + "> <http://purl.org/NET/chess/ontology/atPlace> <"+idw + "> .\n" +
+            "<"+ idw +"> rdf:type chess:Place .\n" +
+            "<"+ idw +"> chess:hasName \""+site +"\" .\n" +
+            "<"+ idw +"> skos:closeMatch <"+site2+"> .\n" +
+            "}\n" +
+            "WHERE { <" + id + "> <http://purl.org/NET/chess/ontology/hasChessGameAtNamedPlace> \""+site+"\" }";
+            System.out.println(sparql);
+            UpdateAction.parseExecute(sparql,graphStore);               
+        }
+        
         
         
         StringWriter sw = new StringWriter();
@@ -472,17 +496,7 @@ public class PGNProcessor {
      */
     public static String getECO(Model model)
     {
-        String id="";                       
-        
-        /*String s = getChessId(model);
-        Resource j = ModelFactory.createDefaultModel().createResource(s);
-        StmtIterator lstm = model.listStatements(j, (Property)null, (Literal)null);
-        while(lstm.hasNext())
-        {
-            Statement st=lstm.next();
-            System.out.println(st);
-        }*/
-        
+        String id=""; 
         Property r2 = model.createProperty("http://purl.org/NET/chess/ontology/hasECOOpening");
         NodeIterator nit = model.listObjectsOfProperty(r2);
         while(nit.hasNext())
@@ -493,6 +507,22 @@ public class PGNProcessor {
         return "";
     }
     
+    
+    /**
+     * Obtains the chessid for a given model
+     */
+    public static String getSite(Model model)
+    {
+        String id=""; 
+        Property r2 = model.createProperty("http://purl.org/NET/chess/ontology/hasChessGameAtNamedPlace");
+        NodeIterator nit = model.listObjectsOfProperty(r2);
+        while(nit.hasNext())
+        {
+            RDFNode r = nit.next();
+            return r.asLiteral().toString();
+        }
+        return "";
+    }    
     
     
     /**
