@@ -44,6 +44,7 @@ import java.nio.file.Paths;
 import java.util.UUID;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
+import pgn2rdf.files.RDFPrefixes;
 import pgn2rdf.files.RDFStore;
 import pgn2rdf.mappings.DBpediaSpotlight;
 import pgn2rdf.mappings.ManagerDBpedia;
@@ -126,8 +127,9 @@ public class PGNProcessor {
             }
         } catch (Exception e) {
         }
+        RDFPrefixes.addPrefixesIfNeeded(modelo);
 
-        modelo.setNsPrefix("dct", "http://purl.org/dc/terms/");
+        /*modelo.setNsPrefix("dct", "http://purl.org/dc/terms/");
         modelo.setNsPrefix("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
         modelo.setNsPrefix("rdfs", "http://www.w3.org/2000/01/rdf-schema#");
         modelo.setNsPrefix("ldr", "http://purl.oclc.org/NET/ldr/ns#");
@@ -137,7 +139,7 @@ public class PGNProcessor {
         modelo.setNsPrefix("prov", "http://www.w3.org/ns/prov#");
         modelo.setNsPrefix("sem", "http://semanticweb.cs.vu.nl/2009/11/sem/");
         modelo.setNsPrefix("chess-o", RDFChess.ONTOLOGY_URI);
-        modelo.setNsPrefix("chess", RDFChess.DATA_URI);
+        modelo.setNsPrefix("chess", RDFChess.DATA_URI);*/
         RDFDataMgr.write(sw, modelo, lang);
         return sw.toString();
     }
@@ -197,7 +199,7 @@ public class PGNProcessor {
         GraphStore graphStore = GraphStoreFactory.create(dataxet);
 
         //FIRST EXPANSION, WHITE PLAYER
-        String blanco = PGNProcessor.getWhitePlayerFromView(model);
+        String blanco = PGNProcessor.getWhitePlayer(model);
         String dbblanco = DBpediaSpotlight.getDBPediaResource(blanco, "/chess/chess_player", "chess");
         if (!dbblanco.equals(blanco)) {
             String literal = blanco;
@@ -220,7 +222,7 @@ public class PGNProcessor {
         }
 
         //SECOND EXPANSION, WHITE PLAYER
-        String negro = PGNProcessor.getBlackPlayerFromView(model);
+        String negro = PGNProcessor.getBlackPlayer(model);
         String dbnegro = DBpediaSpotlight.getDBPediaResource(negro, "/chess/chess_player", "chess");
         if (!negro.equals(dbnegro)) {
             System.out.println("Expanding " + negro + " to " + dbnegro);
@@ -386,13 +388,13 @@ public class PGNProcessor {
 
         String sround = g.getRound();
         Resource r8 = modelo.createResource("http://purl.org/NET/chess/ontology/roundOfChessCompetition");
-        Resource r9 = modelo.createResource("http://purl.org/NET/chess/ontology/round" + UUID.randomUUID().toString());
+        Resource r9 = modelo.createResource("http://purl.org/NET/chess/ontology/round/" + UUID.randomUUID().toString());
         modelo.add(r9, RDF.type, r8);
         modelo.add(r9, RDFS.label, sround);
         modelo.add(r, r7, r9);
 
         Resource r10 = modelo.createResource("http://purl.org/NET/chess/ontology/ChessCompetition");
-        Resource r11 = modelo.createResource("http://purl.org/NET/chess/ontology/atChessCompetition" + UUID.randomUUID().toString());
+        Resource r11 = modelo.createResource("http://purl.org/NET/chess/ontology/atChessCompetition/" + UUID.randomUUID().toString());
         modelo.add(r11, RDF.type, r10);
         modelo.add(r9, r7, r11);
 
@@ -441,11 +443,11 @@ public class PGNProcessor {
      * "Belgrade , Serbia JUG"] [Date "1992.11.04"] [Round "29"] [White "Fischer
      * , Robert J."] [Black "Spassky , Boris V."] [Result "1/2-1/2"] [ECO "E83"]
      */
-    public static String buildPGN(Model model) {
+    public static String buildPGN(Model model, boolean html) {
         String pgn = "";
 
-        String white = PGNProcessor.getWhitePlayerFromView(model);
-        String black = PGNProcessor.getBlackPlayerFromView(model);
+        String white = PGNProcessor.getWhitePlayer(model);
+        String black = PGNProcessor.getBlackPlayer(model);
         String site = PGNProcessor.getSite(model);
         String game = PGNProcessor.getMoves(model);
         String eco = PGNProcessor.getECO(model);
@@ -453,6 +455,15 @@ public class PGNProcessor {
         String event = PGNProcessor.getEvent(model);
         String result = PGNProcessor.getResult(model);
         String round = PGNProcessor.getRound(model);
+        if (html)
+        {
+            String wuri = PGNProcessor.getWhitePlayerURI(model);
+            white = "<a href=\""+wuri+"\">"+white+"</a>";
+            String buri = PGNProcessor.getBlackPlayerURI(model);
+            black = "<a href=\""+buri+"\">"+black+"</a>";
+            String ecouri = PGNProcessor.getECOURI(model);
+            eco = "<a href=\""+ecouri+"\">"+eco+"</a>";
+        }
 
         pgn += "[Event \"" + event  +"\"]\n";
         pgn += "[Site \""  + site  +"\"]\n";
@@ -484,7 +495,7 @@ public class PGNProcessor {
     /**
      * Obtains the chessid for a given model
      */
-    public static String getWhitePlayerFromView(Model model) {
+    public static String getWhitePlayer(Model model) {
         String id = "";
         Property r2 = model.createProperty("http://purl.org/NET/rdfchess/ontology/hasWhitePlayerName");
         NodeIterator nit = model.listObjectsOfProperty(r2);
@@ -492,19 +503,62 @@ public class PGNProcessor {
             RDFNode r = nit.next();
             return r.asLiteral().toString();
         }
+        //if the former fails we look in the full-model
+        nit = model.listObjectsOfProperty(model.createProperty("http://purl.org/NET/rdfchess/ontology/hasWhitePlayer"));
+        while (nit.hasNext()) {
+            Resource r = nit.next().asResource();
+            NodeIterator nit2 = model.listObjectsOfProperty(r, model.createProperty("http://purl.org/NET/rdfchess/ontology/hasName"));
+            if (nit2.hasNext())
+                return nit2.next().asLiteral().toString();
+        }
+        
         return "";
     }
 
     /**
      * Obtains the chessid for a given model
      */
-    public static String getBlackPlayerFromView(Model model) {
+    public static String getBlackPlayer(Model model) {
         String id = "";
+        //First we try to see from the view
         Property r2 = model.createProperty("http://purl.org/NET/rdfchess/ontology/hasBlackPlayerName");
         NodeIterator nit = model.listObjectsOfProperty(r2);
         while (nit.hasNext()) {
             RDFNode r = nit.next();
             return r.asLiteral().toString();
+        }
+        //if the former fails we look in the full-model
+        nit = model.listObjectsOfProperty(model.createProperty("http://purl.org/NET/rdfchess/ontology/hasBlackPlayer"));
+        while (nit.hasNext()) {
+            Resource r = nit.next().asResource();
+            NodeIterator nit2 = model.listObjectsOfProperty(r, model.createProperty("http://purl.org/NET/rdfchess/ontology/hasName"));
+            if (nit2.hasNext())
+                return nit2.next().asLiteral().toString();
+        }
+        
+        
+        return "";
+    }
+    /**
+     * Obtains the chessid for a given model
+     */
+    public static String getBlackPlayerURI(Model model) {
+        String id = "";
+        //if the former fails we look in the full-model
+        NodeIterator nit = model.listObjectsOfProperty(model.createProperty("http://purl.org/NET/rdfchess/ontology/hasBlackPlayer"));
+        while (nit.hasNext()) {
+            Resource r = nit.next().asResource();
+            return r.getURI();
+        }
+        return "";
+    }
+    public static String getWhitePlayerURI(Model model) {
+        String id = "";
+        //if the former fails we look in the full-model
+        NodeIterator nit = model.listObjectsOfProperty(model.createProperty("http://purl.org/NET/rdfchess/ontology/hasWhitePlayer"));
+        while (nit.hasNext()) {
+            Resource r = nit.next().asResource();
+            return r.getURI();
         }
         return "";
     }
@@ -519,6 +573,24 @@ public class PGNProcessor {
         while (nit.hasNext()) {
             RDFNode r = nit.next();
             return r.asLiteral().toString();
+        }
+        r2 = model.createProperty("http://purl.org/NET/chess/ontology/hasChessGameOpening");
+        nit = model.listObjectsOfProperty(r2);
+        while (nit.hasNext()) {
+            Resource r = nit.next().asResource();
+            NodeIterator nit2 = model.listObjectsOfProperty(r, model.createProperty("http://purl.org/NET/rdfchess/ontology/ECOID"));
+            if (nit2.hasNext())
+                return nit2.next().asLiteral().toString();
+        }
+        return "";
+    }
+    public static String getECOURI(Model model) {
+        String id = "";
+        Property r2 = model.createProperty("http://purl.org/NET/chess/ontology/hasChessGameOpening");
+        NodeIterator nit = model.listObjectsOfProperty(r2);
+        while (nit.hasNext()) {
+            Resource r = nit.next().asResource();
+            return r.getURI();
         }
         return "";
     }
@@ -585,6 +657,14 @@ public class PGNProcessor {
             RDFNode r = nit.next();
             return r.asLiteral().toString();
         }
+        r2 = model.createProperty("http://purl.org/NET/chess/ontology/atPlace");
+        nit = model.listObjectsOfProperty(r2);
+        while (nit.hasNext()) {
+            Resource r = nit.next().asResource();
+            NodeIterator nit2 = model.listObjectsOfProperty(r, model.createProperty("http://purl.org/NET/rdfchess/ontology/hasName"));
+            if (nit2.hasNext())
+                return nit2.next().asLiteral().toString();
+        }
         return "";
     }
 
@@ -616,6 +696,7 @@ public class PGNProcessor {
         }
         return "";
     }
+    
    /**
      * Obtains the chessid for a given model
      */
@@ -686,7 +767,7 @@ public class PGNProcessor {
         Model model = ModelFactory.createDefaultModel();
         InputStream is = new ByteArrayInputStream(rdf.getBytes(StandardCharsets.UTF_8));
         RDFDataMgr.read(model, is, Lang.TTL);
-        String s = PGNProcessor.buildPGN(model);
+        String s = PGNProcessor.buildPGN(model, true);
         System.out.println(s);
 //        PrintWriter out = new PrintWriter("samples/test.ttl");
 //        out.println(rdf);

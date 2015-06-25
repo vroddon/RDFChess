@@ -95,12 +95,12 @@ public class GameServlet extends HttpServlet {
 
                 if (titulo.equals("ChessGame")) {
 
-                    String pgn = PGNProcessor.buildPGN(model);
-                    String superpgn = "      <div>\n"
+                    String pgn = PGNProcessor.buildPGN(model,true);
+                    String superpgn = "      <div><center>\n"
                             + "        <a class=\"back\" href=\"#\">Back</a>\n"
                             + "        <a class=\"next\" href=\"#\">Next</a>\n"
                             + "        <a class=\"flip\" href=\"#\">Flip</a>\n"
-                            + "      </div>";
+                            + "      </center></div>";
                     superpgn += " <div id=\"board3\" class=\"board\"></div>\n"
                             + "      <p class=\"annot\"></p>\n"
                             + "      <pre id=\"pgn-fischer-spassky\">\n"

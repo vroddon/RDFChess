@@ -98,6 +98,7 @@ public class RDFStore {
                 Model modelr = ModelFactory.createDefaultModel();
                 InputStream stream = new ByteArrayInputStream(ntriples.getBytes("UTF-8"));
                 RDFDataMgr.read(modelr, stream, Lang.NTRIPLES);
+                modelr = RDFPrefixes.addPrefixesIfNeeded(modelr);
                 StringWriter sw = new StringWriter();
                 RDFDataMgr.write(sw, modelr, RDFFormat.TURTLE_PRETTY);
                 return sw.toString();
@@ -111,6 +112,8 @@ public class RDFStore {
             return "The game " + gameid + " could not be loaded as RDF <BR>" + e.getMessage();
         }
     }
+    
+    
 
     /**
      * Reads a chess game from the store
