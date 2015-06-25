@@ -507,6 +507,62 @@ public class PGNProcessor {
         return "";
     }
     
+    static String moves = "";
+    static boolean gblancas = true;
+    static int gconta=1;
+    /**
+     * Obtains the chessid for a given model
+     */
+    public static String getMoves(Model model)
+    {
+        String id=""; 
+        gblancas=true;
+        gconta=1;
+        Property r2 = model.createProperty("http://purl.org/NET/rdfchess/ontology/firstMove");
+        ResIterator nit = model.listSubjectsWithProperty(RDF.type, r2);
+        if(nit.hasNext())
+        {
+            Resource r = nit.next().asResource();            
+            NodeIterator rit = model.listObjectsOfProperty(r, ModelFactory.createDefaultModel().createProperty("http://purl.org/NET/rdfchess/ontology/halfMoveRecord"));
+            if (rit.hasNext())
+                moves="1. "+ rit.next().asLiteral().getLexicalForm();
+            
+            NodeIterator rit2 =  model.listObjectsOfProperty(r, ModelFactory.createDefaultModel().createProperty("http://purl.org/NET/rdfchess/ontology/nextHalfMove"));
+            if (rit2.hasNext())
+            {
+                Resource rm = rit2.next().asResource();
+                getMovesRecursive(model, rm);
+            }
+            
+        }
+        return moves;
+    }
+    
+    private static void getMovesRecursive(Model model, Resource r)
+    {
+        String s ="";
+        gblancas = !gblancas;
+        NodeIterator rit = model.listObjectsOfProperty(r, ModelFactory.createDefaultModel().createProperty("http://purl.org/NET/rdfchess/ontology/halfMoveRecord"));
+        if (rit.hasNext())
+        {
+            if (gblancas)
+            {
+                gconta++;
+                moves+=" "+gconta+". ";
+            }
+            else
+                moves+=" ";
+            moves+=rit.next().asLiteral().getLexicalForm();
+        }
+        NodeIterator rit2 =  model.listObjectsOfProperty(r, ModelFactory.createDefaultModel().createProperty("http://purl.org/NET/rdfchess/ontology/nextHalfMove"));
+        if (!rit2.hasNext())
+            return;
+        getMovesRecursive(model, rit2.next().asResource());
+        
+        return;
+    }
+    
+    
     
     /**
      * Obtains the chessid for a given model
@@ -531,14 +587,15 @@ public class PGNProcessor {
     public static void main(String[] args) throws IOException {
 
         String input = new String(Files.readAllBytes(Paths.get("samples/test.pgn")));
-        String output = PGNProcessor.getRDF(input, Lang.TTL);
-        
-        String expandido = PGNProcessor.expandRDF(output);
-//        System.out.println(expandido);
-        
-        
+        String rdf = PGNProcessor.getRDF(input, Lang.TTL);
+        System.out.println(rdf);
+        Model model = ModelFactory.createDefaultModel();
+        InputStream is = new ByteArrayInputStream(rdf.getBytes(StandardCharsets.UTF_8));
+        RDFDataMgr.read(model, is, Lang.TTL);
+        String s = PGNProcessor.getMoves(model);       
+        System.out.println(s);
         PrintWriter out = new PrintWriter("samples/test.ttl");
-        out.println(output);
+        out.println(rdf);
     }
 
 
