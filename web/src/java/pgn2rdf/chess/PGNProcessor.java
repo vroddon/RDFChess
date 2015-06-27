@@ -364,17 +364,26 @@ public class PGNProcessor {
 
         modelo.add(r, RDF.type, r2);
 
+                
+        Property rtt = modelo.createProperty("http://purl.org/NET/rdfchess/ontology/atTime");
+        modelo.add(r, rtt, g.getDate());
+        
+        
+        
         Property r7 = modelo.createProperty("http://semanticweb.cs.vu.nl/2009/11/sem/subEventOf");
 
         String sround = g.getRound();
         Resource r8 = modelo.createResource("http://purl.org/NET/rdfchess/ontology/roundOfChessCompetition");
-        Resource r9 = modelo.createResource("http://purl.org/NET/rdfchess/ontology/round/" + UUID.randomUUID().toString());
+        Resource r9 = modelo.createResource(RDFChess.DATA_URI+"round/" + UUID.randomUUID().toString());
         modelo.add(r9, RDF.type, r8);
         modelo.add(r9, RDFS.label, sround);
         modelo.add(r, r7, r9);
 
         Resource r10 = modelo.createResource("http://purl.org/NET/rdfchess/ontology/ChessCompetition");
-        Resource r11 = modelo.createResource("http://purl.org/NET/rdfchess/ontology/atChessCompetition/" + UUID.randomUUID().toString());
+        Resource r11 = modelo.createResource(RDFChess.DATA_URI+"chessCompetition/" + UUID.randomUUID().toString());
+        
+        modelo.add(r11, RDFS.label,g.getEvent());
+        
         modelo.add(r11, RDF.type, r10);
         modelo.add(r9, r7, r11);
 
@@ -400,7 +409,7 @@ public class PGNProcessor {
         while (g.hasNextMove()) {
             Move m = g.getNextMove();
 
-            Resource rm = modelo.createResource(RDFChess.DATA_URI + UUID.randomUUID().toString());
+            Resource rm = modelo.createResource(RDFChess.DATA_URI+"halfMove/" + UUID.randomUUID().toString());
             modelo.add(rm, RDF.type, r15);
             modelo.add(rm, r18, m.getSAN());
             if (pm != null) {

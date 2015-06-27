@@ -60,9 +60,13 @@ public class GameUploader {
                     String id = PGNProcessor.getChessId(m);
                     RDFPrefixes.addPrefixesIfNeeded(m);
                     RDFDataMgr.write(sw, m, Lang.TURTLE);
+                    String rdf=PGNProcessor.expandRDF(sw.toString());
+                    
+                    System.out.println(rdf);
+                    
          //           RDFStore.writeGame(id, sw.toString());
                     System.out.println(conta+ " Uploaded " + id);
-                    System.out.println(sw);
+                    System.out.println(rdf);
                     conta++;
                     break;
                 }
