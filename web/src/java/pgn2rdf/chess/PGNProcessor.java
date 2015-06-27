@@ -41,6 +41,8 @@ import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
@@ -188,8 +190,6 @@ public class PGNProcessor {
 
         //FIRST EXPANSION, WHITE PLAYER
         String blanco = PGNProcessor.getWhitePlayer(model);
-        
-        
         String dbblanco = PGNProcessor.getMappingDBpedia(blanco);
         
         
@@ -215,7 +215,7 @@ public class PGNProcessor {
 
         //SECOND EXPANSION, WHITE PLAYER
         String negro = PGNProcessor.getBlackPlayer(model);
-        String dbnegro = DBpediaSpotlight.getDBPediaResource(negro, "/chess/chess_player", "chess");
+        String dbnegro = PGNProcessor.getMappingDBpedia(negro);
         if (!negro.equals(dbnegro)) {
             System.out.println("Expanding " + negro + " to " + dbnegro);
             String literal = negro;
@@ -243,12 +243,12 @@ public class PGNProcessor {
         String sx = eco + " " + econame + " ";
         String loc = ChessECOManager.getLibraryOfCongress(eco);
 
-        String dbpedia = DBpediaSpotlight.getDBPediaResource(sx, "", "");
+        String dbpedia = PGNProcessor.getMappingDBpediaOpening(sx);
         if (dbpedia.equals(sx)) {
             dbpedia = "";
         }
         String literal = eco;
-        String idw = RDFChess.DATA_URI + UUID.randomUUID().toString();
+        String idw = RDFChess.DATA_URI + "opening/" + UUID.randomUUID().toString();
         String sparql = "PREFIX chess: <http://purl.org/NET/rdfchess/ontology/>\n"
                 + "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
                 + "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
@@ -266,9 +266,10 @@ public class PGNProcessor {
         System.out.println("Expanding " + eco + " to " + econame);
         UpdateAction.parseExecute(sparql, graphStore);         //DROP ALL
 
+        
         //FOURTH EXPANSION, GEONAMES
         String site = PGNProcessor.getSite(model);
-        String site2 = ManagerGeonames.getMostLikelyResource(site);
+        String site2 = PGNProcessor.getMappingGeonames(site);
         if (!site.isEmpty() && site2 != null && !site2.isEmpty() && !site2.equals(site)) {
             System.out.println("Expanding " + site + " to " + site2);
             idw = RDFChess.DATA_URI + UUID.randomUUID().toString();
@@ -771,11 +772,43 @@ public class PGNProcessor {
 //        out.println(rdf);
     }
 
+    static Map<String, String> jugadores = new HashMap();
+    static Map<String, String> openings = new HashMap();
+    static Map<String, String> locations = new HashMap();
     public static String getMappingDBpedia(String jugador)
     {
-        String dbblanco = DBpediaSpotlight.getDBPediaResource(jugador, "/chess/chess_player", "chess");
-        return jugador;
+        String dbpedia = jugadores.get(jugador);
+        if (dbpedia==null)
+        {
+            dbpedia = DBpediaSpotlight.getDBPediaResource(jugador, "/chess/chess_player", "chess");
+            if (dbpedia==null) dbpedia="";
+            jugadores.put(jugador, dbpedia);
+        }
+        return jugadores.get(jugador);
+    }
+    public static String getMappingDBpediaOpening(String sx)
+    {
+        String dbpedia = openings.get(sx);
+        if (dbpedia==null)
+        {
+            String rec = DBpediaSpotlight.getDBPediaResource(sx, "", "");
+            if (rec==null) rec="";
+            openings.put(sx, rec);
+        }
+        return openings.get(sx);
+    }
+    public static String getMappingGeonames(String sx)
+    {
+        String dbpedia = locations.get(sx);
+        if (dbpedia==null)
+        {
+            String rec = ManagerGeonames.getMostLikelyResource(sx);
+            if (rec==null)
+                rec="";
+            locations.put(sx, rec);
+        }
+        return locations.get(sx);
     }
     
-    
+
 }

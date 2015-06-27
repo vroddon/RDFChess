@@ -39,6 +39,11 @@ public class RDFStore {
      //   System.out.println(rdf);
         listGames();
     }
+    
+    public static void clearACTHUNGGames()
+    {
+        
+    }
 
     public static void listGames() {
         String sresults = "";
