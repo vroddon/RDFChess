@@ -35,10 +35,32 @@ public class RDFStore {
 
 //        String ttl = RDFStore.read("http://salonica.dia.fi.upm.es:8080/rdfchess/resource/45bee133-d88c-42e4-89bd-681c81170702");
 //        System.out.println(ttl);
+     //   String rdf = RDFStore.readResource("http://salonica.dia.fi.upm.es:8080/rdfchess/resource/9f577224-f63c-4d2f-aa2f-5649ad7aa9be");
+     //   System.out.println(rdf);
+        listGames();
+    }
 
-        String rdf = RDFStore.readResource("http://salonica.dia.fi.upm.es:8080/rdfchess/resource/9f577224-f63c-4d2f-aa2f-5649ad7aa9be");
-        System.out.println(rdf);
-        
+    public static void listGames() {
+        String sresults = "";
+        String sparql = "SELECT DISTINCT ?g\n"
+                + "WHERE {\n"
+                + "  GRAPH ?g {\n"
+                + "    ?s ?p ?o\n"
+                + "  }\n"
+                + "}";
+        Query query = QueryFactory.create(sparql);
+        String endpoint = "http://localhost:3030/RDFChess/query";
+        QueryExecution qexec = QueryExecutionFactory.sparqlService(endpoint, query);
+        ResultSet results = qexec.execSelect();
+        int conta=9;
+        for (; results.hasNext();) {
+            QuerySolution soln = results.nextSolution();
+            Resource p = soln.getResource("g");       // Get a result variable by name.
+            System.out.println(p.toString());
+            conta++;
+        }
+        System.out.println(conta);
+        return ;
     }
 
     /**
@@ -60,28 +82,28 @@ public class RDFStore {
         String endpoint = "http://localhost:3030/RDFChess/query";
         QueryExecution qexec = QueryExecutionFactory.sparqlService(endpoint, query);
 //        QueryExecution qexec = QueryExecutionFactory.create(query, model);
-        ResultSet results = qexec.execSelect() ;
-        for ( ; results.hasNext() ; )
-        {
-            QuerySolution soln = results.nextSolution() ;
-            Resource p = soln.getResource("p") ;       // Get a result variable by name.
-            RDFNode o = soln.get("o") ; // Get a result variable - must be a resource
+        ResultSet results = qexec.execSelect();
+        for (; results.hasNext();) {
+            QuerySolution soln = results.nextSolution();
+            Resource p = soln.getResource("p");       // Get a result variable by name.
+            RDFNode o = soln.get("o"); // Get a result variable - must be a resource
             String so = "";
-            if (o.isLiteral())
-                so = "\"" + o.toString() + "\"" ;
-            else
-                so = "<" + o.toString() + ">" ;
-            
-            sresults+="<"+resource+ "> <"+p.toString()+"> "+so+" . \n";
+            if (o.isLiteral()) {
+                so = "\"" + o.toString() + "\"";
+            } else {
+                so = "<" + o.toString() + ">";
+            }
+
+            sresults += "<" + resource + "> <" + p.toString() + "> " + so + " . \n";
         }
-        
-        
+
         return sresults;
     }
 
     /**
      * Reads a chess game from the store
-     * @return A String that contains Valid RDF 
+     *
+     * @return A String that contains Valid RDF
      */
     public static String readGame(String gameid) {
         String serviceURI = RDFChessConfig.get("fuseki", "http://localhost:3030/RDFChess/data");
@@ -91,8 +113,9 @@ public class RDFStore {
             if (model == null) {
                 System.out.println("The game " + gameid + " does not exist. Trying to seek for another resource...");
                 String ntriples = readResource(gameid);
-                if (ntriples.isEmpty())
+                if (ntriples.isEmpty()) {
                     return "The resource " + gameid + " does not exist";
+                }
 
                 //the requested uri is not a game, but seems to be a valid resource, though. 
                 Model modelr = ModelFactory.createDefaultModel();
@@ -102,7 +125,7 @@ public class RDFStore {
                 StringWriter sw = new StringWriter();
                 RDFDataMgr.write(sw, modelr, RDFFormat.TURTLE_PRETTY);
                 return sw.toString();
-                
+
             }
             StringWriter sw = new StringWriter();
             RDFDataMgr.write(sw, model, RDFFormat.TURTLE_PRETTY);
@@ -112,8 +135,6 @@ public class RDFStore {
             return "The game " + gameid + " could not be loaded as RDF <BR>" + e.getMessage();
         }
     }
-    
-    
 
     /**
      * Reads a chess game from the store

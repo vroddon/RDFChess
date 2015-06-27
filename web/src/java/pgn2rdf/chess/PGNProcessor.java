@@ -128,18 +128,6 @@ public class PGNProcessor {
         } catch (Exception e) {
         }
         RDFPrefixes.addPrefixesIfNeeded(modelo);
-
-        /*modelo.setNsPrefix("dct", "http://purl.org/dc/terms/");
-        modelo.setNsPrefix("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
-        modelo.setNsPrefix("rdfs", "http://www.w3.org/2000/01/rdf-schema#");
-        modelo.setNsPrefix("ldr", "http://purl.oclc.org/NET/ldr/ns#");
-        modelo.setNsPrefix("void", "http://rdfs.org/ns/void#");
-        modelo.setNsPrefix("dcat", "http://www.w3.org/ns/dcat#");
-        modelo.setNsPrefix("gr", "http://purl.org/goodrelations/");
-        modelo.setNsPrefix("prov", "http://www.w3.org/ns/prov#");
-        modelo.setNsPrefix("sem", "http://semanticweb.cs.vu.nl/2009/11/sem/");
-        modelo.setNsPrefix("chess-o", RDFChess.ONTOLOGY_URI);
-        modelo.setNsPrefix("chess", RDFChess.DATA_URI);*/
         RDFDataMgr.write(sw, modelo, lang);
         return sw.toString();
     }
@@ -261,16 +249,16 @@ public class PGNProcessor {
                 + "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
                 + "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
                 + "PREFIX skos: <http://www.w3.org/2004/02/skos/core#>\n"
-                + "DELETE { <" + id + "> <http://purl.org/NET/chess/ontology/hasECOOpening> \"" + literal + "\" . }\n"
+                + "DELETE { <" + id + "> <http://purl.org/NET/rdfchess/ontology/hasECOOpening> \"" + literal + "\" . }\n"
                 + "INSERT {\n<"
-                + id + "> <http://purl.org/NET/chess/ontology/hasChessGameOpening> <" + idw + "> .\n"
+                + id + "> <http://purl.org/NET/rdfchess/ontology/hasChessGameOpening> <" + idw + "> .\n"
                 + "<" + idw + "> rdf:type chess:ChessGameOpening .\n"
                 + "<" + idw + "> chess:ECOID \"" + eco + "\" .\n"
                 + "<" + idw + "> rdfs:label \"" + econame + "\" .\n"
                 + "<" + idw + "> skos:closeMatch <" + loc + "> .\n"
                 + "<" + idw + "> skos:closeMatch <" + dbpedia + "> .\n"
                 + "}\n"
-                + "WHERE { <" + id + "> <http://purl.org/NET/chess/ontology/hasECOOpening> \"" + literal + "\" }";
+                + "WHERE { <" + id + "> <http://purl.org/NET/rdfchess/rdfontology/hasECOOpening> \"" + literal + "\" }";
         System.out.println("Expanding " + eco + " to " + econame);
         UpdateAction.parseExecute(sparql, graphStore);         //DROP ALL
 
@@ -284,14 +272,14 @@ public class PGNProcessor {
                     + "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
                     + "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
                     + "PREFIX skos: <http://www.w3.org/2004/02/skos/core#>\n"
-                    + "DELETE { <" + id + "> <http://purl.org/NET/chess/ontology/hasChessGameAtNamedPlace> \"" + site + "\" . }\n"
+                    + "DELETE { <" + id + "> <http://purl.org/NET/rdfchess/rdfontology/hasChessGameAtNamedPlace> \"" + site + "\" . }\n"
                     + "INSERT {\n<"
-                    + id + "> <http://purl.org/NET/chess/ontology/atPlace> <" + idw + "> .\n"
+                    + id + "> <http://purl.org/NET/rdfchess/ontology/atPlace> <" + idw + "> .\n"
                     + "<" + idw + "> rdf:type chess:Place .\n"
                     + "<" + idw + "> chess:hasName \"" + site + "\" .\n"
                     + "<" + idw + "> skos:closeMatch <" + site2 + "> .\n"
                     + "}\n"
-                    + "WHERE { <" + id + "> <http://purl.org/NET/chess/ontology/hasChessGameAtNamedPlace> \"" + site + "\" }";
+                    + "WHERE { <" + id + "> <http://purl.org/NET/rdfchess/ontology/hasChessGameAtNamedPlace> \"" + site + "\" }";
             System.out.println(sparql);
             UpdateAction.parseExecute(sparql, graphStore);
         }
@@ -333,17 +321,9 @@ public class PGNProcessor {
     /**
      *
      */
-    private static Model pgn2rdf(Game g) {
+    public static Model pgn2rdf(Game g) {
 
         Model modelo = ModelFactory.createDefaultModel();
-        modelo.setNsPrefix("dct", "http://purl.org/dc/terms/");
-        modelo.setNsPrefix("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
-        modelo.setNsPrefix("rdfs", "http://www.w3.org/2000/01/rdf-schema#");
-        modelo.setNsPrefix("ldr", "http://purl.oclc.org/NET/ldr/ns#");
-        modelo.setNsPrefix("void", "http://rdfs.org/ns/void#");
-        modelo.setNsPrefix("dcat", "http://www.w3.org/ns/dcat#");
-        modelo.setNsPrefix("gr", "http://purl.org/goodrelations/");
-        modelo.setNsPrefix("prov", "http://www.w3.org/ns/prov#");
 
         String id = UUID.randomUUID().toString();
         Resource r = modelo.createResource(RDFChess.DATA_URI + id);
@@ -387,23 +367,23 @@ public class PGNProcessor {
         Property r7 = modelo.createProperty("http://semanticweb.cs.vu.nl/2009/11/sem/subEventOf");
 
         String sround = g.getRound();
-        Resource r8 = modelo.createResource("http://purl.org/NET/chess/ontology/roundOfChessCompetition");
-        Resource r9 = modelo.createResource("http://purl.org/NET/chess/ontology/round/" + UUID.randomUUID().toString());
+        Resource r8 = modelo.createResource("http://purl.org/NET/rdfchess/ontology/roundOfChessCompetition");
+        Resource r9 = modelo.createResource("http://purl.org/NET/rdfchess/ontology/round/" + UUID.randomUUID().toString());
         modelo.add(r9, RDF.type, r8);
         modelo.add(r9, RDFS.label, sround);
         modelo.add(r, r7, r9);
 
-        Resource r10 = modelo.createResource("http://purl.org/NET/chess/ontology/ChessCompetition");
-        Resource r11 = modelo.createResource("http://purl.org/NET/chess/ontology/atChessCompetition/" + UUID.randomUUID().toString());
+        Resource r10 = modelo.createResource("http://purl.org/NET/rdfchess/ontology/ChessCompetition");
+        Resource r11 = modelo.createResource("http://purl.org/NET/rdfchess/ontology/atChessCompetition/" + UUID.randomUUID().toString());
         modelo.add(r11, RDF.type, r10);
         modelo.add(r9, r7, r11);
 
         Property r12 = modelo.createProperty("http://purl.org/dc/terms/spatial");
         //MAPEO
-        r12 = modelo.createProperty("http://purl.org/NET/chess/ontology/hasChessGameAtNamedPlace");
+        r12 = modelo.createProperty("http://purl.org/NET/rdfchess/ontology/hasChessGameAtNamedPlace");
         modelo.add(r, r12, rdfsite);
 
-        Property r13 = modelo.createProperty("http://purl.org/NET/chess/ontology/hasECOOpening");
+        Property r13 = modelo.createProperty("http://purl.org/NET/rdfchess/ontology/hasECOOpening");
         if (g.getECO() != null && !g.getECO().isEmpty()) {
             modelo.add(r, r13, g.getECO());
         }
@@ -435,6 +415,8 @@ public class PGNProcessor {
         modelo.add(pm, RDF.type, r17);
         String resultado = (g.getResultStr() == null) ? "" : g.getResultStr();
         modelo.add(r, r19, resultado);
+        
+        RDFPrefixes.addPrefixesIfNeeded(modelo);
         return modelo;
     }
 
@@ -458,11 +440,14 @@ public class PGNProcessor {
         if (html)
         {
             String wuri = PGNProcessor.getWhitePlayerURI(model);
-            white = "<a href=\""+wuri+"\">"+white+"</a>";
+            if (!wuri.isEmpty())
+                white = "<a href=\""+wuri+"\">"+white+"</a>";
             String buri = PGNProcessor.getBlackPlayerURI(model);
-            black = "<a href=\""+buri+"\">"+black+"</a>";
+            if (!buri.isEmpty())
+                black = "<a href=\""+buri+"\">"+black+"</a>";
             String ecouri = PGNProcessor.getECOURI(model);
-            eco = "<a href=\""+ecouri+"\">"+eco+"</a>";
+            if (!ecouri.isEmpty())
+                eco = "<a href=\""+ecouri+"\">"+eco+"</a>";
         }
 
         pgn += "[Event \"" + event  +"\"]\n";
@@ -568,13 +553,13 @@ public class PGNProcessor {
      */
     public static String getECO(Model model) {
         String id = "";
-        Property r2 = model.createProperty("http://purl.org/NET/chess/ontology/hasECOOpening");
+        Property r2 = model.createProperty("http://purl.org/NET/rdfchess/ontology/hasECOOpening");
         NodeIterator nit = model.listObjectsOfProperty(r2);
         while (nit.hasNext()) {
             RDFNode r = nit.next();
             return r.asLiteral().toString();
         }
-        r2 = model.createProperty("http://purl.org/NET/chess/ontology/hasChessGameOpening");
+        r2 = model.createProperty("http://purl.org/NET/rdfchess/ontology/hasChessGameOpening");
         nit = model.listObjectsOfProperty(r2);
         while (nit.hasNext()) {
             Resource r = nit.next().asResource();
@@ -586,7 +571,7 @@ public class PGNProcessor {
     }
     public static String getECOURI(Model model) {
         String id = "";
-        Property r2 = model.createProperty("http://purl.org/NET/chess/ontology/hasChessGameOpening");
+        Property r2 = model.createProperty("http://purl.org/NET/rdfchess/ontology/hasChessGameOpening");
         NodeIterator nit = model.listObjectsOfProperty(r2);
         while (nit.hasNext()) {
             Resource r = nit.next().asResource();
@@ -651,13 +636,13 @@ public class PGNProcessor {
      */
     public static String getSite(Model model) {
         String id = "";
-        Property r2 = model.createProperty("http://purl.org/NET/chess/ontology/hasChessGameAtNamedPlace");
+        Property r2 = model.createProperty("http://purl.org/NET/rdfchess/ontology/hasChessGameAtNamedPlace");
         NodeIterator nit = model.listObjectsOfProperty(r2);
         while (nit.hasNext()) {
             RDFNode r = nit.next();
             return r.asLiteral().toString();
         }
-        r2 = model.createProperty("http://purl.org/NET/chess/ontology/atPlace");
+        r2 = model.createProperty("http://purl.org/NET/rdfchess/ontology/atPlace");
         nit = model.listObjectsOfProperty(r2);
         while (nit.hasNext()) {
             Resource r = nit.next().asResource();
@@ -687,7 +672,7 @@ public class PGNProcessor {
         while (nit.hasNext()) {
             RDFNode r = nit.next();
             Resource round = r.asResource(); //es un roundofchesscompetition
-            NodeIterator nit2=model.listObjectsOfProperty(round,model.createProperty("http://purl.org/NET/chess/ontology/atTime"));
+            NodeIterator nit2=model.listObjectsOfProperty(round,model.createProperty("http://purl.org/NET/rdfchess/ontology/atTime"));
             if (nit2.hasNext())
             {
                 Literal revent = nit2.next().asLiteral(); 
