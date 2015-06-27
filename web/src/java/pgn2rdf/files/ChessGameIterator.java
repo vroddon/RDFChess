@@ -118,4 +118,9 @@ public class ChessGameIterator implements Iterator {
         return null;
     }
 
+    @Override
+    public void remove() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

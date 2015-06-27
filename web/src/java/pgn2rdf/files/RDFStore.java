@@ -38,10 +38,22 @@ public class RDFStore {
      //   String rdf = RDFStore.readResource("http://salonica.dia.fi.upm.es:8080/rdfchess/resource/9f577224-f63c-4d2f-aa2f-5649ad7aa9be");
      //   System.out.println(rdf);
         listGames();
+        clearACTHUNGGames();
+        System.out.println("--");
+        listGames();
     }
     
     public static void clearACTHUNGGames()
     {
+        String sparql = "DROP ?g "
+                + "WHERE {\n"
+                + "  GRAPH ?g {\n"
+                + "    ?s ?p ?o\n"
+                + "  }\n"
+                + "}";
+        Query query = QueryFactory.create(sparql);
+        String endpoint = "http://localhost:3030/RDFChess/update";
+        QueryExecution qexec = QueryExecutionFactory.sparqlService(endpoint, query);
         
     }
 
