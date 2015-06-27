@@ -188,7 +188,11 @@ public class PGNProcessor {
 
         //FIRST EXPANSION, WHITE PLAYER
         String blanco = PGNProcessor.getWhitePlayer(model);
-        String dbblanco = DBpediaSpotlight.getDBPediaResource(blanco, "/chess/chess_player", "chess");
+        
+        
+        String dbblanco = PGNProcessor.getMappingDBpedia(blanco);
+        
+        
         if (!dbblanco.equals(blanco)) {
             String literal = blanco;
             String dbpedia = dbblanco;
@@ -767,4 +771,11 @@ public class PGNProcessor {
 //        out.println(rdf);
     }
 
+    public static String getMappingDBpedia(String jugador)
+    {
+        String dbblanco = DBpediaSpotlight.getDBPediaResource(jugador, "/chess/chess_player", "chess");
+        return jugador;
+    }
+    
+    
 }
