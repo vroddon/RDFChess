@@ -242,7 +242,8 @@ public class PGNProcessor {
         System.out.println("ECO: " + eco + " " + econame);
         String sx = eco + " " + econame + " ";
         String loc = ChessECOManager.getLibraryOfCongress(eco);
-
+        if (loc==null || loc.isEmpty())
+            loc="http://unknown";
         String dbpedia = PGNProcessor.getMappingDBpediaOpening(sx);
         if (dbpedia.equals(sx)) {
             dbpedia = "";
