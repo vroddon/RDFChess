@@ -38,25 +38,42 @@ public class RDFStore {
      //   String rdf = RDFStore.readResource("http://salonica.dia.fi.upm.es:8080/rdfchess/resource/9f577224-f63c-4d2f-aa2f-5649ad7aa9be");
      //   System.out.println(rdf);
         listGames();
-        clearACTHUNGGames();
         System.out.println("--");
-        listGames();
+        listDeleteGames();
     }
     
-    public static void clearACTHUNGGames()
+    public static void clearACTHUNGGames(String game)
     {
-        String sparql = "DROP ?g "
+        String sparql = "DROP " + game;
+        Query query = QueryFactory.create(sparql);
+        String endpoint = "http://localhost:3030/RDFChess/update";
+        QueryExecution qexec = QueryExecutionFactory.sparqlService(endpoint, query);
+        qexec.execConstruct();
+    }
+
+    public static void listDeleteGames() {
+        String sresults = "";
+        String sparql = "SELECT DISTINCT ?g\n"
                 + "WHERE {\n"
                 + "  GRAPH ?g {\n"
                 + "    ?s ?p ?o\n"
                 + "  }\n"
                 + "}";
         Query query = QueryFactory.create(sparql);
-        String endpoint = "http://localhost:3030/RDFChess/update";
+        String endpoint = "http://localhost:3030/RDFChess/query";
         QueryExecution qexec = QueryExecutionFactory.sparqlService(endpoint, query);
-        
+        ResultSet results = qexec.execSelect();
+        int conta=9;
+        for (; results.hasNext();) {
+            QuerySolution soln = results.nextSolution();
+            Resource p = soln.getResource("g");       // Get a result variable by name.
+            System.out.println(p.toString());
+            clearACTHUNGGames(p.toString());
+            conta++;
+        }
+        System.out.println(conta);
+        return ;
     }
-
     public static void listGames() {
         String sresults = "";
         String sparql = "SELECT DISTINCT ?g\n"
