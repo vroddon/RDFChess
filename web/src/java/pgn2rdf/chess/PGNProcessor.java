@@ -198,7 +198,7 @@ public class PGNProcessor {
             String dbpedia = dbblanco;
             System.out.println("Expanding " + blanco + " to " + dbblanco);
             String newname = ManagerDBpedia.getLabel(dbblanco);
-            String idw = RDFChess.DATA_URI + UUID.randomUUID().toString();
+            String idw = RDFChess.DATA_URI + "chessplayer/" +UUID.randomUUID().toString();
             String sparql = "PREFIX chess: <http://purl.org/NET/rdfchess/ontology/>\n"
                     + "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
                     + "PREFIX skos: <http://www.w3.org/2004/02/skos/core#>\n"
@@ -221,7 +221,7 @@ public class PGNProcessor {
             String literal = negro;
             String dbpedia = dbnegro;
             String newname = ManagerDBpedia.getLabel(dbnegro);
-            String idw = RDFChess.DATA_URI + UUID.randomUUID().toString();
+            String idw = RDFChess.DATA_URI+ "chessplayer/" + UUID.randomUUID().toString();
             String sparql = "PREFIX chess: <http://purl.org/NET/rdfchess/ontology/>\n"
                     + "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
                     + "PREFIX skos: <http://www.w3.org/2004/02/skos/core#>\n"
@@ -583,6 +583,8 @@ public class PGNProcessor {
         }
         return "";
     }
+    
+    
     public static String getECOURI(Model model) {
         String id = "";
         Property r2 = model.createProperty("http://purl.org/NET/rdfchess/ontology/hasChessGameOpening");
@@ -679,9 +681,16 @@ public class PGNProcessor {
      */
     public static String getDate(Model model) {
        String id = "";
+       
         Property r2 = model.createProperty("http://semanticweb.cs.vu.nl/2009/11/sem/subEventOf");
+        Property rt = model.createProperty("http://purl.org/NET/rdfchess/ontology/atTime");
         Resource rg = model.createResource(PGNProcessor.getChessId(model));
-        NodeIterator nit = model.listObjectsOfProperty(rg,r2);
+        
+        NodeIterator nit = model.listObjectsOfProperty(rg,rt);
+        if (nit.hasNext()) 
+            return nit.next().asLiteral().toString();
+        
+        nit = model.listObjectsOfProperty(rg,r2);
         String sevent="";
         while (nit.hasNext()) {
             RDFNode r = nit.next();
