@@ -462,6 +462,10 @@ public class PGNProcessor {
             String ecouri = PGNProcessor.getECOURI(model);
             if (!ecouri.isEmpty())
                 eco = "<a href=\""+ecouri+"\">"+eco+"</a>";
+
+            String siteuri = PGNProcessor.getSiteURI(model);
+            if (!siteuri.isEmpty())
+                site = "<a href=\""+siteuri+"\">"+site+"</a>";
         }
 
         pgn += "[Event \"" + event  +"\"]\n";
@@ -561,6 +565,16 @@ public class PGNProcessor {
         }
         return "";
     }
+    public static String getSiteURI(Model model) {
+        String id = "";
+        //if the former fails we look in the full-model
+        NodeIterator nit = model.listObjectsOfProperty(model.createProperty("http://purl.org/NET/rdfchess/ontology/atPlace"));
+        while (nit.hasNext()) {
+            Resource r = nit.next().asResource();
+            return r.getURI();
+        }
+        return "";
+    }    
 
     /**
      * Obtains the chessid for a given model
@@ -652,19 +666,19 @@ public class PGNProcessor {
      */
     public static String getSite(Model model) {
         String id = "";
-        Property r2 = model.createProperty("http://purl.org/NET/rdfchess/ontology/hasChessGameAtNamedPlace");
+        Property r2 = model.createProperty("http://purl.org/NET/rdfchess/ontology/atPlace");
         NodeIterator nit = model.listObjectsOfProperty(r2);
-        while (nit.hasNext()) {
-            RDFNode r = nit.next();
-            return r.asLiteral().toString();
-        }
-        r2 = model.createProperty("http://purl.org/NET/rdfchess/ontology/atPlace");
-        nit = model.listObjectsOfProperty(r2);
         while (nit.hasNext()) {
             Resource r = nit.next().asResource();
             NodeIterator nit2 = model.listObjectsOfProperty(r, model.createProperty("http://purl.org/NET/rdfchess/ontology/hasName"));
             if (nit2.hasNext())
                 return nit2.next().asLiteral().toString();
+        }
+         r2 = model.createProperty("http://purl.org/NET/rdfchess/ontology/hasChessGameAtNamedPlace");
+         nit = model.listObjectsOfProperty(r2);
+        while (nit.hasNext()) {
+            RDFNode r = nit.next();
+            return r.asLiteral().toString();
         }
         return "";
     }

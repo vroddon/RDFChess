@@ -31,6 +31,7 @@ public class Tutorial {
         String rdf="";//RDFStore.readGame("http://salonica.dia.fi.upm.es:8080/rdfchess/resource/46ae5300-efd6-4bf7-8867-20b9a1b9dcfa");
         rdf=REST("http://salonica.dia.fi.upm.es:8080/rdfchess/resource/46ae5300-efd6-4bf7-8867-20b9a1b9dcfa","");
         System.out.println(rdf);
+        PGNProcessor.expandRDF(rdf);
         InputStream is = new ByteArrayInputStream(rdf.getBytes(StandardCharsets.UTF_8));        
         Model model = ModelFactory.createDefaultModel();
         RDFDataMgr.read(model, is, Lang.TTL);
