@@ -15,6 +15,10 @@ import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.rdf.model.Resource;
+import com.hp.hpl.jena.update.UpdateExecutionFactory;
+import com.hp.hpl.jena.update.UpdateFactory;
+import com.hp.hpl.jena.update.UpdateProcessor;
+import com.hp.hpl.jena.update.UpdateRequest;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.StringWriter;
@@ -37,18 +41,17 @@ public class RDFStore {
 //        System.out.println(ttl);
      //   String rdf = RDFStore.readResource("http://salonica.dia.fi.upm.es:8080/rdfchess/resource/9f577224-f63c-4d2f-aa2f-5649ad7aa9be");
      //   System.out.println(rdf);
+//        clearACHTUNGGames();
         listGames();
-        System.out.println("--");
-        listDeleteGames();
     }
     
-    public static void clearACTHUNGGames(String game)
+    public static void clearACHTUNGGames()
     {
-        String sparql = "DROP " + game;
-        Query query = QueryFactory.create(sparql);
         String endpoint = "http://localhost:3030/RDFChess/update";
-        QueryExecution qexec = QueryExecutionFactory.sparqlService(endpoint, query);
-        qexec.execConstruct();
+        UpdateRequest request = UpdateFactory.create() ;
+        request.add("DROP ALL");      
+        UpdateProcessor qexec=UpdateExecutionFactory.createRemoteForm(request,endpoint);
+        qexec.execute();
     }
 
     public static void listDeleteGames() {
@@ -68,7 +71,6 @@ public class RDFStore {
             QuerySolution soln = results.nextSolution();
             Resource p = soln.getResource("g");       // Get a result variable by name.
             System.out.println(p.toString());
-            clearACTHUNGGames(p.toString());
             conta++;
         }
         System.out.println(conta);

@@ -62,13 +62,13 @@ public class GameUploader {
                     RDFDataMgr.write(sw, m, Lang.TURTLE);
                     String rdf=PGNProcessor.expandRDF(sw.toString());
                     
-                    System.out.println(rdf);
+          //          System.out.println(rdf);
                     
-         //           RDFStore.writeGame(id, sw.toString());
+                    RDFStore.writeGame(id, rdf);
                     System.out.println(conta+ " Uploaded " + id);
-                    System.out.println(rdf);
+         //           System.out.println(rdf);
                     conta++;
-                    break;
+        //            break;
                 }
             } catch (Exception e) {
                 e.printStackTrace();
