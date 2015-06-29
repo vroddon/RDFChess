@@ -833,8 +833,8 @@ public class PGNProcessor {
     {
         Map<String, String> mapa = new HashMap();
         mapa.put("Timman, Jan H", "http://dbpedia.org/resource/Jan_Timman");
-        mapa.put("Steinitz, William", "http://es.dbpedia.org/page/Wilhelm_Steinitz");
-        mapa.put("Pachman, Ludek", "http://dbpedia.org/page/Lud%C4%9Bk_Pachman");
+        mapa.put("Steinitz, William", "http://dbpedia.org/resource/Wilhelm_Steinitz");
+        mapa.put("Pachman, Ludek", "http://dbpedia.org/resource/Lud%C4%9Bk_Pachman");
         return mapa;
     }
 
