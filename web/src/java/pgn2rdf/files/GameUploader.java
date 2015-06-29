@@ -42,7 +42,27 @@ public class GameUploader {
     public static void main(String[] args) {
 //        uploadHugeCollection();
 
+        uploadPGN("samples/WorldChamp1886.pgn");
+        uploadPGN("samples/WorldChamp1892.pgn");
+        uploadPGN("samples/WorldChamp1909.pgn");
+        uploadPGN("samples/WorldChamp1921.pgn");
+        uploadPGN("samples/WorldChamp1931.pgn");
+        uploadPGN("samples/WorldChamp2012.pgn");
+        uploadPGN("samples/WorldChamp1909.pgn");
+        uploadPGN("samples/WorldChamp2013.pgn");
+        uploadPGN("samples/WorldChamp2014.pgn");
         uploadPGN("samples/Fischer.pgn");
+        uploadPGN("samples/Kasparov.pgn");
+        uploadPGN("samples/Korchnoi.pgn");
+        uploadPGN("samples/Keres.pgn");
+        uploadPGN("samples/Tal.pgn");
+        uploadPGN("samples/Tarrasch.pgn");
+        uploadPGN("samples/Capablanca.pgn");
+        uploadPGN("samples/Alekhine.pgn");
+        uploadPGN("samples/Morphy.pgn");
+        uploadPGN("samples/Anand.pgn");
+        uploadPGN("samples/Botvinnik.pgn");
+        uploadPGN("samples/Karpov.pgn");
     }
 
     private static int uploadPGN(String filename) {
