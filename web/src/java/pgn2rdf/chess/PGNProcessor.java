@@ -218,6 +218,7 @@ public class PGNProcessor {
             String dbpedia = dbblanco;
             System.out.println("Expanding " + blanco + " to " + dbblanco);
             String idw = RDFChess.DATA_URI + "chessplayer/" + UUID.randomUUID().toString();
+                idw = RDFChess.DATA_URI + "chessplayer/"+URLEncoder.encode(blanco,"UTF-8");
             String newname = ManagerDBpedia.getLabel(dbblanco);
             if (newname!=null && !newname.isEmpty())
                 idw = RDFChess.DATA_URI + "chessplayer/"+URLEncoder.encode(newname,"UTF-8");
@@ -244,6 +245,8 @@ public class PGNProcessor {
             String dbpedia = dbnegro;
             System.out.println("Expanding " + negro + " to " + dbnegro);
             String idw = RDFChess.DATA_URI + "chessplayer/" + UUID.randomUUID().toString();
+            idw = RDFChess.DATA_URI + "chessplayer/"+URLEncoder.encode(negro,"UTF-8");
+
             String newname = ManagerDBpedia.getLabel(dbnegro);
             if (newname!=null && !newname.isEmpty())
                 idw = RDFChess.DATA_URI + "chessplayer/"+URLEncoder.encode(newname,"UTF-8");
