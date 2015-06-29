@@ -29,9 +29,9 @@ public class Tutorial {
     
     public static void main(String[] args) throws IOException {
 //        testRDF();
-        clearAll();
+//        clearAll();
         //   RDFStore.listGamesByChessPlayer("http://salonica.dia.fi.upm.es:8080/rdfchess/resource/chessplayer/Anatoly+Karpov");
- //       RDFStore.listChessPlayers();
+        RDFStore.listChessPlayers();
     }
     
     /**
