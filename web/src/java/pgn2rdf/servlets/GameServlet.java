@@ -76,7 +76,7 @@ public class GameServlet extends HttpServlet {
                 }
                 
                         
-                body = body.replace("<!--TEMPLATE_TTL-->", "<br>" + lista);
+                body = body.replace("<!--TEMPLATE_PGN-->", "<br>" + lista);
             
             
             response.getWriter().println(body);

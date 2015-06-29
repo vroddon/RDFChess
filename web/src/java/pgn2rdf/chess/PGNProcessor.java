@@ -197,7 +197,7 @@ public class PGNProcessor {
         } catch (Exception e) {
         }
         String id = PGNProcessor.getChessId(model);
-        System.out.println("The game id is: " + id);
+    //    System.out.println("The game id is: " + id);
 
         //We load the game as a graph
         DatasetGraphFactory.GraphMaker maker = new DatasetGraphFactory.GraphMaker() {
@@ -266,7 +266,7 @@ public class PGNProcessor {
         //THIRD EXPANSION, ECO OPENING
         String eco = PGNProcessor.getECO(model);
         String econame = ChessECOManager.getName(eco);
-        System.out.println("ECO: " + eco + " " + econame);
+    //    System.out.println("ECO: " + eco + " " + econame);
         String sx = eco + " " + econame + " ";
         String loc = ChessECOManager.getLibraryOfCongress(eco);
         if (loc == null || loc.isEmpty()) {
@@ -296,7 +296,7 @@ public class PGNProcessor {
         }
         sparql += "}\n"
                 + "WHERE { <" + id + "> <http://purl.org/NET/rdfchess/ontology/hasECOOpening> \"" + literal + "\" }";
-        System.out.println("Expanding " + eco + " to " + econame);
+  //      System.out.println("Expanding " + eco + " to " + econame);
         UpdateAction.parseExecute(sparql, graphStore);         //DROP ALL
 
         //FOURTH EXPANSION, GEONAMES
@@ -317,13 +317,14 @@ public class PGNProcessor {
                     + "<" + idw + "> skos:closeMatch <" + site2 + "> .\n"
                     + "}\n"
                     + "WHERE { <" + id + "> <http://purl.org/NET/rdfchess/ontology/hasChessGameAtNamedPlace> \"" + site + "\" }";
-            System.out.println(sparql);
+ //           System.out.println(sparql);
             UpdateAction.parseExecute(sparql, graphStore);
         }
 
         StringWriter sw = new StringWriter();
         RDFDataMgr.write(sw, dataxet, Lang.NQUADS);
 
+        System.out.println(RDFStore.summary(id));
 //        System.out.println(sw);
         return sw.toString();
     }
