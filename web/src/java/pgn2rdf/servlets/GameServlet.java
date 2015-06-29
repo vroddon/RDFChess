@@ -75,7 +75,7 @@ public class GameServlet extends HttpServlet {
                //     String name = PGNProcessor.getChessPlayerName(s);     //too expensive!
                     int ultimo = s.lastIndexOf("/");
                     String name= s.substring(ultimo+1, s.length());
-                    name = URLDecoder.decode(s, "UTF-8");
+                    name = URLDecoder.decode(name, "UTF-8");
                     lista+="<a href=\"" + s +"\">"+name+"</a><br>";
                 }
                 
