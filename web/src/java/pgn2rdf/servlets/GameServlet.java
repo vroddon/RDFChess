@@ -15,6 +15,7 @@ import java.io.PrintWriter;
 import static java.lang.System.in;
 import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -26,6 +27,7 @@ import org.apache.jena.riot.RDFDataMgr;
 import pgn2rdf.chess.Main;
 import pgn2rdf.chess.PGNProcessor;
 import pgn2rdf.files.RDFStore;
+import pgn2rdf.mappings.ManagerDBpedia;
 
 /**
  * This web processes queries of the style serving RDF Chess games as linked
@@ -50,6 +52,40 @@ public class GameServlet extends HttpServlet {
             Main.init();
         } catch (Exception e) {
         }
+        String peticion = request.getRequestURI();
+        if (peticion.equals("/rdfchess/resource/")) {
+            System.out.println("Serving HTML for general players");
+            InputStream is1 = GameServlet.class.getResourceAsStream("../../../../game.html");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is1));
+            StringBuilder outx = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                outx.append(line);
+            }
+            String body = outx.toString();
+            
+                body = body.replace("<!--TEMPLATE_URI-->", "\n" + "");
+                body = body.replace("<!--TEMPLATE_TITLE-->", "\n" + "List of chess players");
+                
+                String lista="";
+                List<String> ls = RDFStore.listChessPlayers();
+                for(String s : ls)
+                {
+                    String name = PGNProcessor.getChessPlayerName(s);
+                    lista+="<a href=\"" + s +"\">"+name+"</a><br>";
+                }
+                
+                        
+                body = body.replace("<!--TEMPLATE_TTL-->", "<br>" + lista);
+            
+            
+            response.getWriter().println(body);
+            response.setContentType("text/html;charset=utf-8");
+            response.setStatus(HttpServletResponse.SC_OK);
+
+            return;
+        }
+
         String gameid = request.getRequestURI().replace("/rdfchess/resource/", "");
         gameid = gameid.replace("/RDFChess/resource/", "");
 
@@ -86,7 +122,8 @@ public class GameServlet extends HttpServlet {
                 Model model = ModelFactory.createDefaultModel();
                 InputStream is = new ByteArrayInputStream(ttl.getBytes(StandardCharsets.UTF_8));
                 RDFDataMgr.read(model, is, Lang.TTL);
-                NodeIterator nit = model.listObjectsOfProperty(ModelFactory.createDefaultModel().createResource(gameid), RDF.type);
+                Resource entidad = ModelFactory.createDefaultModel().createResource(gameid);
+                NodeIterator nit = model.listObjectsOfProperty(entidad, RDF.type);
                 String titulo = "Unknown type";
                 if (nit.hasNext()) {
                     Resource clase = nit.next().asResource();
@@ -95,8 +132,8 @@ public class GameServlet extends HttpServlet {
 
                 if (titulo.equals("ChessGame")) {
 
-                    String pgn = PGNProcessor.buildPGN(model,true);
-                    String superpgn = "      <div><center>\n"
+                    String pgn = PGNProcessor.buildPGN(model, true);
+                    String superpgn = "<div><center>\n"
                             + "        <a class=\"back\" href=\"#\">Back</a>\n"
                             + "        <a class=\"next\" href=\"#\">Next</a>\n"
                             + "        <a class=\"flip\" href=\"#\">Flip</a>\n"
@@ -109,6 +146,29 @@ public class GameServlet extends HttpServlet {
 
                     body = body.replace("<!--TEMPLATE_PGN-->", "\n" + superpgn);
                 }
+                if (titulo.equals("Agent")) {
+                    NodeIterator ni7 = model.listObjectsOfProperty(entidad, model.createProperty("http://www.w3.org/2004/02/skos/core#closeMatch"));
+                    String s = "";
+                    if (ni7.hasNext()) {
+                        Resource clase = ni7.next().asResource();
+                        if (clase.toString().startsWith("http://dbpedia.org") || clase.toString().startsWith("http://es.dbpedia.org")) {
+                            s += "<h3>" + ManagerDBpedia.getLabel(clase.toString()) + "</h3>";
+                            s += "<p><img style=\"float:left;margin:10px 10px;\" src=\"" + ManagerDBpedia.getThumbnailURL(clase.toString()) + "\" />";
+                            s += "" + ManagerDBpedia.getAbstract(clase.toString()) + "</p>";
+
+                            s += "\n<hr><div style=\"overflow: hidden; width: 100%;\">\n";
+                            List<String> partidas = RDFStore.listGamesByChessPlayer(entidad.toString());
+                            s += "<h3>Some games</h3>";
+                            for (String partida : partidas) {
+                                s += "<a href=\"" + partida + "\">" + RDFStore.summary(partida) + "</a><br>\n";
+                            }
+                            s += "</div>";
+                        }
+                    }
+                    body = body.replace("<!--TEMPLATE_PGN-->", "\n" + s);
+
+                }
+
                 body = body.replace("<!--TEMPLATE_URI-->", "\n" + gameid);
                 body = body.replace("<!--TEMPLATE_TITLE-->", "\n" + titulo);
                 body = body.replace("<!--TEMPLATE_TTL-->", "<br>" + ttl2);

@@ -2,6 +2,10 @@ package pgn2rdf.chess;
 
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
+import com.hp.hpl.jena.update.UpdateExecutionFactory;
+import com.hp.hpl.jena.update.UpdateFactory;
+import com.hp.hpl.jena.update.UpdateProcessor;
+import com.hp.hpl.jena.update.UpdateRequest;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -12,6 +16,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
 import pgn2rdf.files.RDFStore;
@@ -23,8 +28,25 @@ import pgn2rdf.files.RDFStore;
 public class Tutorial {
     
     public static void main(String[] args) throws IOException {
-        testRDF();
+//        testRDF();
+        clearAll();
+        //   RDFStore.listGamesByChessPlayer("http://salonica.dia.fi.upm.es:8080/rdfchess/resource/chessplayer/Anatoly+Karpov");
+ //       RDFStore.listChessPlayers();
     }
+    
+    /**
+     * Deletes all the graphs in the Linked Data Server
+     */
+    public static void clearAll()
+    {
+        String endpoint = "http://localhost:3030/RDFChess/update";
+        UpdateRequest request = UpdateFactory.create() ;
+        request.add("DROP ALL");      
+        UpdateProcessor qexec=UpdateExecutionFactory.createRemoteForm(request,endpoint);
+        qexec.execute();
+        
+    }
+    
     
     public static void testRDF() throws IOException
     {

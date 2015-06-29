@@ -23,6 +23,9 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.util.Iterator;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.riot.RDFFormat;
@@ -79,6 +82,58 @@ public class RDFStore {
         System.out.println(conta);
         return ;
     }
+    
+    public static List<String> listChessPlayers()
+    {
+        List<String> uris = new ArrayList();
+        String sparql = "SELECT DISTINCT ?s\n"
+                + "WHERE {\n"
+                + "  GRAPH ?g {\n"
+                + "    ?s a <http://purl.org/NET/rdfchess/ontology/Agent>\n"
+                + "  }\n"
+                + "} LIMIT 200";
+        Query query = QueryFactory.create(sparql);
+        String endpoint = "http://localhost:3030/RDFChess/query";
+        QueryExecution qexec = QueryExecutionFactory.sparqlService(endpoint, query);
+        ResultSet results = qexec.execSelect();
+        int conta=0;
+        for (; results.hasNext();) {
+            QuerySolution soln = results.nextSolution();
+            Resource p = soln.getResource("s");       // Get a result variable by name.
+            uris.add(p.toString());
+            System.out.println(p.toString());
+            conta++;
+        }
+        System.out.println(conta);        
+        return uris;            
+    }
+    
+    public static List<String> listGamesByChessPlayer(String chessplayeruri)
+    {
+        List<String> uris = new ArrayList();
+        String sparql = "SELECT DISTINCT ?g\n"
+                + "WHERE {\n"
+                + "  GRAPH ?g {\n"
+                + "    ?s ?p <"+chessplayeruri+ ">\n"
+                + "  }\n"
+                + "} LIMIT 200";
+        Query query = QueryFactory.create(sparql);
+        String endpoint = "http://localhost:3030/RDFChess/query";
+        QueryExecution qexec = QueryExecutionFactory.sparqlService(endpoint, query);
+        ResultSet results = qexec.execSelect();
+        int conta=9;
+        for (; results.hasNext();) {
+            QuerySolution soln = results.nextSolution();
+            Resource p = soln.getResource("g");       // Get a result variable by name.
+            uris.add(p.toString());
+            System.out.println(p.toString());
+            conta++;
+        }
+        System.out.println(conta);
+        return uris;        
+    }
+    
+    
     public static void listGames() {
         String sresults = "";
         String sparql = "SELECT DISTINCT ?g\n"
@@ -165,6 +220,24 @@ public class RDFStore {
         return sresults;
     }
 
+    public static String summary(String partida) {
+        String s="";
+
+        try{
+            String rdf = readGame(partida);
+            InputStream is = new ByteArrayInputStream(rdf.getBytes(StandardCharsets.UTF_8));
+            Model model = ModelFactory.createDefaultModel();
+            RDFDataMgr.read(model, is, Lang.TTL);
+            s+=PGNProcessor.getWhitePlayer(model)+" - ";
+            s+=PGNProcessor.getBlackPlayer(model);
+            s+= " ("+PGNProcessor.getDate(model) +") ";
+            
+            
+        }catch(Exception e){}
+        return s;
+    }
+    
+    
     /**
      * Reads a chess game from the store
      *
@@ -237,4 +310,5 @@ public class RDFStore {
         }
 
     }
+
 }
