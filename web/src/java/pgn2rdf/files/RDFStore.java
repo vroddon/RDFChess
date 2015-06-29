@@ -22,6 +22,7 @@ import com.hp.hpl.jena.update.UpdateRequest;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.StringWriter;
+import java.util.Iterator;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.riot.RDFFormat;
@@ -42,7 +43,9 @@ public class RDFStore {
      //   String rdf = RDFStore.readResource("http://salonica.dia.fi.upm.es:8080/rdfchess/resource/9f577224-f63c-4d2f-aa2f-5649ad7aa9be");
      //   System.out.println(rdf);
 //        clearACHTUNGGames();
-        listGames();
+      //  listGames();
+        int n =countGames();
+        System.out.println(n);
     }
     
     public static void clearACHTUNGGames()
@@ -99,6 +102,32 @@ public class RDFStore {
         return ;
     }
 
+        public static int countGames() {
+        String sresults = "";
+        String sparql = "SELECT COUNT(DISTINCT ?g)\n"
+                + "WHERE {\n"
+                + "  GRAPH ?g {\n"
+                + "    ?s ?p ?o\n"
+                + "  }\n"
+                + "}";
+        Query query = QueryFactory.create(sparql);
+        String endpoint = "http://localhost:3030/RDFChess/query";
+        QueryExecution qexec = QueryExecutionFactory.sparqlService(endpoint, query);
+        ResultSet results = qexec.execSelect();
+        for (; results.hasNext();) {
+            QuerySolution soln = results.nextSolution();
+            Iterator<String> it = soln.varNames();
+            while(it.hasNext())
+            {
+                String col = it.next();
+                return Integer.parseInt(col);
+                
+            }
+        }
+        return 0;
+    }
+
+    
     /**
      * Serves an arbitrary resource as linked data
      *

@@ -249,7 +249,7 @@ public class PGNProcessor {
             dbpedia = "";
         }
         String literal = eco;
-        String idw = RDFChess.DATA_URI + "opening/" + UUID.randomUUID().toString();
+        String idw = RDFChess.DATA_URI + "opening/" + eco;
         String sparql = "PREFIX chess: <http://purl.org/NET/rdfchess/ontology/>\n"
                 + "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
                 + "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
