@@ -31,7 +31,12 @@ public class Tutorial {
 //        testRDF();
 //        clearAll();
         //   RDFStore.listGamesByChessPlayer("http://salonica.dia.fi.upm.es:8080/rdfchess/resource/chessplayer/Anatoly+Karpov");
-        RDFStore.listChessPlayers();
+        List<String> ls = RDFStore.listChessPlayers();
+        for(String s : ls)
+        {
+            String name = PGNProcessor.getChessPlayerName(s);
+            System.out.println(s +" "+ name);
+        }
     }
     
     /**
