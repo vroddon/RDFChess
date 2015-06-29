@@ -843,6 +843,8 @@ public class PGNProcessor {
         mapa.put("Timman, Jan H", "http://dbpedia.org/resource/Jan_Timman");
         mapa.put("Steinitz, William", "http://dbpedia.org/resource/Wilhelm_Steinitz");
         mapa.put("Pachman, Ludek", "http://dbpedia.org/resource/Lud%C4%9Bk_Pachman");
+        mapa.put("Tal, Mihail", "http://dbpedia.org/page/Mikhail_Tal");
+        
         return mapa;
     }
 

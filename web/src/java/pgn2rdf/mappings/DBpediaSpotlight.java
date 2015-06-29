@@ -116,7 +116,7 @@ public class DBpediaSpotlight {
         String uri = parseDBPediaXML(xml, ""); ///chess/chess_player DBpedia:Place
         System.out.println(uri);
         */
-        String fischer=DBpediaSpotlight.getDBPediaResource("Capablanca, José Raúl", "/chess/chess_player", "chess");        
+        String fischer=DBpediaSpotlight.getDBPediaResource("Wilfried Paulsen", "/chess/chess_player", "chess");        
         System.out.println(fischer);
     }
 

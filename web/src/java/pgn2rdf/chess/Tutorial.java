@@ -56,7 +56,7 @@ public class Tutorial {
     public static void testRDF() throws IOException
     {
         String rdf="";//RDFStore.readGame("http://salonica.dia.fi.upm.es:8080/rdfchess/resource/46ae5300-efd6-4bf7-8867-20b9a1b9dcfa");
-        rdf=REST("http://salonica.dia.fi.upm.es:8080/rdfchess/resource/46ae5300-efd6-4bf7-8867-20b9a1b9dcfa","");
+        rdf=REST("http://salonica.dia.fi.upm.es:8080/rdfchess/resource/46ae5300-efd6-4bf7-8867-20b9a1b9dcfa","", "text/turtle");
         System.out.println(rdf);
   //      PGNProcessor.expandRDF(rdf);
         InputStream is = new ByteArrayInputStream(rdf.getBytes(StandardCharsets.UTF_8));        
@@ -66,13 +66,13 @@ public class Tutorial {
         System.out.println(html);
     }
  
-    public static String REST(String surl, String params) throws MalformedURLException, IOException  {
+    public static String REST(String surl, String params, String type) throws MalformedURLException, IOException  {
         URL url = new URL(surl);
         String query = "";
 
         //make connection
         URLConnection urlc = url.openConnection();
-        urlc.setRequestProperty("Accept", "text/turtle");
+        urlc.setRequestProperty("Accept", type);//"application/rdf+xml"  "text/turtle"
         //use post mode
         urlc.setDoOutput(true);
         urlc.setAllowUserInteraction(false);

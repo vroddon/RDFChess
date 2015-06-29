@@ -24,6 +24,8 @@ public class RDFPrefixes {
         map.put("http://semanticweb.cs.vu.nl/2009/11/sem/", "sem");
         map.put("http://purl.org/dc/terms/", "dct");
         map.put("http://www.w3.org/2004/02/skos/core#", "skos");
+        map.put("http://www.geonames.org/ontology#", "gn");
+        
         map.put(RDFChess.ONTOLOGY_URI, "chess-o");
         map.put(RDFChess.DATA_URI, "chess");
 

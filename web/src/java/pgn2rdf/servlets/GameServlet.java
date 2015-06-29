@@ -29,6 +29,7 @@ import pgn2rdf.chess.Main;
 import pgn2rdf.chess.PGNProcessor;
 import pgn2rdf.files.RDFStore;
 import pgn2rdf.mappings.ManagerDBpedia;
+import pgn2rdf.mappings.ManagerGeonames;
 
 /**
  * This web processes queries of the style serving RDF Chess games as linked
@@ -132,6 +133,12 @@ public class GameServlet extends HttpServlet {
                 if (nit.hasNext()) {
                     Resource clase = nit.next().asResource();
                     titulo = clase.getLocalName();
+                }
+                if (titulo.equals("Place")) {
+                    int ultimo = entidad.toString().lastIndexOf("/");
+                    String name= entidad.toString().substring(ultimo+1, entidad.toString().length());                    
+                    name= ManagerGeonames.getName(name);
+                    body = body.replace("<!--TEMPLATE_TITLE-->", "<h2>"+name+"</h2>");                    
                 }
 
                 if (titulo.equals("ChessGame")) {
