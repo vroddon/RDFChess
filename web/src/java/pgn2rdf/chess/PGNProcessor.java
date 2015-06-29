@@ -308,8 +308,9 @@ public class PGNProcessor {
         if (!site.isEmpty() && site2 != null && !site2.isEmpty() && !site2.equals(site)) {
             System.out.println("Expanding " + site + " to " + site2);
             int idsite = site2.lastIndexOf("/");
-            String sidsite=site2.substring(idsite, site2.length());
+            String sidsite=site2.substring(idsite+1, site2.length());
             idw=RDFChess.DATA_URI + "location/"+sidsite;
+            System.out.println(" in turn to  " + idw);
 //            idw = RDFChess.DATA_URI + "location/"+ UUID.randomUUID().toString();
             sparql = "PREFIX chess: <http://purl.org/NET/rdfchess/ontology/>\n"
                     + "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
@@ -848,7 +849,7 @@ public class PGNProcessor {
     public static String getMappingDBpedia(String jugador) {
         String dbpedia = jugadores.get(jugador);
         if (dbpedia == null) {
-            System.out.println("Query in external endpoint");
+            System.out.println("Query in external endpoint for " + jugador);
             dbpedia = DBpediaSpotlight.getDBPediaResource(jugador, "/chess/chess_player", "chess");
             if (dbpedia == null) {
                 dbpedia = "";
