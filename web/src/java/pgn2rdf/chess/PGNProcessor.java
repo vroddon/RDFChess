@@ -304,7 +304,10 @@ public class PGNProcessor {
         String site2 = PGNProcessor.getMappingGeonames(site);
         if (!site.isEmpty() && site2 != null && !site2.isEmpty() && !site2.equals(site)) {
             System.out.println("Expanding " + site + " to " + site2);
-            idw = RDFChess.DATA_URI + "location/"+ UUID.randomUUID().toString();
+            int idsite = site2.lastIndexOf("/");
+            String sidsite=site2.substring(idsite, site2.length());
+            idw=RDFChess.DATA_URI + "location/"+sidsite;
+//            idw = RDFChess.DATA_URI + "location/"+ UUID.randomUUID().toString();
             sparql = "PREFIX chess: <http://purl.org/NET/rdfchess/ontology/>\n"
                     + "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
                     + "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
@@ -317,7 +320,7 @@ public class PGNProcessor {
                     + "<" + idw + "> skos:closeMatch <" + site2 + "> .\n"
                     + "}\n"
                     + "WHERE { <" + id + "> <http://purl.org/NET/rdfchess/ontology/hasChessGameAtNamedPlace> \"" + site + "\" }";
-            System.out.println(sparql);
+       //     System.out.println(sparql);
             UpdateAction.parseExecute(sparql, graphStore);
         }
 
