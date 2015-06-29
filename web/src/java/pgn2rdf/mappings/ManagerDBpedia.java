@@ -23,7 +23,8 @@ public class ManagerDBpedia {
 
   
     public static void main(String[] args) {
-        System.out.println(getLabel("http://dbpedia.org/resource/Boris_Spassky"));
+        String s = getAbstract("http://dbpedia.org/resource/Anatoly_Karpov");
+        System.out.println(s);
     }
     
     public static String getLabel(String resource)
@@ -46,4 +47,46 @@ public class ManagerDBpedia {
         }
         return "";
     }
+    public static String getThumbnailURL(String resource)
+    {
+        String prefijos="PREFIX owl: <http://www.w3.org/2002/07/owl#> PREFIX dbpedia-owl: <http://dbpedia.org/ontology/> \n";
+        prefijos+="PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX foaf: <http://xmlns.com/foaf/0.1/> PREFIX dc: <http://purl.org/dc/elements/1.1/> PREFIX : <http://dbpedia.org/resource/> PREFIX dbpedia2: <http://dbpedia.org/property/> PREFIX dbpedia: <http://dbpedia.org/> PREFIX skos: <http://www.w3.org/2004/02/skos/core#> PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> \n";
+        String sparql = prefijos + "select ?o \n" +
+        "where {<"+resource+"> dbpedia-owl:thumbnail ?o} \n" +
+        "LIMIT 100\n" +
+        "";
+        Query query = QueryFactory.create(sparql);
+        QueryExecution qexec = QueryExecutionFactory.sparqlService(endpoint, query);
+        try {
+            ResultSet results = qexec.execSelect();
+            for (;results.hasNext();) {
+                QuerySolution qs=results.next();
+                return qs.getResource("?o").toString();
+            }
+        }catch(Exception e){
+            
+        }
+        return "";        
+    }
+    public static String getAbstract(String resource)
+    {
+        String prefijos="PREFIX owl: <http://www.w3.org/2002/07/owl#> PREFIX dbpedia-owl: <http://dbpedia.org/ontology/> \n";
+        prefijos+="PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX foaf: <http://xmlns.com/foaf/0.1/> PREFIX dc: <http://purl.org/dc/elements/1.1/> PREFIX : <http://dbpedia.org/resource/> PREFIX dbpedia2: <http://dbpedia.org/property/> PREFIX dbpedia: <http://dbpedia.org/> PREFIX skos: <http://www.w3.org/2004/02/skos/core#> PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> \n";
+        String sparql = prefijos + "select ?o \n" +
+        "where {<"+resource+"> dbpedia-owl:abstract ?o} \n" +
+        "LIMIT 100\n" +
+        "";
+        Query query = QueryFactory.create(sparql);
+        QueryExecution qexec = QueryExecutionFactory.sparqlService(endpoint, query);
+        try {
+            ResultSet results = qexec.execSelect();
+            for (;results.hasNext();) {
+                QuerySolution qs=results.next();
+                return qs.getLiteral("?o").getLexicalForm();
+            }
+        }catch(Exception e){
+            
+        }
+        return "";        
+    }    
   }

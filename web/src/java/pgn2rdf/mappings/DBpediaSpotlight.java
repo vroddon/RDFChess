@@ -111,12 +111,12 @@ public class DBpediaSpotlight {
     }
     
     public static void main(String[] args) {
-        String xml = queryDBPedia("Sicilian defence");
+       /* String xml = queryDBPedia("Sicilian defence");
         System.out.println(xml);
         String uri = parseDBPediaXML(xml, ""); ///chess/chess_player DBpedia:Place
-        System.out.println(uri);
+        System.out.println(uri);*/
         
-        String fischer=DBpediaSpotlight.getDBPediaResource("Bobby Fischer", "/chess/chess_player", "chess");        
+        String fischer=DBpediaSpotlight.getDBPediaResource("Timman", "", "chessplayer");        
         System.out.println(fischer);
     }
 
