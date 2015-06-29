@@ -13,6 +13,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import static java.lang.System.in;
+import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
 import java.util.List;
@@ -53,7 +54,7 @@ public class GameServlet extends HttpServlet {
         } catch (Exception e) {
         }
         String peticion = request.getRequestURI();
-        if (peticion.equals("/rdfchess/resource/")) {
+        if (peticion.equals("/rdfchess/resource/")) {                               //SERVING THE LIST OF GAMES.
             System.out.println("Serving HTML for general players");
             InputStream is1 = GameServlet.class.getResourceAsStream("../../../../game.html");
             BufferedReader reader = new BufferedReader(new InputStreamReader(is1));
@@ -71,7 +72,10 @@ public class GameServlet extends HttpServlet {
                 List<String> ls = RDFStore.listChessPlayers();
                 for(String s : ls)
                 {
-                    String name = PGNProcessor.getChessPlayerName(s);
+               //     String name = PGNProcessor.getChessPlayerName(s);     //too expensive!
+                    int ultimo = s.lastIndexOf("/");
+                    String name= s.substring(ultimo+1, s.length());
+                    name = URLDecoder.decode(s, "UTF-8");
                     lista+="<a href=\"" + s +"\">"+name+"</a><br>";
                 }
                 
