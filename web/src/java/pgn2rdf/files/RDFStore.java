@@ -132,15 +132,15 @@ public class RDFStore {
         System.out.println(conta);
         return uris;        
     }
-    public static List<String> listGamesByOpening(String chessplayeruri)
+    public static List<String> listGamesByOpening(String eco)
     {
         List<String> uris = new ArrayList();
         String sparql = "SELECT DISTINCT ?g\n"
                 + "WHERE {\n"
                 + "  GRAPH ?g {\n"
-                + "    ?s <http://purl.org/NET/rdfchess/ontology/ECOID> \""+chessplayeruri+ "\"\n"
+                + "    ?s <http://purl.org/NET/rdfchess/ontology/ECOID> \""+eco+ "\"\n"
                 + "  }\n"
-                + "} LIMIT 200";
+                + "} LIMIT 10";
         Query query = QueryFactory.create(sparql);
         String endpoint = "http://localhost:3030/RDFChess/query";
         QueryExecution qexec = QueryExecutionFactory.sparqlService(endpoint, query);
