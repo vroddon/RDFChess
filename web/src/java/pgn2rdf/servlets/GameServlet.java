@@ -147,9 +147,19 @@ public class GameServlet extends HttpServlet {
                 if (titulo.equals("ChessGameOpening")) {
                     int ultimo = entidad.toString().lastIndexOf("/");
                     String eco = entidad.toString().substring(ultimo+1, entidad.toString().length());                
-                    String moves = "<h3>"+PGNProcessor.getNameFromOpening(model)+"</h3>";
-                    moves+= ChessECOManager.getMoves(eco);
-                    body = body.replace("<!--TEMPLATE_PGN-->", "\n" + moves);
+                    String s = "<h3>"+PGNProcessor.getNameFromOpening(model)+"</h3>";
+                    s+= ChessECOManager.getMoves(eco);
+                    
+                            s += "\n<hr><div style=\"overflow: hidden; width: 100%;\">\n";
+                            List<String> partidas = RDFStore.listGamesByOpening(eco);
+                            s += "<h3>Some games</h3>";
+                            for (String partida : partidas) {
+                                s += "<a href=\"" + partida + "\">" + RDFStore.summary(partida) + "</a><br>\n";
+                            }
+                            s += "</div>";
+                    
+                    
+                    body = body.replace("<!--TEMPLATE_PGN-->", "\n" + s);
                 }
 
                 if (titulo.equals("ChessGame")) {

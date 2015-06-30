@@ -47,8 +47,11 @@ public class RDFStore {
      //   System.out.println(rdf);
 //        clearACHTUNGGames();
       //  listGames();
-        int n =countGames();
-        System.out.println(n);
+
+        List<String> ls = RDFStore.listGamesByOpening("C60");
+
+//        int n =countGames();
+        System.out.println(ls.size());
     }
     
     public static void clearACHTUNGGames()
