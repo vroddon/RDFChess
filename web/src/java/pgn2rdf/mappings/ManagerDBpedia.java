@@ -18,8 +18,8 @@ import com.hp.hpl.jena.query.*;
 public class ManagerDBpedia {
 
 // static String endpoint="http://dbpedia.linkeddata.es:8898/sparql";
-// static String endpoint="http://dbpedia.org/sparql";
-   static String endpoint="http://live.dbpedia.org/sparql";
+ static String endpoint="http://dbpedia.org/sparql";
+//   static String endpoint="http://live.dbpedia.org/sparql";
 
   
     public static void main(String[] args) {
@@ -82,6 +82,7 @@ public class ManagerDBpedia {
             ResultSet results = qexec.execSelect();
             for (;results.hasNext();) {
                 QuerySolution qs=results.next();
+                String st = qs.toString();
                 return qs.getLiteral("?o").getLexicalForm();
             }
         }catch(Exception e){
