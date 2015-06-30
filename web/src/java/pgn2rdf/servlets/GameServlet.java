@@ -77,7 +77,7 @@ public class GameServlet extends HttpServlet {
                //     String name = PGNProcessor.getChessPlayerName(s);     //too expensive!
                     int ultimo = s.lastIndexOf("/");
                     String name= s.substring(ultimo+1, s.length());
-                    name = URLDecoder.decode(s, "UTF-8");
+                    name = URLDecoder.decode(name, "UTF-8");
                     lista+="<a href=\"" + s +"\">"+name+"</a><br>";
                 }
                 
@@ -138,14 +138,17 @@ public class GameServlet extends HttpServlet {
                 }
                 if (titulo.equals("Place")) {
                     int ultimo = entidad.toString().lastIndexOf("/");
-                    String name= entidad.toString().substring(ultimo+1, entidad.toString().length());                    
-                    name= ManagerGeonames.getName(name);
-                    body = body.replace("<!--TEMPLATE_TITLE-->", "<h2>"+name+"</h2>");                    
+                    String name= entidad.toString().substring(ultimo+1, entidad.toString().length());    
+                    System.out.println("Getting name of: " + name);
+                    name= ManagerGeonames.getName("http://sws.geonames.org/"+name+"");
+                    System.out.println(name);
+                    body = body.replace("<!--TEMPLATE_PGN-->", "<h2>"+name+"</h2>");                    
                 }
                 if (titulo.equals("ChessGameOpening")) {
                     int ultimo = entidad.toString().lastIndexOf("/");
-                    String eco = entidad.toString().substring(ultimo+1, entidad.toString().length());                    
-                    String moves = ChessECOManager.getMoves(eco);
+                    String eco = entidad.toString().substring(ultimo+1, entidad.toString().length());                
+                    String moves = "<h3>"+PGNProcessor.getNameFromOpening(model)+"</h3>";
+                    moves+= ChessECOManager.getMoves(eco);
                     body = body.replace("<!--TEMPLATE_PGN-->", "\n" + moves);
                 }
 
