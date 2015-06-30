@@ -25,6 +25,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
+import pgn2rdf.chess.ChessECOManager;
 import pgn2rdf.chess.Main;
 import pgn2rdf.chess.PGNProcessor;
 import pgn2rdf.files.RDFStore;
@@ -142,6 +143,12 @@ public class GameServlet extends HttpServlet {
                     name= ManagerGeonames.getName("http://sws.geonames.org/"+name+"");
                     System.out.println(name);
                     body = body.replace("<!--TEMPLATE_PGN-->", "<h2>"+name+"</h2>");                    
+                }
+                if (titulo.equals("ChessGameOpening")) {
+                    int ultimo = entidad.toString().lastIndexOf("/");
+                    String eco = entidad.toString().substring(ultimo+1, entidad.toString().length());                    
+                    String moves = ChessECOManager.getMoves(eco);
+                    body = body.replace("<!--TEMPLATE_PGN-->", "\n" + moves);
                 }
 
                 if (titulo.equals("ChessGame")) {

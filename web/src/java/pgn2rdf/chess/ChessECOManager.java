@@ -22,7 +22,14 @@ public class ChessECOManager {
         name = mapa.get(eco);
         return name;
     }
+    public static String getMoves(String eco) {
+        String name = "";
+        name = mapamoves.get(eco);
+        return name;
+    }
 
+
+    
     public static String getLibraryOfCongress(String eco) {
         String name = "";
         name = mapaloc.get(eco);

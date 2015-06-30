@@ -28,8 +28,11 @@ import pgn2rdf.files.RDFStore;
 public class Tutorial {
     
     public static void main(String[] args) throws IOException {
+        
+        String moves = ChessECOManager.getMoves("C60");
+        System.out.println(moves);
 //        testRDF();
-        clearAll();
+//        clearAll();
         //   RDFStore.listGamesByChessPlayer("http://salonica.dia.fi.upm.es:8080/rdfchess/resource/chessplayer/Anatoly+Karpov");
        /* List<String> ls = RDFStore.listChessPlayers();
         for(String s : ls)
