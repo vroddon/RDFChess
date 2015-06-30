@@ -43,6 +43,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.Normalizer;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -487,6 +488,12 @@ public class PGNProcessor {
         String event = PGNProcessor.getEvent(model);
         String result = PGNProcessor.getResult(model);
         String round = PGNProcessor.getRound(model);
+        
+        white = Normalizer.normalize(white, Normalizer.Form.NFD);
+        white = white.replaceAll("[^\\p{ASCII}]", "");
+        black = Normalizer.normalize(black, Normalizer.Form.NFD);
+        black = black.replaceAll("[^\\p{ASCII}]", "");
+        
         if (html) {
             String wuri = PGNProcessor.getWhitePlayerURI(model);
             if (!wuri.isEmpty()) {
@@ -507,6 +514,7 @@ public class PGNProcessor {
             }
         }
 
+        
         pgn += "[Event \"" + event + "\"]\n";
         pgn += "[Site \"" + site + "\"]\n";
         pgn += "[Date \"" + date + "\"]\n";
@@ -837,13 +845,16 @@ public class PGNProcessor {
     static Map<String, String> locations = new HashMap();
     
     
+    //makes some corrections to make sure they are
     public static Map<String, String> initJugadores()
     {
         Map<String, String> mapa = new HashMap();
         mapa.put("Timman, Jan H", "http://dbpedia.org/resource/Jan_Timman");
         mapa.put("Steinitz, William", "http://dbpedia.org/resource/Wilhelm_Steinitz");
         mapa.put("Pachman, Ludek", "http://dbpedia.org/resource/Lud%C4%9Bk_Pachman");
-        mapa.put("Tal, Mihail", "http://dbpedia.org/page/Mikhail_Tal");
+        mapa.put("Tal, Mihail", "http://dbpedia.org/resource/Mikhail_Tal");
+        mapa.put("Marshall, Frank James", "http://dbpedia.org/resource/Frank_Marshall");
+        
         
         return mapa;
     }

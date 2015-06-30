@@ -113,6 +113,7 @@ public class GameServlet extends HttpServlet {
                 response.getWriter().println(ttl);
                 response.setContentType("text/turtle;charset=utf-8");
             } else {
+                response.setContentType("text/html;charset=utf-8");
                 System.out.println("Serving HTML for " + gameid);
                 InputStream is1 = GameServlet.class.getResourceAsStream("../../../../game.html");
                 BufferedReader reader = new BufferedReader(new InputStreamReader(is1));
@@ -190,7 +191,6 @@ public class GameServlet extends HttpServlet {
                  response.getWriter().println("</pre></body></html>");*/
                 response.getWriter().println(body);
 
-                response.setContentType("text/html;charset=utf-8");
             }
             response.setStatus(HttpServletResponse.SC_OK);
 

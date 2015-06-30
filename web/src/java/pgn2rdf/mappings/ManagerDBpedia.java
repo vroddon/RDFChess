@@ -24,7 +24,7 @@ public class ManagerDBpedia {
   
     public static void main(String[] args) {
         String s = getAbstract("http://dbpedia.org/resource/Anatoly_Karpov");
-        System.out.println(s);
+        System.out.println("Víctor\n"+s);
     }
     
     public static String getLabel(String resource)

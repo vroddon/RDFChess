@@ -4,14 +4,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Class in charge of naming the ECO Chess Openings
- * It contains the hard-coded list of openings. 
+ * Class in charge of naming the ECO Chess Openings It contains the hard-coded
+ * list of openings.
+ *
  * @author Victor Rodriguez
  */
 public class ChessECOManager {
 
     /**
-     * Returns an English string naming a known opening. 
+     * Returns an English string naming a known opening.
+     *
      * @param eco ECO code of opening. For examle: "C41"
      * @return En English string. For example: "Philidor Defense"
      */
@@ -21,35 +23,540 @@ public class ChessECOManager {
         return name;
     }
 
-    public static String getLibraryOfCongress(String eco)
-    {
+    public static String getLibraryOfCongress(String eco) {
         String name = "";
         name = mapaloc.get(eco);
         return name;
     }
-    
-    /************************* PRIVATE METHODS ********************************/
-    
-    private  static Map<String, String> mapa = init();
-    private  static Map<String, String> mapaloc = initloc();
-    
+
+    /**
+     * *********************** PRIVATE METHODS *******************************
+     */
+    private static Map<String, String> mapa = init();
+    private static Map<String, String> mapamoves = initmoves();
+    private static Map<String, String> mapaloc = initloc();
+
     private static Map<String, String> initloc() {
         Map<String, String> map = new HashMap();
-        
-        String str="";
-        for(int i=60;i<99;i++)
-        {
-            map.put("C"+i, "http://id.loc.gov/authorities/subjects/sh98003603");
+
+        String str = "";
+        for (int i = 60; i < 99; i++) {
+            map.put("C" + i, "http://id.loc.gov/authorities/subjects/sh98003603");
         }
-        for(int i=60;i<79;i++)
-        {
-            map.put("B"+i, "http://id.loc.gov/authorities/subjects/sh200100818");
+        for (int i = 60; i < 79; i++) {
+            map.put("B" + i, "http://id.loc.gov/authorities/subjects/sh200100818");
         }
-        
 
         map.put("E83", "http://id.loc.gov/authorities/subjects/sh00008710");
-        
+
         return map;
+    }
+
+    private static Map<String, String> initmoves() {
+        Map<String, String> mapa = new HashMap();
+        mapa.put("A00", "1.g4, a3, h3, etc.");
+        mapa.put("A01", "1.b3");
+        mapa.put("A02", "1.f4");
+        mapa.put("A03", "1.f4 d5");
+        mapa.put("A04", "1.Nf3");
+        mapa.put("A05", "1.Nf3 Nf6");
+        mapa.put("A06", "1.Nf3 d5");
+        mapa.put("A07", "1.Nf3 d5 2.g3");
+        mapa.put("A08", "1.Nf3 d5 2.g3 c5 3.Bg2");
+        mapa.put("A09", "1.Nf3 d5 2.c4");
+        mapa.put("A10", "1.c4");
+        mapa.put("A11", "1.c4 c6");
+        mapa.put("A12", "1.c4 c6 2.Nf3 d5 3.b3");
+        mapa.put("A13", "1.c4 e6");
+        mapa.put("A14", "1.c4 e6 2.Nf3 d5 3.g3 Nf6 4.Bg2 Be7 5.O-O");
+        mapa.put("A15", "1.c4 Nf6");
+        mapa.put("A16", "1.c4 Nf6 2.Nc3");
+        mapa.put("A17", "1.c4 Nf6 2.Nc3 e6");
+        mapa.put("A18", "1.c4 Nf6 2.Nc3 e6 3.e4");
+        mapa.put("A19", "1.c4 Nf6 2.Nc3 e6 3.e4 c5");
+        mapa.put("A20", "1.c4 e5");
+        mapa.put("A21", "1.c4 e5 2.Nc3");
+        mapa.put("A22", "1.c4 e5 2.Nc3 Nf6");
+        mapa.put("A23", "1.c4 e5 2.Nc3 Nf6 3.g3 c6");
+        mapa.put("A24", "1.c4 e5 2.Nc3 Nf6 3.g3 g6");
+        mapa.put("A25", "1.c4 e5 2.Nc3 Nc6");
+        mapa.put("A26", "1.c4 e5 2.Nc3 Nc6 3.g3 g6 4.Bg2 Bg7 5.d3 d6");
+        mapa.put("A27", "1.c4 e5 2.Nc3 Nc6 3.Nf3");
+        mapa.put("A28", "1.c4 e5 2.Nc3 Nc6 3.Nf3 Nf6");
+        mapa.put("A29", "1.c4 e5 2.Nc3 Nc6 3.Nf3 Nf6 4.g3");
+        mapa.put("A30", "1.c4 c5");
+        mapa.put("A31", "1.c4 c5 2.Nf3 Nf6 3.d4");
+        mapa.put("A32", "1.c4 c5 2.Nf3 Nf6 3.d4 cxd4 4.Nxd4 e6");
+        mapa.put("A33", "1.c4 c5 2.Nf3 Nf6 3.d4 cxd4 4.Nxd4 e6 5.Nc3 Nc6");
+        mapa.put("A34", "1.c4 c5 2.Nc3");
+        mapa.put("A35", "1.c4 c5 2.Nc3 Nc6");
+        mapa.put("A36", "1.c4 c5 2.Nc3 Nc6 3.g3");
+        mapa.put("A37", "1.c4 c5 2.Nc3 Nc6 3.g3 g6 4.Bg2 Bg7 5.Nf3");
+        mapa.put("A38", "1.c4 c5 2.Nc3 Nc6 3.g3 g6 4.Bg2 Bg7 5.Nf3 Nf6");
+        mapa.put("A39", "1.c4 c5 2.Nc3 Nc6 3.g3 g6 4.Bg2 Bg7 5.Nf3 Nf6 6.O-O O-O 7.d4");
+        mapa.put("A40", "1.d4");
+        mapa.put("A41", "1.d4 d6");
+        mapa.put("A42", "1.d4 d6 2.c4 g6 3.Nc3 Bg7 4.e4");
+        mapa.put("A43", "1.d4 c5");
+        mapa.put("A44", "1.d4 c5 2.d5 e5");
+        mapa.put("A45", "1.d4 Nf6");
+        mapa.put("A46", "1.d4 Nf6 2.Nf3");
+        mapa.put("A47", "1.d4 Nf6 2.Nf3 b6");
+        mapa.put("A48", "1.d4 Nf6 2.Nf3 g6");
+        mapa.put("A49", "1.d4 Nf6 2.Nf3 g6 3.g3");
+        mapa.put("A50", "1.d4 Nf6 2.c4");
+        mapa.put("A51", "1.d4 Nf6 2.c4 e5");
+        mapa.put("A52", "1.d4 Nf6 2.c4 e5 3.dxe5 Ng4");
+        mapa.put("A53", "1.d4 Nf6 2.c4 d6");
+        mapa.put("A54", "1.d4 Nf6 2.c4 d6 3.Nc3 e5 4.Nf3");
+        mapa.put("A55", "1.d4 Nf6 2.c4 d6 3.Nc3 e5 4.Nf3 Nbd7 5.e4");
+        mapa.put("A56", "1.d4 Nf6 2.c4 c5");
+        mapa.put("A57", "1.d4 Nf6 2.c4 c5 3.d5 b5");
+        mapa.put("A58", "1.d4 Nf6 2.c4 c5 3.d5 b5 4.cxb5 a6 5.bxa6");
+        mapa.put("A59", "1.d4 Nf6 2.c4 c5 3.d5 b5 4.cxb5 a6 5.bxa6 Bxa6 6.Nc3 d6 7.e4");
+        mapa.put("A60", "1.d4 Nf6 2.c4 c5 3.d5 e6");
+        mapa.put("A61", "1.d4 Nf6 2.c4 c5 3.d5 e6 4.Nc3 exd5 5.cxd5 d6 6.Nf3 g6");
+        mapa.put("A62", "1.d4 Nf6 2.c4 c5 3.d5 e6 4.Nc3 exd5 5.cxd5 d6 6.Nf3 g6 7.g3 Bg7 8.Bg2 O-O");
+        mapa.put("A63", "1.d4 Nf6 2.c4 c5 3.d5 e6 4.Nc3 exd5 5.cxd5 d6 6.Nf3 g6 7.g3 Bg7 8.Bg2 O-O 9.O-O Nbd7");
+        mapa.put("A64", "1.d4 Nf6 2.c4 c5 3.d5 e6 4.Nc3 exd5 5.cxd5 d6 6.Nf3 g6 7.g3 Bg7 8.Bg2 O-O 9.O-O Nbd7 10.Nd2 a6 11.a4 Re8");
+        mapa.put("A65", "1.d4 Nf6 2.c4 c5 3.d5 e6 4.Nc3 exd5 5.cxd5 d6 6.e4");
+        mapa.put("A66", "1.d4 Nf6 2.c4 c5 3.d5 e6 4.Nc3 exd5 5.cxd5 d6 6.e4 g6 7.f4");
+        mapa.put("A67", "1.d4 Nf6 2.c4 c5 3.d5 e6 4.Nc3 exd5 5.cxd5 d6 6.e4 g6 7.f4 Bg7 8.Bb5+");
+        mapa.put("A68", "1.d4 Nf6 2.c4 c5 3.d5 e6 4.Nc3 exd5 5.cxd5 d6 6.e4 g6 7.f4 Bg7 8.Nf3 O-O");
+        mapa.put("A69", "1.d4 Nf6 2.c4 c5 3.d5 e6 4.Nc3 exd5 5.cxd5 d6 6.e4 g6 7.f4 Bg7 8.Nf3 O-O 9.Be2 Re8");
+        mapa.put("A70", "1.d4 Nf6 2.c4 c5 3.d5 e6 4.Nc3 exd5 5.cxd5 d6 6.e4 g6 7.Nf3");
+        mapa.put("A71", "1.d4 Nf6 2.c4 c5 3.d5 e6 4.Nc3 exd5 5.cxd5 d6 6.e4 g6 7.Nf3 Bg7 8.Bg5");
+        mapa.put("A72", "1.d4 Nf6 2.c4 c5 3.d5 e6 4.Nc3 exd5 5.cxd5 d6 6.e4 g6 7.Nf3 Bg7 8.Be2 O-O");
+        mapa.put("A73", "1.d4 Nf6 2.c4 c5 3.d5 e6 4.Nc3 exd5 5.cxd5 d6 6.e4 g6 7.Nf3 Bg7 8.Be2 O-O 9.O-O");
+        mapa.put("A74", "1.d4 Nf6 2.c4 c5 3.d5 e6 4.Nc3 exd5 5.cxd5 d6 6.e4 g6 7.Nf3 Bg7 8.Be2 O-O 9.O-O a6 10.a4");
+        mapa.put("A75", "1.d4 Nf6 2.c4 c5 3.d5 e6 4.Nc3 exd5 5.cxd5 d6 6.e4 g6 7.Nf3 Bg7 8.Be2 O-O 9.O-O a6 10.a4 Bg4");
+        mapa.put("A76", "1.d4 Nf6 2.c4 c5 3.d5 e6 4.Nc3 exd5 5.cxd5 d6 6.e4 g6 7.Nf3 Bg7 8.Be2 O-O 9.O-O Re8");
+        mapa.put("A77", "1.d4 Nf6 2.c4 c5 3.d5 e6 4.Nc3 exd5 5.cxd5 d6 6.e4 g6 7.Nf3 Bg7 8.Be2 O-O 9.O-O Re8 10.Nd2");
+        mapa.put("A78", "1.d4 Nf6 2.c4 c5 3.d5 e6 4.Nc3 exd5 5.cxd5 d6 6.e4 g6 7.Nf3 Bg7 8.Be2 O-O 9.O-O Re8 10.Nd2 Na6");
+        mapa.put("A79", "1.d4 Nf6 2.c4 c5 3.d5 e6 4.Nc3 exd5 5.cxd5 d6 6.e4 g6 7.Nf3 Bg7 8.Be2 O-O 9.O-O Re8 10.Nd2 Na6 11.f3");
+        mapa.put("A80", "1.d4 f5");
+        mapa.put("A81", "1.d4 f5 2.g3");
+        mapa.put("A82", "1.d4 f5 2.e4");
+        mapa.put("A83", "1.d4 f5 2.e4 fxe4 3.Nc3 Nf6 4.Bg5");
+        mapa.put("A84", "1.d4 f5 2.c4");
+        mapa.put("A85", "1.d4 f5 2.c4 Nf6 3.Nc3");
+        mapa.put("A86", "1.d4 f5 2.c4 Nf6 3.g3");
+        mapa.put("A87", "1.d4 f5 2.c4 Nf6 3.g3 g6 4.Bg2 Bg7 5.Nf3");
+        mapa.put("A88", "1.d4 f5 2.c4 Nf6 3.g3 g6 4.Bg2 Bg7 5.Nf3 O-O 6.O-O d6 7.Nc3 c6");
+        mapa.put("A89", "1.d4 f5 2.c4 Nf6 3.g3 g6 4.Bg2 Bg7 5.Nf3 O-O 6.O-O d6 7.Nc3 Nc6");
+        mapa.put("A90", "1.d4 f5 2.c4 Nf6 3.g3 e6 4.Bg2");
+        mapa.put("A91", "1.d4 f5 2.c4 Nf6 3.g3 e6 4.Bg2 Be7");
+        mapa.put("A92", "1.d4 f5 2.c4 Nf6 3.g3 e6 4.Bg2 Be7 5.Nf3 O-O");
+        mapa.put("A93", "1.d4 f5 2.c4 Nf6 3.g3 e6 4.Bg2 Be7 5.Nf3 O-O 6.O-O d5 7.b3");
+        mapa.put("A94", "1.d4 f5 2.c4 Nf6 3.g3 e6 4.Bg2 Be7 5.Nf3 O-O 6.O-O d5 7.b3 c6 8.Ba3");
+        mapa.put("A95", "1.d4 f5 2.c4 Nf6 3.g3 e6 4.Bg2 Be7 5.Nf3 O-O 6.O-O d5 7.Nc3 c6");
+        mapa.put("A96", "1.d4 f5 2.c4 Nf6 3.g3 e6 4.Bg2 Be7 5.Nf3 O-O 6.O-O d6");
+        mapa.put("A97", "1.d4 f5 2.c4 Nf6 3.g3 e6 4.Bg2 Be7 5.Nf3 O-O 6.O-O d6 7.Nc3 Qe8");
+        mapa.put("A98", "1.d4 f5 2.c4 Nf6 3.g3 e6 4.Bg2 Be7 5.Nf3 O-O 6.O-O d6 7.Nc3 Qe8 8.Qc2");
+        mapa.put("A99", "1.d4 f5 2.c4 Nf6 3.g3 e6 4.Bg2 Be7 5.Nf3 O-O 6.O-O d6 7.Nc3 Qe8 8.b3");
+        mapa.put("B00", "1.e4");
+        mapa.put("B01", "1.e4 d5");
+        mapa.put("B02", "1.e4 Nf6");
+        mapa.put("B03", "1.e4 Nf6 2.e5 Nd5 3.d4");
+        mapa.put("B04", "1.e4 Nf6 2.e5 Nd5 3.d4 d6 4.Nf3");
+        mapa.put("B05", "1.e4 Nf6 2.e5 Nd5 3.d4 d6 4.Nf3 Bg4");
+        mapa.put("B06", "1.e4 g6");
+        mapa.put("B07", "1.e4 d6 2.d4 Nf6");
+        mapa.put("B08", "1.e4 d6 2.d4 Nf6 3.Nc3 g6 4.Nf3");
+        mapa.put("B09", "1.e4 d6 2.d4 Nf6 3.Nc3 g6 4.f4");
+        mapa.put("B10", "1.e4 c6");
+        mapa.put("B11", "1.e4 c6 2.Nc3 d5 3.Nf3 Bg4");
+        mapa.put("B12", "1.e4 c6 2.d4");
+        mapa.put("B13", "1.e4 c6 2.d4 d5 3.exd5 cxd5");
+        mapa.put("B14", "1.e4 c6 2.d4 d5 3.exd5 cxd5 4.c4 Nf6 5.Nc3 e6");
+        mapa.put("B15", "1.e4 c6 2.d4 d5 3.Nc3");
+        mapa.put("B16", "1.e4 c6 2.d4 d5 3.Nc3 dxe4 4.Nxe4 Nf6 5.Nxf6+ gxf6");
+        mapa.put("B17", "1.e4 c6 2.d4 d5 3.Nc3 dxe4 4.Nxe4 Nd7");
+        mapa.put("B18", "1.e4 c6 2.d4 d5 3.Nc3 dxe4 4.Nxe4 Bf5");
+        mapa.put("B19", "1.e4 c6 2.d4 d5 3.Nc3 dxe4 4.Nxe4 Bf5 5.Ng3 Bg6 6.h4 h6 7.Nf3 Nd7");
+        mapa.put("B20", "1.e4 c5");
+        mapa.put("B21", "1.e4 c5 2.f4");
+        mapa.put("B22", "1.e4 c5 2.c3");
+        mapa.put("B23", "1.e4 c5 2.Nc3");
+        mapa.put("B24", "1.e4 c5 2.Nc3 Nc6 3.g3");
+        mapa.put("B25", "1.e4 c5 2.Nc3 Nc6 3.g3 g6 4.Bg2 Bg7 5.d3 d6");
+        mapa.put("B26", "1.e4 c5 2.Nc3 Nc6 3.g3 g6 4.Bg2 Bg7 5.d3 d6 6.Be3");
+        mapa.put("B27", "1.e4 c5 2.Nf3");
+        mapa.put("B28", "1.e4 c5 2.Nf3 a6");
+        mapa.put("B29", "1.e4 c5 2.Nf3 Nf6");
+        mapa.put("B30", "1.e4 c5 2.Nf3 Nc6");
+        mapa.put("B31", "1.e4 c5 2.Nf3 Nc6 3.Bb5 g6");
+        mapa.put("B32", "1.e4 c5 2.Nf3 Nc6 3.d4 cxd4 4.Nxd4 e5");
+        mapa.put("B33", "1.e4 c5 2.Nf3 Nc6 3.d4 cxd4 4.Nxd4");
+        mapa.put("B34", "1.e4 c5 2.Nf3 Nc6 3.d4 cxd4 4.Nxd4 g6 5.Nxc6");
+        mapa.put("B35", "1.e4 c5 2.Nf3 Nc6 3.d4 cxd4 4.Nxd4 g6 5.Nc3 Bg7 6.Be3 Nf6 7.Bc4");
+        mapa.put("B36", "1.e4 c5 2.Nf3 Nc6 3.d4 cxd4 4.Nxd4 g6 5.c4");
+        mapa.put("B37", "1.e4 c5 2.Nf3 Nc6 3.d4 cxd4 4.Nxd4 g6 5.c4 Bg7");
+        mapa.put("B38", "1.e4 c5 2.Nf3 Nc6 3.d4 cxd4 4.Nxd4 g6 5.c4 Bg7 6.Be3");
+        mapa.put("B39", "1.e4 c5 2.Nf3 Nc6 3.d4 cxd4 4.Nxd4 g6 5.c4 Bg7 6.Be3 Nf6 7.Nc3 Ng4");
+        mapa.put("B40", "1.e4 c5 2.Nf3 e6");
+        mapa.put("B41", "1.e4 c5 2.Nf3 e6 3.d4 cxd4 4.Nxd4 a6");
+        mapa.put("B42", "1.e4 c5 2.Nf3 e6 3.d4 cxd4 4.Nxd4 a6 5.Bd3");
+        mapa.put("B43", "1.e4 c5 2.Nf3 e6 3.d4 cxd4 4.Nxd4 a6 5.Nc3");
+        mapa.put("B44", "1.e4 c5 2.Nf3 e6 3.d4 cxd4 4.Nxd4 Nc6");
+        mapa.put("B45", "1.e4 c5 2.Nf3 e6 3.d4 cxd4 4.Nxd4 Nc6 5.Nc3");
+        mapa.put("B46", "1.e4 c5 2.Nf3 e6 3.d4 cxd4 4.Nxd4 Nc6 5.Nc3 a6");
+        mapa.put("B47", "1.e4 c5 2.Nf3 e6 3.d4 cxd4 4.Nxd4 Nc6 5.Nc3 Qc7");
+        mapa.put("B48", "1.e4 c5 2.Nf3 e6 3.d4 cxd4 4.Nxd4 Nc6 5.Nc3 Qc7 6.Be3");
+        mapa.put("B49", "1.e4 c5 2.Nf3 e6 3.d4 cxd4 4.Nxd4 Nc6 5.Nc3 Qc7 6.Be3 a6 7.Be2");
+        mapa.put("B50", "1.e4 c5 2.Nf3 d6");
+        mapa.put("B51", "1.e4 c5 2.Nf3 d6 3.Bb5+");
+        mapa.put("B52", "1.e4 c5 2.Nf3 d6 3.Bb5+ Bd7");
+        mapa.put("B53", "1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Qxd4");
+        mapa.put("B54", "1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4");
+        mapa.put("B55", "1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.f3 e5 6.Bb5+");
+        mapa.put("B56", "1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3");
+        mapa.put("B57", "1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 Nc6 6.Bc4");
+        mapa.put("B58", "1.e4 c5 2.Nf3 Nc6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 d6 6.Be2");
+        mapa.put("B59", "1.e4 c5 2.Nf3 Nc6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 d6 6.Be2 e5 7.Nb3");
+        mapa.put("B60", "1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 Nc6 6.Bg5");
+        mapa.put("B61", "1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 Nc6 6.Bg5 Bd7 7.Qd2");
+        mapa.put("B62", "1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 Nc6 6.Bg5 e6");
+        mapa.put("B63", "1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 Nc6 6.Bg5 e6 7.Qd2");
+        mapa.put("B64", "1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 Nc6 6.Bg5 e6 7.Qd2 Be7 8.O-O-O O-O 9.f4");
+        mapa.put("B65", "1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 Nc6 6.Bg5 e6 7.Qd2 Be7 8.O-O-O O-O 9.f4 Nxd4 10.Qxd4");
+        mapa.put("B66", "1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 Nc6 6.Bg5 e6 7.Qd2 a6");
+        mapa.put("B67", "1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 Nc6 6.Bg5 e6 7.Qd2 a6 8.O-O-O Bd7");
+        mapa.put("B68", "1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 Nc6 6.Bg5 e6 7.Qd2 a6 8.O-O-O Bd7 9.f4 Be7");
+        mapa.put("B69", "1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 Nc6 6.Bg5 e6 7.Qd2 a6 8.O-O-O Bd7 9.f4 Be7 10.Nf3 b5 11.Bxf6");
+        mapa.put("B70", "1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 g6");
+        mapa.put("B71", "1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 g6 6.f4");
+        mapa.put("B72", "1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 g6 6.Be3");
+        mapa.put("B73", "1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 g6 6.Be3 Bg7 7.Be2 Nc6 8.O-O");
+        mapa.put("B74", "1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 g6 6.Be3 Bg7 7.Be2 Nc6 8.O-O O-O 9.Nb3");
+        mapa.put("B75", "1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 g6 6.Be3 Bg7 7.f3");
+        mapa.put("B76", "1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 g6 6.Be3 Bg7 7.f3 O-O");
+        mapa.put("B77", "1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 g6 6.Be3 Bg7 7.f3 O-O 8.Qd2 Nc6 9.Bc4");
+        mapa.put("B78", "1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 g6 6.Be3 Bg7 7.f3 O-O 8.Qd2 Nc6 9.Bc4 Bd7 10.O-O-O");
+        mapa.put("B79", "1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 g6 6.Be3 Bg7 7.f3 O-O 8.Qd2 Nc6 9.Bc4 Bd7 10.O-O-O Qa5 11.Bb3 Rfc8 12.h4");
+        mapa.put("B80", "1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 e6");
+        mapa.put("B81", "1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 e6 6.g4");
+        mapa.put("B82", "1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 e6 6.f4");
+        mapa.put("B83", "1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 e6 6.Be2");
+        mapa.put("B84", "1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 e6 6.Be2 a6");
+        mapa.put("B85", "1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 e6 6.Be2 a6 7.O-O Qc7 8.f4 Nc6");
+        mapa.put("B86", "1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 e6 6.Bc4");
+        mapa.put("B87", "1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 e6 6.Bc4 a6 7.Bb3 b5");
+        mapa.put("B88", "1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 e6 6.Bc4 Nc6");
+        mapa.put("B89", "1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 e6 6.Bc4 Nc6 7.Be3");
+        mapa.put("B90", "1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 a6");
+        mapa.put("B91", "1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 a6 6.g3");
+        mapa.put("B92", "1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 a6 6.Be2");
+        mapa.put("B93", "1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 a6 6.f4");
+        mapa.put("B94", "1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 a6 6.Bg5");
+        mapa.put("B95", "1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 a6 6.Bg5 e6");
+        mapa.put("B96", "1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 a6 6.Bg5 e6 7.f4");
+        mapa.put("B97", "1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 a6 6.Bg5 e6 7.f4 Qb6");
+        mapa.put("B98", "1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 a6 6.Bg5 e6 7.f4 Be7");
+        mapa.put("B99", "1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 a6 6.Bg5 e6 7.f4 Be7 8.Qf3 Qc7 9.O-O-O Nbd7");
+        mapa.put("C00", "1.e4 e6");
+        mapa.put("C01", "1.e4 e6 2.d4 d5 3.exd5 exd5 4.Nc3 Nf6 5.Bg5");
+        mapa.put("C02", "1.e4 e6 2.d4 d5 3.e5");
+        mapa.put("C03", "1.e4 e6 2.d4 d5 3.Nd2");
+        mapa.put("C04", "1.e4 e6 2.d4 d5 3.Nd2 Nc6 4.Ngf3 Nf6");
+        mapa.put("C05", "1.e4 e6 2.d4 d5 3.Nd2 Nf6");
+        mapa.put("C06", "1.e4 e6 2.d4 d5 3.Nd2 Nf6 4.e5 Nfd7 5.Bd3 c5 6.c3 Nc6 7.Ne2 cxd4 8.cxd4");
+        mapa.put("C07", "1.e4 e6 2.d4 d5 3.Nd2 c5");
+        mapa.put("C08", "1.e4 e6 2.d4 d5 3.Nd2 c5 4.exd5 exd5");
+        mapa.put("C09", "1.e4 e6 2.d4 d5 3.Nd2 c5 4.exd5 exd5 5.Ngf3 Nc6");
+        mapa.put("C10", "1.e4 e6 2.d4 d5 3.Nc3");
+        mapa.put("C11", "1.e4 e6 2.d4 d5 3.Nc3 Nf6");
+        mapa.put("C12", "1.e4 e6 2.d4 d5 3.Nc3 Nf6 4.Bg5 Bb4");
+        mapa.put("C13", "1.e4 e6 2.d4 d5 3.Nc3 Nf6 4.Bg5 Be7");
+        mapa.put("C14", "1.e4 e6 2.d4 d5 3.Nc3 Nf6 4.Bg5 Be7 5.e5 Nfd7 6.Bxe7 Qxe7");
+        mapa.put("C15", "1.e4 e6 2.d4 d5 3.Nc3 Bb4");
+        mapa.put("C16", "1.e4 e6 2.d4 d5 3.Nc3 Bb4 4.e5");
+        mapa.put("C17", "1.e4 e6 2.d4 d5 3.Nc3 Bb4 4.e5 c5");
+        mapa.put("C18", "1.e4 e6 2.d4 d5 3.Nc3 Bb4 4.e5 c5 5.a3 Bxc3+ 6.bxc3");
+        mapa.put("C19", "1.e4 e6 2.d4 d5 3.Nc3 Bb4 4.e5 c5 5.a3 Bxc3+ 6.bxc3 Ne7");
+        mapa.put("C20", "1.e4 e5");
+        mapa.put("C21", "1.e4 e5 2.d4 exd4");
+        mapa.put("C22", "1.e4 e5 2.d4 exd4 3.Qxd4 Nc6");
+        mapa.put("C23", "1.e4 e5 2.Bc4");
+        mapa.put("C24", "1.e4 e5 2.Bc4 Nf6");
+        mapa.put("C25", "1.e4 e5 2.Nc3");
+        mapa.put("C26", "1.e4 e5 2.Nc3 Nf6");
+        mapa.put("C27", "1.e4 e5 2.Nc3 Nf6 3.Bc4 Nxe4");
+        mapa.put("C28", "1.e4 e5 2.Nc3 Nf6 3.Bc4 Nc6");
+        mapa.put("C29", "1.e4 e5 2.Nc3 Nf6 3.f4");
+        mapa.put("C30", "1.e4 e5 2.f4");
+        mapa.put("C31", "1.e4 e5 2.f4 d5");
+        mapa.put("C32", "1.e4 e5 2.f4 d5 3.exd5 e4 4.d3 Nf6");
+        mapa.put("C33", "1.e4 e5 2.f4 exf4");
+        mapa.put("C34", "1.e4 e5 2.f4 exf4 3.Nf3");
+        mapa.put("C35", "1.e4 e5 2.f4 exf4 3.Nf3 Be7");
+        mapa.put("C36", "1.e4 e5 2.f4 exf4 3.Nf3 d5");
+        mapa.put("C37", "1.e4 e5 2.f4 exf4 3.Nf3 g5 4.Nc3");
+        mapa.put("C38", "1.e4 e5 2.f4 exf4 3.Nf3 g5 4.Bc4 Bg7");
+        mapa.put("C39", "1.e4 e5 2.f4 exf4 3.Nf3 g5 4.h4");
+        mapa.put("C40", "1.e4 e5 2.Nf3");
+        mapa.put("C41", "1.e4 e5 2.Nf3 d6");
+        mapa.put("C42", "1.e4 e5 2.Nf3 Nf6");
+        mapa.put("C43", "1.e4 e5 2.Nf3 Nf6 3.d4 exd4 4.e5 Ne4 5.Qxd4");
+        mapa.put("C44", "1.e4 e5 2.Nf3 Nc6");
+        mapa.put("C45", "1.e4 e5 2.Nf3 Nc6 3.d4 exd4 4.Nxd4");
+        mapa.put("C46", "1.e4 e5 2.Nf3 Nc6 3.Nc3");
+        mapa.put("C47", "1.e4 e5 2.Nf3 Nc6 3.Nc3 Nf6");
+        mapa.put("C48", "1.e4 e5 2.Nf3 Nc6 3.Nc3 Nf6 4.Bb5");
+        mapa.put("C49", "1.e4 e5 2.Nf3 Nc6 3.Nc3 Nf6 4.Bb5 Bb4");
+        mapa.put("C50", "1.e4 e5 2.Nf3 Nc6 3.Bc4 Bc5");
+        mapa.put("C51", "1.e4 e5 2.Nf3 Nc6 3.Bc4 Bc5 4.b4");
+        mapa.put("C52", "1.e4 e5 2.Nf3 Nc6 3.Bc4 Bc5 4.b4 Bxb4 5.c3 Ba5");
+        mapa.put("C53", "1.e4 e5 2.Nf3 Nc6 3.Bc4 Bc5 4.c3");
+        mapa.put("C54", "1.e4 e5 2.Nf3 Nc6 3.Bc4 Bc5 4.c3 Nf6 5.d4 exd4 6.cxd4");
+        mapa.put("C55", "1.e4 e5 2.Nf3 Nc6 3.Bc4 Nf6");
+        mapa.put("C56", "1.e4 e5 2.Nf3 Nc6 3.Bc4 Nf6 4.d4 exd4 5.O-O Nxe4");
+        mapa.put("C57", "1.e4 e5 2.Nf3 Nc6 3.Bc4 Nf6 4.Ng5");
+        mapa.put("C58", "1.e4 e5 2.Nf3 Nc6 3.Bc4 Nf6 4.Ng5 d5 5.exd5 Na5");
+        mapa.put("C59", "1.e4 e5 2.Nf3 Nc6 3.Bc4 Nf6 4.Ng5 d5 5.exd5 Na5 6.Bb5+ c6 7.dxc6 bxc6 8.Be2 h6");
+        mapa.put("C60", "1.e4 e5 2.Nf3 Nc6 3.Bb5");
+        mapa.put("C61", "1.e4 e5 2.Nf3 Nc6 3.Bb5 Nd4");
+        mapa.put("C62", "1.e4 e5 2.Nf3 Nc6 3.Bb5 d6");
+        mapa.put("C63", "1.e4 e5 2.Nf3 Nc6 3.Bb5 f5");
+        mapa.put("C64", "1.e4 e5 2.Nf3 Nc6 3.Bb5 Bc5");
+        mapa.put("C65", "1.e4 e5 2.Nf3 Nc6 3.Bb5 Nf6");
+        mapa.put("C66", "1.e4 e5 2.Nf3 Nc6 3.Bb5 Nf6 4.O-O d6");
+        mapa.put("C67", "1.e4 e5 2.Nf3 Nc6 3.Bb5 Nf6 4.O-O Nxe4");
+        mapa.put("C68", "1.e4 e5 2.Nf3 Nc6 3.Bb5 a6 4.Bxc6");
+        mapa.put("C69", "1.e4 e5 2.Nf3 Nc6 3.Bb5 a6 4.Bxc6 dc 5.O-O f6 6.d4");
+        mapa.put("C70", "1.e4 e5 2.Nf3 Nc6 3.Bb5 a6 4.Ba4");
+        mapa.put("C71", "1.e4 e5 2.Nf3 Nc6 3.Bb5 a6 4.Ba4 d6");
+        mapa.put("C72", "1.e4 e5 2.Nf3 Nc6 3.Bb5 a6 4.Ba4 d6 5.O-O");
+        mapa.put("C73", "1.e4 e5 2.Nf3 Nc6 3.Bb5 a6 4.Ba4 d6 5.Bxc6+ bxc6 6.d4");
+        mapa.put("C74", "1.e4 e5 2.Nf3 Nc6 3.Bb5 a6 4.Ba4 d6 5.c3");
+        mapa.put("C75", "1.e4 e5 2.Nf3 Nc6 3.Bb5 a6 4.Ba4 d6 5.c3 Bd7");
+        mapa.put("C76", "1.e4 e5 2.Nf3 Nc6 3.Bb5 a6 4.Ba4 d6 5.c3 Bd7 6.d4 g6");
+        mapa.put("C77", "1.e4 e5 2.Nf3 Nc6 3.Bb5 a6 4.Ba4 Nf6");
+        mapa.put("C78", "1.e4 e5 2.Nf3 Nc6 3.Bb5 a6 4.Ba4 Nf6 5.O-O");
+        mapa.put("C79", "1.e4 e5 2.Nf3 Nc6 3.Bb5 a6 4.Ba4 Nf6 5.O-O d6");
+        mapa.put("C80", "1.e4 e5 2.Nf3 Nc6 3.Bb5 a6 4.Ba4 Nf6 5.O-O Nxe4");
+        mapa.put("C81", "1.e4 e5 2.Nf3 Nc6 3.Bb5 a6 4.Ba4 Nf6 5.O-O Nxe4 6.d4 b5 7.Bb3 d5 8.dxe5 Be6");
+        mapa.put("C82", "1.e4 e5 2.Nf3 Nc6 3.Bb5 a6 4.Ba4 Nf6 5.O-O Nxe4 6.d4 b5 7.Bb3 d5 8.dxe5 Be6 9.c3");
+        mapa.put("C83", "1.e4 e5 2.Nf3 Nc6 3.Bb5 a6 4.Ba4 Nf6 5.O-O Nxe4 6.d4 b5 7.Bb3 d5 8.dxe5 Be6");
+        mapa.put("C84", "1.e4 e5 2.Nf3 Nc6 3.Bb5 a6 4.Ba4 Nf6 5.O-O Be7");
+        mapa.put("C85", "1.e4 e5 2.Nf3 Nc6 3.Bb5 a6 4.Ba4 Nf6 5.O-O Be7 6.Bxc6 dxc6");
+        mapa.put("C86", "1.e4 e5 2.Nf3 Nc6 3.Bb5 a6 4.Ba4 Nf6 5.O-O Be7 6.Qe2");
+        mapa.put("C87", "1.e4 e5 2.Nf3 Nc6 3.Bb5 a6 4.Ba4 Nf6 5.O-O Be7 6.Re1 d6");
+        mapa.put("C88", "1.e4 e5 2.Nf3 Nc6 3.Bb5 a6 4.Ba4 Nf6 5.O-O Be7 6.Re1 b5 7.Bb3");
+        mapa.put("C89", "1.e4 e5 2.Nf3 Nc6 3.Bb5 a6 4.Ba4 Nf6 5.O-O Be7 6.Re1 b5 7.Bb3 O-O 8.c3 d5");
+        mapa.put("C90", "1.e4 e5 2.Nf3 Nc6 3.Bb5 a6 4.Ba4 Nf6 5.O-O Be7 6.Re1 b5 7.Bb3 O-O 8.c3 d6");
+        mapa.put("C91", "1.e4 e5 2.Nf3 Nc6 3.Bb5 a6 4.Ba4 Nf6 5.O-O Be7 6.Re1 b5 7.Bb3 O-O 8.c3 d6 9.d4");
+        mapa.put("C92", "1.e4 e5 2.Nf3 Nc6 3.Bb5 a6 4.Ba4 Nf6 5.O-O Be7 6.Re1 b5 7.Bb3 O-O 8.c3 d6 9.h3");
+        mapa.put("C93", "1.e4 e5 2.Nf3 Nc6 3.Bb5 a6 4.Ba4 Nf6 5.O-O Be7 6.Re1 b5 7.Bb3 O-O 8.c3 d6 9.h3 h6");
+        mapa.put("C94", "1.e4 e5 2.Nf3 Nc6 3.Bb5 a6 4.Ba4 Nf6 5.O-O Be7 6.Re1 b5 7.Bb3 O-O 8.c3 d6 9.h3 Nb8");
+        mapa.put("C95", "1.e4 e5 2.Nf3 Nc6 3.Bb5 a6 4.Ba4 Nf6 5.O-O Be7 6.Re1 b5 7.Bb3 O-O 8.c3 d6 9.h3 Nb8 10.d4");
+        mapa.put("C96", "1.e4 e5 2.Nf3 Nc6 3.Bb5 a6 4.Ba4 Nf6 5.O-O Be7 6.Re1 b5 7.Bb3 O-O 8.c3 d6 9.h3 Na5 10.Bc2");
+        mapa.put("C97", "1.e4 e5 2.Nf3 Nc6 3.Bb5 a6 4.Ba4 Nf6 5.O-O Be7 6.Re1 b5 7.Bb3 O-O 8.c3 d6 9.h3 Na5 10.Bc2 c5 11.d4 Qc7");
+        mapa.put("C98", "1.e4 e5 2.Nf3 Nc6 3.Bb5 a6 4.Ba4 Nf6 5.O-O Be7 6.Re1 b5 7.Bb3 O-O 8.c3 d6 9.h3 Na5 10.Bc2 c5 11.d4 Qc7 12.Nbd2 Nc6");
+        mapa.put("C99", "1.e4 e5 2.Nf3 Nc6 3.Bb5 a6 4.Ba4 Nf6 5.O-O Be7 6.Re1 b5 7.Bb3 O-O 8.c3 d6 9.h3 Na5 10.Bc2 c5 11.d4 Qc7 12.Nbd2 cxd4 13.cxd4");
+        mapa.put("D00", "1.d4 d5");
+        mapa.put("D01", "1.d4 d5 2.Nc3 Nf6 3.Bg5");
+        mapa.put("D02", "1.d4 d5 2.Nf3");
+        mapa.put("D03", "1.d4 d5 2.Nf3 Nf6 3.Bg5");
+        mapa.put("D04", "1.d4 d5 2.Nf3 Nf6 3.e3");
+        mapa.put("D05", "1.d4 d5 2.Nf3 Nf6 3.e3 e6");
+        mapa.put("D06", "1.d4 d5 2.c4");
+        mapa.put("D07", "1.d4 d5 2.c4 Nc6");
+        mapa.put("D08", "1.d4 d5 2.c4 e5");
+        mapa.put("D09", "1.d4 d5 2.c4 e5 3.dxe5 d4 4.Nf3 Nc6 5.g3");
+        mapa.put("D10", "1.d4 d5 2.c4 c6");
+        mapa.put("D11", "1.d4 d5 2.c4 c6 3.Nf3");
+        mapa.put("D12", "1.d4 d5 2.c4 c6 3.Nf3 Nf6 4.e3 Bf5");
+        mapa.put("D13", "1.d4 d5 2.c4 c6 3.Nf3 Nf6 4.cxd5 cxd5");
+        mapa.put("D14", "1.d4 d5 2.c4 c6 3.Nf3 Nf6 4.cxd5 cxd5 5.Nc3 Nc6 6.Bf4 Bf5");
+        mapa.put("D15", "1.d4 d5 2.c4 c6 3.Nf3 Nf6 4.Nc3");
+        mapa.put("D16", "1.d4 d5 2.c4 c6 3.Nf3 Nf6 4.Nc3 dxc4 5.a4");
+        mapa.put("D17", "1.d4 d5 2.c4 c6 3.Nf3 Nf6 4.Nc3 dxc4 5.a4 Bf5");
+        mapa.put("D18", "1.d4 d5 2.c4 c6 3.Nf3 Nf6 4.Nc3 dxc4 5.a4 Bf5 6.e3");
+        mapa.put("D19", "1.d4 d5 2.c4 c6 3.Nf3 Nf6 4.Nc3 dxc4 5.a4 Bf5 6.e3 e6 7.Bxc4 Bb4 8.O-O O-O 9.Qe2");
+        mapa.put("D20", "1.d4 d5 2.c4 dxc4");
+        mapa.put("D21", "1.d4 d5 2.c4 dxc4 3.Nf3");
+        mapa.put("D22", "1.d4 d5 2.c4 dxc4 3.Nf3 a6 4.e3 Bg4 5.Bxc4 e6 6.d5");
+        mapa.put("D23", "1.d4 d5 2.c4 dxc4 3.Nf3 Nf6");
+        mapa.put("D24", "1.d4 d5 2.c4 dxc4 3.Nf3 Nf6 4.Nc3");
+        mapa.put("D25", "1.d4 d5 2.c4 dxc4 3.Nf3 Nf6 4.e3");
+        mapa.put("D26", "1.d4 d5 2.c4 dxc4 3.Nf3 Nf6 4.e3 e6");
+        mapa.put("D27", "1.d4 d5 2.c4 dxc4 3.Nf3 Nf6 4.e3 e6 5.Bxc4 c5 6.O-O a6");
+        mapa.put("D28", "1.d4 d5 2.c4 dxc4 3.Nf3 Nf6 4.e3 e6 5.Bxc4 c5 6.O-O a6 7.Qe2");
+        mapa.put("D29", "1.d4 d5 2.c4 dxc4 3.Nf3 Nf6 4.e3 e6 5.Bxc4 c5 6.O-O a6 7.Qe2 b5 8.Bb3 Bb7");
+        mapa.put("D30", "1.d4 d5 2.c4 e6");
+        mapa.put("D31", "1.d4 d5 2.c4 e6 3.Nc3");
+        mapa.put("D32", "1.d4 d5 2.c4 e6 3.Nc3 c5");
+        mapa.put("D33", "1.d4 d5 2.c4 e6 3.Nc3 c5 4.cxd5 exd5 5.Nf3 Nc6 6.g3");
+        mapa.put("D34", "1.d4 d5 2.c4 e6 3.Nc3 c5 4.cxd5 exd5 5.Nf3 Nc6 6.g3 Nf6 7.Bg2 Be7");
+        mapa.put("D35", "1.d4 d5 2.c4 e6 3.Nc3 Nf6");
+        mapa.put("D36", "1.d4 d5 2.c4 e6 3.Nc3 Nf6 4.cxd5 exd5 5.Bg5 c6 6.Qc2");
+        mapa.put("D37", "1.d4 d5 2.c4 e6 3.Nc3 Nf6 4.Nf3");
+        mapa.put("D38", "1.d4 d5 2.c4 e6 3.Nc3 Nf6 4.Nf3 Bb4");
+        mapa.put("D39", "1.d4 d5 2.c4 e6 3.Nc3 Nf6 4.Nf3 Bb4 5.Bg5 dxc4");
+        mapa.put("D40", "1.d4 d5 2.c4 e6 3.Nc3 Nf6 4.Nf3 c5");
+        mapa.put("D41", "1.d4 d5 2.c4 e6 3.Nc3 Nf6 4.Nf3 c5 5.cxd5");
+        mapa.put("D42", "1.d4 d5 2.c4 e6 3.Nc3 Nf6 4.Nf3 c5 5.cxd5 Nxd5 6.e3 Nc6 7.Bd3");
+        mapa.put("D43", "1.d4 d5 2.c4 e6 3.Nc3 Nf6 4.Nf3 c6");
+        mapa.put("D44", "1.d4 d5 2.c4 e6 3.Nc3 Nf6 4.Nf3 c6 5.Bg5 dxc4");
+        mapa.put("D45", "1.d4 d5 2.c4 e6 3.Nc3 Nf6 4.Nf3 c6 5.e3");
+        mapa.put("D46", "1.d4 d5 2.c4 e6 3.Nc3 Nf6 4.Nf3 c6 5.e3 Nbd7 6.Bd3");
+        mapa.put("D47", "1.d4 d5 2.c4 e6 3.Nc3 Nf6 4.Nf3 c6 5.e3 Nbd7 6.Bd3 dxc4 7.Bxc4");
+        mapa.put("D48", "1.d4 d5 2.c4 e6 3.Nc3 Nf6 4.Nf3 c6 5.e3 Nbd7 6.Bd3 dxc4 7.Bxc4 b5 8.Bd3 a6");
+        mapa.put("D49", "1.d4 d5 2.c4 e6 3.Nc3 Nf6 4.Nf3 c6 5.e3 Nbd7 6.Bd3 dxc4 7.Bxc4 b5 8.Bd3 a6 9.e4 c5 10.e5 cxd4 11.Nxb5");
+        mapa.put("D50", "1.d4 d5 2.c4 e6 3.Nc3 Nf6 4.Bg5");
+        mapa.put("D51", "1.d4 d5 2.c4 e6 3.Nc3 Nf6 4.Bg5 Nbd7");
+        mapa.put("D52", "1.d4 d5 2.c4 e6 3.Nc3 Nf6 4.Bg5 Nbd7 5.e3 c6 6.Nf3");
+        mapa.put("D53", "1.d4 d5 2.c4 e6 3.Nc3 Nf6 4.Bg5 Be7");
+        mapa.put("D54", "1.d4 d5 2.c4 e6 3.Nc3 Nf6 4.Bg5 Be7 5.e3 O-O 6.Rc1");
+        mapa.put("D55", "1.d4 d5 2.c4 e6 3.Nc3 Nf6 4.Bg5 Be7 5.e3 O-O 6.Nf3");
+        mapa.put("D56", "1.d4 d5 2.c4 e6 3.Nc3 Nf6 4.Bg5 Be7 5.e3 O-O 6.Nf3 h6 7.Bh4");
+        mapa.put("D57", "1.d4 d5 2.c4 e6 3.Nc3 Nf6 4.Bg5 Be7 5.e3 O-O 6.Nf3 h6 7.Bh4 Ne4 8.Bxe7 Qxe7");
+        mapa.put("D58", "1.d4 d5 2.c4 e6 3.Nc3 Nf6 4.Bg5 Be7 5.e3 O-O 6.Nf3 h6 7.Bh4 b6");
+        mapa.put("D59", "1.d4 d5 2.c4 e6 3.Nc3 Nf6 4.Bg5 Be7 5.e3 O-O 6.Nf3 h6 7.Bh4 b6 8.cxd5 Nxd5");
+        mapa.put("D60", "1.d4 d5 2.c4 e6 3.Nc3 Nf6 4.Bg5 Be7 5.e3 O-O 6.Nf3 Nbd7");
+        mapa.put("D61", "1.d4 d5 2.c4 e6 3.Nc3 Nf6 4.Bg5 Be7 5.e3 O-O 6.Nf3 Nbd7 7.Qc2");
+        mapa.put("D62", "1.d4 d5 2.c4 e6 3.Nc3 Nf6 4.Bg5 Be7 5.e3 O-O 6.Nf3 Nbd7 7.Qc2 c5 8.cxd5");
+        mapa.put("D63", "1.d4 d5 2.c4 e6 3.Nc3 Nf6 4.Bg5 Be7 5.e3 O-O 6.Nf3 Nbd7 7.Rc1");
+        mapa.put("D64", "1.d4 d5 2.c4 e6 3.Nc3 Nf6 4.Bg5 Be7 5.e3 O-O 6.Nf3 Nbd7 7.Rc1 c6 8.Qc2");
+        mapa.put("D65", "1.d4 d5 2.c4 e6 3.Nc3 Nf6 4.Bg5 Be7 5.e3 O-O 6.Nf3 Nbd7 7.Rc1 c6 8.Qc2 a6 9.cxd5");
+        mapa.put("D66", "1.d4 d5 2.c4 e6 3.Nc3 Nf6 4.Bg5 Be7 5.e3 O-O 6.Nf3 Nbd7 7.Rc1 c6 8.Bd3");
+        mapa.put("D67", "1.d4 d5 2.c4 e6 3.Nc3 Nf6 4.Bg5 Be7 5.e3 O-O 6.Nf3 Nbd7 7.Rc1 c6 8.Bd3 dxc4 9.Bxc4 Nd5");
+        mapa.put("D68", "1.d4 d5 2.c4 e6 3.Nc3 Nf6 4.Bg5 Be7 5.e3 O-O 6.Nf3 Nbd7 7.Rc1 c6 8.Bd3 dxc4");
+        mapa.put("D69", "1.d4 d5 2.c4 e6 3.Nc3 Nf6 4.Bg5 Be7 5.e3 O-O 6.Nf3 Nbd7 7.Rc1 c6 8.Bd3 dxc4");
+        mapa.put("D70", "1.d4 Nf6 2.c4 g6 3.f3 d5");
+        mapa.put("D71", "1.d4 Nf6 2.c4 g6 3.g3 d5");
+        mapa.put("D72", "1.d4 Nf6 2.c4 g6 3.g3 d5 4.Bg2 Bg7 5.cxd5 Nxd5 6.e4 Nb6 7.Ne2");
+        mapa.put("D73", "1.d4 Nf6 2.c4 g6 3.g3 d5 4.Bg2 Bg7 5.Nf3");
+        mapa.put("D74", "1.d4 Nf6 2.c4 g6 3.g3 d5 4.Bg2 Bg7 5.Nf3 O-O 6.cxd5 Nxd5 7.O-O");
+        mapa.put("D75", "1.d4 Nf6 2.c4 g6 3.g3 d5 4.Bg2 Bg7 5.Nf3 O-O 6.cxd5 Nxd5 7.O-O c5 8.dxc5");
+        mapa.put("D76", "1.d4 Nf6 2.c4 g6 3.g3 d5 4.Bg2 Bg7 5.Nf3 O-O 6.cxd5 Nxd5 7.O-O Nb6");
+        mapa.put("D77", "1.d4 Nf6 2.c4 g6 3.g3 d5 4.Bg2 Bg7 5.Nf3 O-O 6.O-O");
+        mapa.put("D78", "1.d4 Nf6 2.c4 g6 3.g3 d5 4.Bg2 Bg7 5.Nf3 O-O 6.O-O c6");
+        mapa.put("D79", "1.d4 Nf6 2.c4 g6 3.g3 d5 4.Bg2 Bg7 5.Nf3 O-O 6.O-O c6 7.cxd5 cxd5");
+        mapa.put("D80", "1.d4 Nf6 2.c4 g6 3.Nc3 d5");
+        mapa.put("D81", "1.d4 Nf6 2.c4 g6 3.Nc3 d5 4.Qb3");
+        mapa.put("D82", "1.d4 Nf6 2.c4 g6 3.Nc3 d5 4.Bf4");
+        mapa.put("D83", "1.d4 Nf6 2.c4 g6 3.Nc3 d5 4.Bf4 Bg7 5.e3 O-O");
+        mapa.put("D84", "1.d4 Nf6 2.c4 g6 3.Nc3 d5 4.Bf4 Bg7 5.e3 O-O 6.cxd5 Nxd5 7.Nxd5 Qxd5 8.Bxc7");
+        mapa.put("D85", "1.d4 Nf6 2.c4 g6 3.Nc3 d5 4.cxd5 Nxd5");
+        mapa.put("D86", "1.d4 Nf6 2.c4 g6 3.Nc3 d5 4.cxd5 Nxd5 5.e4 Nxc3 6.bxc3 Bg7 7.Bc4");
+        mapa.put("D87", "1.d4 Nf6 2.c4 g6 3.Nc3 d5 4.cxd5 Nxd5 5.e4 Nxc3 6.bxc3 Bg7 7.Bc4 O-O 8.Ne2 c5");
+        mapa.put("D88", "1.d4 Nf6 2.c4 g6 3.Nc3 d5 4.cxd5 Nxd5 5.e4 Nxc3 6.bxc3 Bg7 7.Bc4 O-O 8.Ne2");
+        mapa.put("D89", "1.d4 Nf6 2.c4 g6 3.Nc3 d5 4.cxd5 Nxd5 5.e4 Nxc3 6.bxc3 Bg7 7.Bc4 O-O 8.Ne2");
+        mapa.put("D90", "1.d4 Nf6 2.c4 g6 3.Nc3 d5 4.Nf3");
+        mapa.put("D91", "1.d4 Nf6 2.c4 g6 3.Nc3 d5 4.Nf3 Bg7 5.Bg5");
+        mapa.put("D92", "1.d4 Nf6 2.c4 g6 3.Nc3 d5 4.Nf3 Bg7 5.Bf4");
+        mapa.put("D93", "1.d4 Nf6 2.c4 g6 3.Nc3 d5 4.Nf3 Bg7 5.Bf4 O-O 6.e3");
+        mapa.put("D94", "1.d4 Nf6 2.c4 g6 3.Nc3 d5 4.Nf3 Bg7 5.e3");
+        mapa.put("D95", "1.d4 Nf6 2.c4 g6 3.Nc3 d5 4.Nf3 Bg7 5.e3 O-O 6.Qb3");
+        mapa.put("D96", "1.d4 Nf6 2.c4 g6 3.Nc3 d5 4.Nf3 Bg7 5.Qb3");
+        mapa.put("D97", "1.d4 Nf6 2.c4 g6 3.Nc3 d5 4.Nf3 Bg7 5.Qb3 dxc4 6.Qxc4 O-O 7.e4");
+        mapa.put("D98", "1.d4 Nf6 2.c4 g6 3.Nc3 d5 4.Nf3 Bg7 5.Qb3 dxc4 6.Qxc4 O-O 7.e4 Bg4");
+        mapa.put("D99", "1.d4 Nf6 2.c4 g6 3.Nc3 d5 4.Nf3 Bg7 5.Qb3 dxc4 6.Qxc4 O-O 7.e4 Bg4 8.Be3");
+        mapa.put("E00", "1.d4 Nf6 2.c4 e6");
+        mapa.put("E01", "1.d4 Nf6 2.c4 e6 3.g3 d5 4.Bg2");
+        mapa.put("E02", "1.d4 Nf6 2.c4 e6 3.g3 d5 4.Bg2 dxc4 5.Qa4+");
+        mapa.put("E03", "1.d4 Nf6 2.c4 e6 3.g3 d5 4.Bg2 dxc4 5.Qa4+ Nbd7 6.Qxc4");
+        mapa.put("E04", "1.d4 Nf6 2.c4 e6 3.g3 d5 4.Bg2 dxc4 5.Nf3");
+        mapa.put("E05", "1.d4 Nf6 2.c4 e6 3.g3 d5 4.Bg2 dxc4 5.Nf3 Be7");
+        mapa.put("E06", "1.d4 Nf6 2.c4 e6 3.g3 d5 4.Bg2 Be7 5.Nf3");
+        mapa.put("E07", "1.d4 Nf6 2.c4 e6 3.g3 d5 4.Bg2 Be7 5.Nf3 O-O 6.O-O Nbd7");
+        mapa.put("E08", "1.d4 Nf6 2.c4 e6 3.g3 d5 4.Bg2 Be7 5.Nf3 O-O 6.O-O Nbd7 7.Qc2");
+        mapa.put("E09", "1.d4 Nf6 2.c4 e6 3.g3 d5 4.Bg2 Be7 5.Nf3 O-O 6.O-O Nbd7 7.Qc2 c6 8.Nbd2");
+        mapa.put("E10", "1.d4 Nf6 2.c4 e6 3.Nf3");
+        mapa.put("E11", "1.d4 Nf6 2.c4 e6 3.Nf3 Bb4+");
+        mapa.put("E12", "1.d4 Nf6 2.c4 e6 3.Nf3 b6");
+        mapa.put("E13", "1.d4 Nf6 2.c4 e6 3.Nf3 b6 4.Nc3 Bb7 5.Bg5 h6 6.Bh4 Bb4");
+        mapa.put("E14", "1.d4 Nf6 2.c4 e6 3.Nf3 b6 4.e3");
+        mapa.put("E15", "1.d4 Nf6 2.c4 e6 3.Nf3 b6 4.g3");
+        mapa.put("E16", "1.d4 Nf6 2.c4 e6 3.Nf3 b6 4.g3 Bb7 5.Bg2 Bb4+");
+        mapa.put("E17", "1.d4 Nf6 2.c4 e6 3.Nf3 b6 4.g3 Bb7 5.Bg2 Be7");
+        mapa.put("E18", "1.d4 Nf6 2.c4 e6 3.Nf3 b6 4.g3 Bb7 5.Bg2 Be7 6.O-O O-O 7.Nc3");
+        mapa.put("E19", "1.d4 Nf6 2.c4 e6 3.Nf3 b6 4.g3 Bb7 5.Bg2 Be7 6.O-O O-O 7.Nc3 Ne4 8.Qc2 Nxc3");
+        mapa.put("E20", "1.d4 Nf6 2.c4 e6 3.Nc3 Bb4");
+        mapa.put("E21", "1.d4 Nf6 2.c4 e6 3.Nc3 Bb4 4.Nf3");
+        mapa.put("E22", "1.d4 Nf6 2.c4 e6 3.Nc3 Bb4 4.Qb3");
+        mapa.put("E23", "1.d4 Nf6 2.c4 e6 3.Nc3 Bb4 4.Qb3 c5 5.dxc5 Nc6");
+        mapa.put("E24", "1.d4 Nf6 2.c4 e6 3.Nc3 Bb4 4.a3 Bxc3+ 5.bxc3");
+        mapa.put("E25", "1.d4 Nf6 2.c4 e6 3.Nc3 Bb4 4.a3 Bxc3+ 5.bxc3 c5 6.f3 d5 7.cxd5");
+        mapa.put("E26", "1.d4 Nf6 2.c4 e6 3.Nc3 Bb4 4.a3 Bxc3+ 5.bxc3 c5 6.e3");
+        mapa.put("E27", "1.d4 Nf6 2.c4 e6 3.Nc3 Bb4 4.a3 Bxc3+ 5.bxc3 O-O");
+        mapa.put("E28", "1.d4 Nf6 2.c4 e6 3.Nc3 Bb4 4.a3 Bxc3+ 5.bxc3 O-O 6.e3");
+        mapa.put("E29", "1.d4 Nf6 2.c4 e6 3.Nc3 Bb4 4.a3 Bxc3+ 5.bxc3 O-O 6.e3 c5 7.Bd3 Nc6");
+        mapa.put("E30", "1.d4 Nf6 2.c4 e6 3.Nc3 Bb4 4.Bg5");
+        mapa.put("E31", "1.d4 Nf6 2.c4 e6 3.Nc3 Bb4 4.Bg5 h6 5.Bh4 c5 6.d5 d6");
+        mapa.put("E32", "1.d4 Nf6 2.c4 e6 3.Nc3 Bb4 4.Qc2");
+        mapa.put("E33", "1.d4 Nf6 2.c4 e6 3.Nc3 Bb4 4.Qc2 Nc6");
+        mapa.put("E34", "1.d4 Nf6 2.c4 e6 3.Nc3 Bb4 4.Qc2 d5");
+        mapa.put("E35", "1.d4 Nf6 2.c4 e6 3.Nc3 Bb4 4.Qc2 d5 5.cxd5 exd5");
+        mapa.put("E36", "1.d4 Nf6 2.c4 e6 3.Nc3 Bb4 4.Qc2 d5 5.a3");
+        mapa.put("E37", "1.d4 Nf6 2.c4 e6 3.Nc3 Bb4 4.Qc2 d5 5.a3 Bxc3+ 6.Qxc3 Ne4 7.Qc2");
+        mapa.put("E38", "1.d4 Nf6 2.c4 e6 3.Nc3 Bb4 4.Qc2 c5");
+        mapa.put("E39", "1.d4 Nf6 2.c4 e6 3.Nc3 Bb4 4.Qc2 c5 5.dxc5 O-O");
+        mapa.put("E40", "1.d4 Nf6 2.c4 e6 3.Nc3 Bb4 4.e3");
+        mapa.put("E41", "1.d4 Nf6 2.c4 e6 3.Nc3 Bb4 4.e3 c5");
+        mapa.put("E42", "1.d4 Nf6 2.c4 e6 3.Nc3 Bb4 4.e3 c5 5.Ne2");
+        mapa.put("E43", "1.d4 Nf6 2.c4 e6 3.Nc3 Bb4 4.e3 b6");
+        mapa.put("E44", "1.d4 Nf6 2.c4 e6 3.Nc3 Bb4 4.e3 b6 5.Ne2");
+        mapa.put("E45", "1.d4 Nf6 2.c4 e6 3.Nc3 Bb4 4.e3 b6 5.Ne2 Ba6");
+        mapa.put("E46", "1.d4 Nf6 2.c4 e6 3.Nc3 Bb4 4.e3 O-O");
+        mapa.put("E47", "1.d4 Nf6 2.c4 e6 3.Nc3 Bb4 4.e3 O-O 5.Bd3");
+        mapa.put("E48", "1.d4 Nf6 2.c4 e6 3.Nc3 Bb4 4.e3 O-O 5.Bd3 d5");
+        mapa.put("E49", "1.d4 Nf6 2.c4 e6 3.Nc3 Bb4 4.e3 O-O 5.Bd3 d5 6.a3 Bxc3+ 7.bxc3");
+        mapa.put("E50", "1.d4 Nf6 2.c4 e6 3.Nc3 Bb4 4.e3 O-O 5.Nf3");
+        mapa.put("E51", "1.d4 Nf6 2.c4 e6 3.Nc3 Bb4 4.e3 O-O 5.Nf3 d5");
+        mapa.put("E52", "1.d4 Nf6 2.c4 e6 3.Nc3 Bb4 4.e3 O-O 5.Nf3 d5 6.Bd3 b6");
+        mapa.put("E53", "1.d4 Nf6 2.c4 e6 3.Nc3 Bb4 4.e3 O-O 5.Nf3 d5 6.Bd3 c5");
+        mapa.put("E54", "1.d4 Nf6 2.c4 e6 3.Nc3 Bb4 4.e3 O-O 5.Nf3 d5 6.Bd3 c5 7.O-O dxc4 8.Bxc4");
+        mapa.put("E55", "1.d4 Nf6 2.c4 e6 3.Nc3 Bb4 4.e3 O-O 5.Nf3 d5 6.Bd3 c5 7.O-O dxc4 8.Bxc4 Nbd7");
+        mapa.put("E56", "1.d4 Nf6 2.c4 e6 3.Nc3 Bb4 4.e3 O-O 5.Nf3 d5 6.Bd3 c5 7.O-O Nc6");
+        mapa.put("E57", "1.d4 Nf6 2.c4 e6 3.Nc3 Bb4 4.e3 O-O 5.Nf3 d5 6.Bd3 c5 7.O-O Nc6 8.a3 dxc4 9.Bxc4");
+        mapa.put("E58", "1.d4 Nf6 2.c4 e6 3.Nc3 Bb4 4.e3 O-O 5.Nf3 d5 6.Bd3 c5 7.O-O Nc6 8.a3 Bxc3 9.bxc3");
+        mapa.put("E59", "1.d4 Nf6 2.c4 e6 3.Nc3 Bb4 4.e3 O-O 5.Nf3 d5 6.Bd3 c5 7.O-O Nc6 8.a3 Bxc3 9.bxc3 dxc4 10.Bxc4");
+        mapa.put("E60", "1.d4 Nf6 2.c4 g6");
+        mapa.put("E61", "1.d4 Nf6 2.c4 g6 3.Nc3");
+        mapa.put("E62", "1.d4 Nf6 2.c4 g6 3.Nc3 Bg7 4.Nf3 d6 5.g3");
+        mapa.put("E63", "1.d4 Nf6 2.c4 g6 3.Nc3 Bg7 4.Nf3 d6 5.g3 O-O 6.Bg2 Nc6 7.O-O a6");
+        mapa.put("E64", "1.d4 Nf6 2.c4 g6 3.Nc3 Bg7 4.Nf3 d6 5.g3 O-O 6.Bg2 c5");
+        mapa.put("E65", "1.d4 Nf6 2.c4 g6 3.Nc3 Bg7 4.Nf3 d6 5.g3 O-O 6.Bg2 c5 7.O-O");
+        mapa.put("E66", "1.d4 Nf6 2.c4 g6 3.Nc3 Bg7 4.Nf3 d6 5.g3 O-O 6.Bg2 c5 7.O-O Nc6 8.d5");
+        mapa.put("E67", "1.d4 Nf6 2.c4 g6 3.Nc3 Bg7 4.Nf3 d6 5.g3 O-O 6.Bg2 Nbd7");
+        mapa.put("E68", "1.d4 Nf6 2.c4 g6 3.Nc3 Bg7 4.Nf3 d6 5.g3 O-O 6.Bg2 Nbd7 7.O-O e5 8.e4");
+        mapa.put("E69", "1.d4 Nf6 2.c4 g6 3.Nc3 Bg7 4.Nf3 d6 5.g3 O-O 6.Bg2 Nbd7 7.O-O e5 8.e4 c6 9.h3");
+        mapa.put("E70", "1.d4 Nf6 2.c4 g6 3.Nc3 Bg7 4.e4");
+        mapa.put("E71", "1.d4 Nf6 2.c4 g6 3.Nc3 Bg7 4.e4 d6 5.h3");
+        mapa.put("E72", "1.d4 Nf6 2.c4 g6 3.Nc3 Bg7 4.e4 d6 5.g3");
+        mapa.put("E73", "1.d4 Nf6 2.c4 g6 3.Nc3 Bg7 4.e4 d6 5.Be2");
+        mapa.put("E74", "1.d4 Nf6 2.c4 g6 3.Nc3 Bg7 4.e4 d6 5.Be2 O-O 6.Bg5 c5");
+        mapa.put("E75", "1.d4 Nf6 2.c4 g6 3.Nc3 Bg7 4.e4 d6 5.Be2 O-O 6.Bg5 c5 7.d5 e6");
+        mapa.put("E76", "1.d4 Nf6 2.c4 g6 3.Nc3 Bg7 4.e4 d6 5.f4");
+        mapa.put("E77", "1.d4 Nf6 2.c4 g6 3.Nc3 Bg7 4.e4 d6 5.f4 O-O 6.Be2");
+        mapa.put("E78", "1.d4 Nf6 2.c4 g6 3.Nc3 Bg7 4.e4 d6 5.f4 O-O 6.Be2 c5 7.Nf3");
+        mapa.put("E79", "1.d4 Nf6 2.c4 g6 3.Nc3 Bg7 4.e4 d6 5.f4 O-O 6.Be2 c5 7.Nf3 cxd4 8.Nxd4 Nc6 9.Be3");
+        mapa.put("E80", "1.d4 Nf6 2.c4 g6 3.Nc3 Bg7 4.e4 d6 5.f3");
+        mapa.put("E81", "1.d4 Nf6 2.c4 g6 3.Nc3 Bg7 4.e4 d6 5.f3 O-O");
+        mapa.put("E82", "1.d4 Nf6 2.c4 g6 3.Nc3 Bg7 4.e4 d6 5.f3 O-O 6.Be3 b6");
+        mapa.put("E83", "1.d4 Nf6 2.c4 g6 3.Nc3 Bg7 4.e4 d6 5.f3 O-O 6.Be3 Nc6");
+        mapa.put("E84", "1.d4 Nf6 2.c4 g6 3.Nc3 Bg7 4.e4 d6 5.f3 O-O 6.Be3 Nc6 7.Nge2 a6 8.Qd2 Rb8");
+        mapa.put("E85", "1.d4 Nf6 2.c4 g6 3.Nc3 Bg7 4.e4 d6 5.f3 O-O 6.Be3 e5");
+        mapa.put("E86", "1.d4 Nf6 2.c4 g6 3.Nc3 Bg7 4.e4 d6 5.f3 O-O 6.Be3 e5 7.Nge2 c6");
+        mapa.put("E87", "1.d4 Nf6 2.c4 g6 3.Nc3 Bg7 4.e4 d6 5.f3 O-O 6.Be3 e5 7.d5");
+        mapa.put("E88", "1.d4 Nf6 2.c4 g6 3.Nc3 Bg7 4.e4 d6 5.f3 O-O 6.Be3 e5 7.d5 c6");
+        mapa.put("E89", "1.d4 Nf6 2.c4 g6 3.Nc3 Bg7 4.e4 d6 5.f3 O-O 6.Be3 e5 7.d5 c6 8.Nge2 cxd5");
+        mapa.put("E90", "1.d4 Nf6 2.c4 g6 3.Nc3 Bg7 4.e4 d6 5.Nf3");
+        mapa.put("E91", "1.d4 Nf6 2.c4 g6 3.Nc3 Bg7 4.e4 d6 5.Nf3 O-O 6.Be2");
+        mapa.put("E92", "1.d4 Nf6 2.c4 g6 3.Nc3 Bg7 4.e4 d6 5.Nf3 O-O 6.Be2 e5");
+        mapa.put("E93", "1.d4 Nf6 2.c4 g6 3.Nc3 Bg7 4.e4 d6 5.Nf3 O-O 6.Be2 e5 7.d5 Nbd7");
+        mapa.put("E94", "1.d4 Nf6 2.c4 g6 3.Nc3 Bg7 4.e4 d6 5.Nf3 O-O 6.Be2 e5 7.O-O");
+        mapa.put("E95", "1.d4 Nf6 2.c4 g6 3.Nc3 Bg7 4.e4 d6 5.Nf3 O-O 6.Be2 e5 7.O-O Nbd7 8.Re1");
+        mapa.put("E96", "1.d4 Nf6 2.c4 g6 3.Nc3 Bg7 4.e4 d6 5.Nf3 O-O 6.Be2 e5 7.O-O Nbd7 8.Re1 c6 9.Bf1 a5");
+        mapa.put("E97", "1.d4 Nf6 2.c4 g6 3.Nc3 Bg7 4.e4 d6 5.Nf3 O-O 6.Be2 e5 7.O-O Nc6");
+        mapa.put("E98", "1.d4 Nf6 2.c4 g6 3.Nc3 Bg7 4.e4 d6 5.Nf3 O-O 6.Be2 e5 7.O-O Nc6 8.d5 Ne7 9.Ne1");
+        mapa.put("E99", "1.d4 Nf6 2.c4 g6 3.Nc3 Bg7 4.e4 d6 5.Nf3 O-O 6.Be2 e5 7.O-O Nc6 8.d5 Ne7 9.Ne1 Nd7 10.f3 f5");
+
+        return mapa;
+
     }
 
     private static Map<String, String> init() {
