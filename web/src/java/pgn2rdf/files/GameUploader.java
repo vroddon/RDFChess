@@ -59,10 +59,13 @@ public class GameUploader {
         uploadPGN("samples/Tarrasch.pgn");
         uploadPGN("samples/Capablanca.pgn");
         uploadPGN("samples/Alekhine.pgn");*/
-        uploadPGN("samples/Morphy.pgn");
-        uploadPGN("samples/Anand.pgn");
-        uploadPGN("samples/Botvinnik.pgn");
-        uploadPGN("samples/Karpov.pgn");
+//        uploadPGN("samples/Morphy.pgn");
+//        uploadPGN("samples/Anand.pgn");
+//        uploadPGN("samples/Botvinnik.pgn");
+//        uploadPGN("samples/Karpov.pgn");
+        uploadPGN("samples/Philidor.pgn");
+        uploadPGN("samples/Caruana.pgn");
+        uploadPGN("samples/Petrosian.pgn");
     }
 
     private static int uploadPGN(String filename) {

@@ -649,6 +649,17 @@ public class PGNProcessor {
         }
         return "";
     }
+    public static String getNameFromOpening(Model model)
+    {
+             NodeIterator nit2 = model.listObjectsOfProperty(model.createProperty("http://www.w3.org/2000/01/rdf-schema#label"));
+            if (nit2.hasNext()) {
+                return nit2.next().asLiteral().toString();
+            }
+            return "";
+       
+    }
+    
+    
 
     public static String getECOURI(Model model) {
         String id = "";

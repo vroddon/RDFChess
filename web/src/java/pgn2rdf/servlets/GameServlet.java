@@ -146,8 +146,9 @@ public class GameServlet extends HttpServlet {
                 }
                 if (titulo.equals("ChessGameOpening")) {
                     int ultimo = entidad.toString().lastIndexOf("/");
-                    String eco = entidad.toString().substring(ultimo+1, entidad.toString().length());                    
-                    String moves = ChessECOManager.getMoves(eco);
+                    String eco = entidad.toString().substring(ultimo+1, entidad.toString().length());                
+                    String moves = "<h3>"+PGNProcessor.getNameFromOpening(model)+"</h3>";
+                    moves+= ChessECOManager.getMoves(eco);
                     body = body.replace("<!--TEMPLATE_PGN-->", "\n" + moves);
                 }
 
