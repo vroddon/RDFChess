@@ -29,6 +29,7 @@ import pgn2rdf.chess.PGNProcessor;
 import pgn2rdf.files.RDFStore;
 import pgn2rdf.mappings.ManagerDBpedia;
 import pgn2rdf.mappings.ManagerGeonames;
+import pgn2rdf.mappings.ManagerWikipedia;
 
 /**
  * This web processes queries of the style serving RDF Chess games as linked
@@ -142,6 +143,16 @@ public class GameServlet extends HttpServlet {
                     String eco = entidad.toString().substring(ultimo+1, entidad.toString().length());                
                     String s = "<h3>"+PGNProcessor.getNameFromOpening(model)+"</h3>";
                     s+= ChessECOManager.getMoves(eco);
+                    NodeIterator ni7 = model.listObjectsOfProperty(entidad, model.createProperty("http://www.w3.org/2000/01/rdf-schema#seeAlso"));
+                    String sr = "";
+                    if (ni7.hasNext()) {
+                        Resource clase = ni7.next().asResource();
+                        if (clase.toString().startsWith("http://en.wikibooks")) {
+                            s+="<p>";
+                            s+=ManagerWikipedia.getAbstractFromWikiBook(ttl);
+                            s+="</p>";
+                        }
+                    }
                     s += "\n<hr><div style=\"overflow: hidden; width: 100%;\">\n";
                     List<String> partidas = RDFStore.listGamesByOpening(eco);
                     s += "<h3>Some games</h3>";

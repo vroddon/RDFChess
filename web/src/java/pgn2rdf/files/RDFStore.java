@@ -121,7 +121,7 @@ public class RDFStore {
                 + "  GRAPH ?g {\n"
                 + "    ?s ?p <"+chessplayeruri+ ">\n"
                 + "  }\n"
-                + "} LIMIT 200";
+                + "} LIMIT 20";
         Query query = QueryFactory.create(sparql);
         String endpoint = "http://localhost:3030/RDFChess/query";
         QueryExecution qexec = QueryExecutionFactory.sparqlService(endpoint, query);
