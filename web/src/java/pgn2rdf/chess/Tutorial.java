@@ -31,6 +31,7 @@ public class Tutorial {
         
         String moves = ChessECOManager.getMoves("C60");
         System.out.println(moves);
+        clearAll();
 //        testRDF();
 //        clearAll();
         //   RDFStore.listGamesByChessPlayer("http://salonica.dia.fi.upm.es:8080/rdfchess/resource/chessplayer/Anatoly+Karpov");
