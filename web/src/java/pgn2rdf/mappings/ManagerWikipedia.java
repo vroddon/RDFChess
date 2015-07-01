@@ -16,9 +16,10 @@ public class ManagerWikipedia {
     public static void main(String[] args) throws IOException {
 //        String url = "http://en.wikipedia.org/wiki/Garry_Kasparov";
 //        String url ="http://en.wikipedia.org/wiki/Queen%27s_Gambit_Declined";
-        String url="https://en.wikibooks.org/wiki/Chess_Opening_Theory/1._e4";
+        String url="https://en.wikibooks.org/wiki/Chess_Opening_Theory/1._e4/1...c5/2._Nf3";
 //        infoBox(url);
-        getAbstractFromWikiBook(url);
+        String s=getAbstractFromWikiBook(url);
+        System.out.println(s);
     }
 
     public static String getAbstractFromWikiBook(String url) throws IOException {

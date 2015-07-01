@@ -149,7 +149,7 @@ public class GameServlet extends HttpServlet {
                         Resource clase = ni7.next().asResource();
                         if (clase.toString().startsWith("http://en.wikibooks")) {
                             s+="<p>";
-                            s+=ManagerWikipedia.getAbstractFromWikiBook(ttl);
+                            s+=ManagerWikipedia.getAbstractFromWikiBook(clase.toString());
                             s+="</p>";
                         }
                     }

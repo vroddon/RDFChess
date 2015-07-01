@@ -844,6 +844,9 @@ public class PGNProcessor {
      */
     public static void main(String[] args) throws IOException {
 
+        String db=getMappingDBpedia("West, Guy");
+        System.out.println(db);
+        /*
         String input = new String(Files.readAllBytes(Paths.get("samples/test.pgn")));
         String rdf = PGNProcessor.getRDF(input, Lang.TTL);
         System.out.println(rdf);
@@ -853,7 +856,7 @@ public class PGNProcessor {
         String s = PGNProcessor.buildPGN(model, true);
         System.out.println(s);
 //        PrintWriter out = new PrintWriter("samples/test.ttl");
-//        out.println(rdf);
+//        out.println(rdf);*/
     }
 
     static Map<String, String> jugadores = initJugadores();
@@ -871,7 +874,8 @@ public class PGNProcessor {
         mapa.put("Tal, Mihail", "http://dbpedia.org/resource/Mikhail_Tal");
         mapa.put("Marshall, Frank James", "http://dbpedia.org/resource/Frank_Marshall");
         mapa.put("Kortschnoj, Viktor", "http://dbpedia.org/resource/Viktor_Korchnoi");
-        mapa.put("Petrosian, Tigran V", "http://dbpedia.org/page/Tigran_Petrosian");
+        mapa.put("Petrosian, Tigran V", "http://dbpedia.org/resource/Tigran_Petrosian");
+        mapa.put("Panno, Oscar", "http://dbpedia.org/resource/Oscar_Panno");
         
         
         return mapa;
@@ -882,8 +886,18 @@ public class PGNProcessor {
         if (dbpedia == null) {
             System.out.println("Query in external endpoint for " + jugador);
             dbpedia = DBpediaSpotlight.getDBPediaResource(jugador, "/chess/chess_player", "chess");
-            if (dbpedia == null) {
-                dbpedia = "";
+            if (dbpedia.equals(jugador)) {
+                int coma=jugador.indexOf(",");
+                if (coma!=-1)
+                {
+                    String nom = jugador.substring(coma+2, jugador.length());
+                    String cognom = jugador.substring(0,coma);
+                    String url = "http://dbpedia.org/resource/"+nom+"_"+cognom;
+                    String country=ManagerDBpedia.getCountry(url);
+                    System.out.println(country);
+                    if (!country.isEmpty())
+                        dbpedia=url;
+                }
             }
             jugadores.put(jugador, dbpedia);
         }
