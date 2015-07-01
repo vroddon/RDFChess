@@ -31,6 +31,7 @@ public class Tutorial {
         
         String moves = ChessECOManager.getMoves("C60");
         System.out.println(moves);
+        clearAll();
 //        testRDF();
 //        clearAll();
         //   RDFStore.listGamesByChessPlayer("http://salonica.dia.fi.upm.es:8080/rdfchess/resource/chessplayer/Anatoly+Karpov");
@@ -93,8 +94,7 @@ public class Tutorial {
         ps.close();
 
         //get result
-        BufferedReader br = new BufferedReader(new InputStreamReader(urlc
-            .getInputStream()));
+        BufferedReader br = new BufferedReader(new InputStreamReader(urlc.getInputStream()));
         String l = null;
         String s="";
         while ((l=br.readLine())!=null) {

@@ -34,8 +34,15 @@ import pgn2rdf.chess.RDFChessConfig;
 
 /**
  * Accesor methods for the RDF Chess Fuseki data store
- *
- * @author vroddon
+ * This is based on Fuseki.
+ * To start fuseki:
+ * fuseki-server --update --loc=data /RDFChess
+ * 
+ * 
+ * To start apache: java/apachetomcat/bin> startup
+ * 
+ * 
+ * @author vroddon 
  */
 public class RDFStore {
 
@@ -56,6 +63,8 @@ public class RDFStore {
         System.out.println(countGames());
     }
     
+    
+    
     public static void deleteGame(String s)
     {
         String endpoint = "http://localhost:3030/RDFChess/update";
@@ -67,7 +76,7 @@ public class RDFStore {
 
     public static void listDeleteGames() {
         int offset=0;
-        int limit=10;
+        int limit=1000;
         
         List<String> ls = RDFStore.listGames(offset, limit);
         int count=0;

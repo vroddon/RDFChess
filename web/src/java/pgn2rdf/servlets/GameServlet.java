@@ -10,6 +10,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -55,6 +56,7 @@ public class GameServlet extends HttpServlet {
         String peticion = request.getRequestURI();
         if (peticion.equals("/rdfchess/resource/")) {                               //SERVING THE LIST OF GAMES.
             System.out.println("Serving HTML for general players");
+            response.setContentType("text/html;charset=UTF-8");
             InputStream is1 = GameServlet.class.getResourceAsStream("../../../../game.html");
             BufferedReader reader = new BufferedReader(new InputStreamReader(is1));
             StringBuilder outx = new StringBuilder();
@@ -78,7 +80,6 @@ public class GameServlet extends HttpServlet {
                     lista+="<a href=\"" + s +"\">"+name+"</a><br>";
                 }
             body = body.replace("<!--TEMPLATE_PGN-->", "<br>" + lista);
-            response.setContentType("text/html;charset=utf-8");
             response.getWriter().println(body);
             response.setStatus(HttpServletResponse.SC_OK);
             return;
@@ -99,14 +100,14 @@ public class GameServlet extends HttpServlet {
             if (isRDFXML(request)) {
                 System.out.println("Serving RDF/XML for " + gameid);
                 response.getWriter().println(RDFStore.readXML(gameid));
-                response.setContentType("application/rdf+xml;charset=utf-8");
+                response.setContentType("application/rdf+xml;charset=UTF-8");
             } else if (isRDFTTL(request)) {
                 System.out.println("Serving TTL for " + gameid);
                 response.getWriter().println(ttl);
-                response.setContentType("text/turtle;charset=utf-8");
+                response.setContentType("text/turtle;charset=UTF-8");
             } else {
-                response.setContentType("text/html;charset=utf-8");
-                response.setCharacterEncoding("utf-8");
+                response.setContentType("text/html;charset=UTF-8");
+                response.setCharacterEncoding("UTF-8");
                 System.out.println("Serving HTML for " + gameid);
                 InputStream is1 = GameServlet.class.getResourceAsStream("../../../../game.html");
                 BufferedReader reader = new BufferedReader(new InputStreamReader(is1, "UTF-8"));
@@ -171,9 +172,16 @@ public class GameServlet extends HttpServlet {
                     if (ni7.hasNext()) {
                         Resource clase = ni7.next().asResource();
                         if (clase.toString().startsWith("http://dbpedia.org") || clase.toString().startsWith("http://es.dbpedia.org")) {
+                        String abst = ManagerDBpedia.getAbstract(clase.toString());
+                        System.out.println(abst);
+                        PrintWriter archivo = new PrintWriter("d:\\test.txt");
+                        archivo.println(abst);
+                        archivo.close();
+                            
+                            
                             s += "<h3>" + ManagerDBpedia.getLabel(clase.toString()) + "</h3>";
                             s += "<p><img style=\"float:left;margin:10px 10px;\" src=\"" + ManagerDBpedia.getThumbnailURL(clase.toString()) + "\" />";
-                            s += "" + ManagerDBpedia.getAbstract(clase.toString()) + "</p>";
+                            s += "" + abst + "</p>";
 
                             s += "\n<hr><div style=\"overflow: hidden; width: 100%;\">\n";
                             List<String> partidas = RDFStore.listGamesByChessPlayer(entidad.toString());
@@ -191,16 +199,9 @@ public class GameServlet extends HttpServlet {
                 body = body.replace("<!--TEMPLATE_URI-->", "\n" + gameid);
                 body = body.replace("<!--TEMPLATE_TITLE-->", "\n" + titulo);
                 body = body.replace("<!--TEMPLATE_TTL-->", "<br>" + ttl2);
-
-                /*response.getWriter().println("<html><head> <script src=\"https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js\"></script></head>");
-                 response.getWriter().println("<body><pre class=\"prettyprint\">");
-                 response.getWriter().println(ttl2);
-                 response.getWriter().println("</pre></body></html>");*/
                 response.getWriter().println(body);
-
             }
             response.setStatus(HttpServletResponse.SC_OK);
-
         }
     }
 

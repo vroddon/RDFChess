@@ -2,9 +2,8 @@ package pgn2rdf.mappings;
 
 //JENA
 import com.hp.hpl.jena.query.*;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
+import java.io.IOException;
+import pgn2rdf.chess.Tutorial;
 
 /**
  * Class to make some useful DBpedia queries
@@ -22,18 +21,12 @@ public class ManagerDBpedia {
 
 // static String endpoint="http://dbpedia.linkeddata.es:8898/sparql";
  static String endpoint="http://dbpedia.org/sparql";
- //  static String endpoint="http://live.dbpedia.org/sparql";
+//   static String endpoint="http://live.dbpedia.org/sparql";
 
   
-    public static void main(String[] args) throws UnsupportedEncodingException, FileNotFoundException {
-        String s = getAbstract("http://dbpedia.org/resource/Mikhail_Chigorin");
+    public static void main(String[] args) throws IOException {
+        String s = getAbstract2("http://dbpedia.org/resource/Mikhail_Chigorin");
         System.out.println("Víctor\n"+s);
-        
-                        PrintWriter archivo = new PrintWriter("d:\\test.txt", "UTF-8");
-                        archivo.println(s);
-                        archivo.close();
-        
-        
     }
     
     public static String getLabel(String resource)
@@ -77,6 +70,13 @@ public class ManagerDBpedia {
         }
         return "";        
     }
+    public static String getAbstract2(String resource) throws IOException
+    {
+       
+        String test = Tutorial.REST(resource, "", "text/html"); //application/rdf+xml
+        return test;
+    }
+    
     public static String getAbstract(String resource)
     {
         String prefijos="PREFIX owl: <http://www.w3.org/2002/07/owl#> PREFIX dbpedia-owl: <http://dbpedia.org/ontology/> \n";
