@@ -2,6 +2,8 @@ package pgn2rdf.mappings;
 
 //JENA
 import com.hp.hpl.jena.query.*;
+import java.io.IOException;
+import pgn2rdf.chess.Tutorial;
 
 /**
  * Class to make some useful DBpedia queries
@@ -68,6 +70,12 @@ public class ManagerDBpedia {
         }
         return "";        
     }
+    public static String getAbstract2(String resource) throws IOException
+    {
+        String test = Tutorial.REST("dbpedia.org/resource/José_Raúl_Capablanca", "", "application/rdf+xml");
+        return test;
+    }
+    
     public static String getAbstract(String resource)
     {
         String prefijos="PREFIX owl: <http://www.w3.org/2002/07/owl#> PREFIX dbpedia-owl: <http://dbpedia.org/ontology/> \n";

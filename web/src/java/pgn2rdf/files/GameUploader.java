@@ -48,7 +48,6 @@ public class GameUploader {
         uploadPGN("samples/WorldChamp1921.pgn");
         uploadPGN("samples/WorldChamp1931.pgn");
         uploadPGN("samples/WorldChamp2012.pgn");
-        uploadPGN("samples/WorldChamp1909.pgn");
         uploadPGN("samples/WorldChamp2013.pgn");
         uploadPGN("samples/WorldChamp2014.pgn");
 /*        uploadPGN("samples/Fischer.pgn");

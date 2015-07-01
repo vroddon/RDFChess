@@ -36,8 +36,13 @@ import pgn2rdf.chess.RDFChessConfig;
  * Accesor methods for the RDF Chess Fuseki data store
  * This is based on Fuseki.
  * To start fuseki:
- * fuseki-server 
- * @author vroddon --update --loc=data /RDFChess
+ * fuseki-server --update --loc=data /RDFChess
+ * 
+ * 
+ * To start apache: java/apachetomcat/bin> startup
+ * 
+ * 
+ * @author vroddon 
  */
 public class RDFStore {
 
