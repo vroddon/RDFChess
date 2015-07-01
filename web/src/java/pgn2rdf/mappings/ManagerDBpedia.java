@@ -2,6 +2,7 @@ package pgn2rdf.mappings;
 
 //JENA
 import com.hp.hpl.jena.query.*;
+import com.hp.hpl.jena.rdf.model.Literal;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -29,7 +30,7 @@ public class ManagerDBpedia {
 
   
     public static void main(String[] args) throws IOException {
-        String s = getAbstract2("http://dbpedia.org/resource/Mikhail_Chigorin");
+        String s = getAbstract("http://dbpedia.org/resource/Viswanathan_Anand");
         System.out.println("Víctor\n"+s);
     }
     
@@ -121,8 +122,12 @@ public class ManagerDBpedia {
             ResultSet results = qexec.execSelect();
             for (;results.hasNext();) {
                 QuerySolution qs=results.next();
-                String st = qs.toString();
-                return qs.getLiteral("?o").getLexicalForm();
+                Literal l = qs.getLiteral("?o");
+                if (l.getLanguage().equals("en"))
+                {
+                    String res=l.getLexicalForm();
+                    System.out.println(res);
+                }
             }
         }catch(Exception e){
             
