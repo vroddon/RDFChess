@@ -23,7 +23,7 @@ public class ManagerDBpedia {
 
   
     public static void main(String[] args) {
-        String s = getAbstract("http://dbpedia.org/resource/Anatoly_Karpov");
+        String s = getAbstract("http://dbpedia.org/resource/Mikhail_Chigorin");
         System.out.println("Víctor\n"+s);
     }
     

@@ -106,9 +106,10 @@ public class GameServlet extends HttpServlet {
                 response.setContentType("text/turtle;charset=utf-8");
             } else {
                 response.setContentType("text/html;charset=utf-8");
+                response.setCharacterEncoding("utf-8");
                 System.out.println("Serving HTML for " + gameid);
                 InputStream is1 = GameServlet.class.getResourceAsStream("../../../../game.html");
-                BufferedReader reader = new BufferedReader(new InputStreamReader(is1));
+                BufferedReader reader = new BufferedReader(new InputStreamReader(is1, "UTF-8"));
                 StringBuilder outx = new StringBuilder();
                 String line;
                 while ((line = reader.readLine()) != null) {
