@@ -891,10 +891,12 @@ public class PGNProcessor {
                 if (coma!=-1)
                 {
                     String nom = jugador.substring(coma+2, jugador.length());
+                    if (nom.contains(" "))
+                        nom=nom.substring(0,nom.indexOf(" ")-1);
                     String cognom = jugador.substring(0,coma);
                     String url = "http://dbpedia.org/resource/"+nom+"_"+cognom;
-                    url.replace(" ", "_");
-                    String country=ManagerDBpedia.getCountry(url);
+                    url=url.replace(" ", "_");
+                    String country=ManagerDBpedia.getAbstract(url);
                     System.out.println(country);
                     if (!country.isEmpty())
                         dbpedia=url;

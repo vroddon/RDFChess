@@ -56,6 +56,8 @@ public class ChessECOManager {
         String also="";
         
         String m = getMoves(eco);
+        if (eco.isEmpty() || eco==null || m==null || m.isEmpty())
+            return"";
         int i=0;
         int c=1;
         while(true)

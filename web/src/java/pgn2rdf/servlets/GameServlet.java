@@ -147,9 +147,9 @@ public class GameServlet extends HttpServlet {
                     String sr = "";
                     if (ni7.hasNext()) {
                         Resource clase = ni7.next().asResource();
-                        if (clase.toString().startsWith("http://en.wikibooks")) {
+                        if (clase.toString().startsWith("http://en.wikibooks") || clase.toString().startsWith("https://en.wikibooks")) {
                             s+="<p>";
-                            s+=ManagerWikipedia.getAbstractFromWikiBook(clase.toString());
+                            //s+=ManagerWikipedia.getAbstractFromWikiBook(clase.toString());
                             s+="</p>";
                         }
                     }
@@ -184,10 +184,10 @@ public class GameServlet extends HttpServlet {
                         Resource clase = ni7.next().asResource();
                         if (clase.toString().startsWith("http://dbpedia.org") || clase.toString().startsWith("http://es.dbpedia.org")) {
                         String abst = ManagerDBpedia.getAbstract(clase.toString());
-                        System.out.println(abst);
-                        PrintWriter archivo = new PrintWriter("d:\\test.txt");
-                        archivo.println(abst);
-                        archivo.close();
+                   //     System.out.println(abst);
+                   //     PrintWriter archivo = new PrintWriter("d:\\test.txt");
+                   //     archivo.println(abst);
+                    //    archivo.close();
                             
                             
                             s += "<h3>" + ManagerDBpedia.getLabel(clase.toString()) + "</h3>";
