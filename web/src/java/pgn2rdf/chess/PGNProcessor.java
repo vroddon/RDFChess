@@ -165,22 +165,6 @@ public class PGNProcessor {
         return "";
     }
     
-    public static String getChessPlayerName(String s)
-    {
-        String name="";
-        String rdf=RDFStore.readGame(s);
-        Model model = ModelFactory.createDefaultModel();
-        InputStream is = new ByteArrayInputStream(rdf.getBytes(StandardCharsets.UTF_8));
-        RDFDataMgr.read(model, is, Lang.TTL);
-        NodeIterator nit = model.listObjectsOfProperty(model.createProperty("http://purl.org/NET/rdfchess/ontology/hasName"));
-        while (nit.hasNext()) {
-            Literal l = nit.next().asLiteral();
-            name = l.getLexicalForm();
-        }
-        if (name.isEmpty())
-            name=s;
-        return name;
-    }
     
 
     /**
