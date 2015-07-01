@@ -17,7 +17,7 @@ public class ChessECOManager {
      */
     public static void main(String[] args) throws IOException {
     
-        String eco ="C60";
+        String eco ="B96";
         System.out.println(eco);
         System.out.println(getName(eco));
         System.out.println(getMoves(eco));
@@ -47,6 +47,7 @@ public class ChessECOManager {
     /**
      * Takes advantage of the chess opening book 
      * https://en.wikibooks.org/wiki/Chess_Opening_Theory/1._e4/1...e5/2._Nf3/2...Nc6/3._Bb5
+     * https://en.wikibooks.org/wiki/Chess_Opening_Theory/1._e4/1...c5/2._Nf3/2...d6/3._d4/3...cxd4/4._Nxd4/4...Nf6/5._Nc3/5...a6/6._Bg5/6...e6
      *         1.e4 e5 2.Nf3
      *   1._e4/1...e5/2._Nf3
      */
@@ -55,6 +56,29 @@ public class ChessECOManager {
         String also="";
         
         String m = getMoves(eco);
+        int i=0;
+        int c=1;
+        while(true)
+        {
+            int b1 = m.indexOf('.',i);
+            if (b1==-1)
+                break;
+            int b2 = m.indexOf(" ",b1);
+            if (b2==-1)
+                break;
+            String mb = m.substring(b1+1, b2);
+            also+=c+"._"+mb+"/";
+            i=b2;
+            int b3 = m.indexOf(' ',i+1);
+            if (b3==-1)
+                break;
+            System.out.println(b2+" "+b3);
+            String mn = m.substring(b2+1, b3);
+            also+=c+"..."+mn+"/";
+            c++;
+        }
+        also = "https://en.wikibooks.org/wiki/Chess_Opening_Theory/" + also;
+        also = also.substring(0, also.length()-1);
         
         return also;
     }

@@ -280,6 +280,8 @@ public class PGNProcessor {
         if (dbpedia.equals(sx)) {
             dbpedia = "http://unknown";
         }
+        String seealso = ChessECOManager.getSeeAlso(eco);
+        
         String literal = eco;
         String idw = RDFChess.DATA_URI + "opening/" + eco;
         String sparql = "PREFIX chess: <http://purl.org/NET/rdfchess/ontology/>\n"
@@ -292,11 +294,14 @@ public class PGNProcessor {
                 + "<" + idw + "> rdf:type chess:ChessGameOpening .\n"
                 + "<" + idw + "> chess:ECOID \"" + eco + "\" .\n"
                 + "<" + idw + "> rdfs:label \"" + econame + "\" .\n";
-        if (loc.isEmpty()) {
+        if (!loc.isEmpty()) {
             sparql += "<" + idw + "> skos:closeMatch <" + loc + "> .\n";
         }
-        if (dbpedia.isEmpty()) {
+        if (!dbpedia.isEmpty()) {
             sparql += "<" + idw + "> skos:closeMatch <" + dbpedia + "> .\n";
+        }
+        if (!seealso.isEmpty()) {
+            sparql += "<" + idw + "> rdfs:seeAlso <" + seealso + "> .\n";
         }
         sparql += "}\n"
                 + "WHERE { <" + id + "> <http://purl.org/NET/rdfchess/ontology/hasECOOpening> \"" + literal + "\" }";
@@ -865,6 +870,8 @@ public class PGNProcessor {
         mapa.put("Pachman, Ludek", "http://dbpedia.org/resource/Lud%C4%9Bk_Pachman");
         mapa.put("Tal, Mihail", "http://dbpedia.org/resource/Mikhail_Tal");
         mapa.put("Marshall, Frank James", "http://dbpedia.org/resource/Frank_Marshall");
+        mapa.put("Kortschnoj, Viktor", "http://dbpedia.org/resource/Viktor_Korchnoi");
+        mapa.put("Petrosian, Tigran V", "http://dbpedia.org/page/Tigran_Petrosian");
         
         
         return mapa;
