@@ -52,9 +52,16 @@ public class Tutorial {
         request.add("DROP ALL");      
         UpdateProcessor qexec=UpdateExecutionFactory.createRemoteForm(request,endpoint);
         qexec.execute();
-        
     }
     
+    public static void clearOneByOne()
+    {
+        String endpoint = "http://localhost:3030/RDFChess/update";
+        UpdateRequest request = UpdateFactory.create() ;
+        request.add("DROP ALL");   
+        UpdateProcessor qexec=UpdateExecutionFactory.createRemoteForm(request,endpoint);
+        qexec.execute();
+    }
     
     public static void testRDF() throws IOException
     {

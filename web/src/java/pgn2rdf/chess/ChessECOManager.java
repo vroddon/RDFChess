@@ -1,5 +1,6 @@
 package pgn2rdf.chess;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,6 +12,21 @@ import java.util.Map;
  */
 public class ChessECOManager {
 
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) throws IOException {
+    
+        String eco ="C60";
+        System.out.println(eco);
+        System.out.println(getName(eco));
+        System.out.println(getMoves(eco));
+        System.out.println(getLibraryOfCongress(eco));
+        System.out.println(getSeeAlso(eco));
+        
+    }
+    
+    
     /**
      * Returns an English string naming a known opening.
      *
@@ -28,6 +44,21 @@ public class ChessECOManager {
         return name;
     }
 
+    /**
+     * Takes advantage of the chess opening book 
+     * https://en.wikibooks.org/wiki/Chess_Opening_Theory/1._e4/1...e5/2._Nf3/2...Nc6/3._Bb5
+     *         1.e4 e5 2.Nf3
+     *   1._e4/1...e5/2._Nf3
+     */
+    public static String getSeeAlso(String eco)
+    {
+        String also="";
+        
+        String m = getMoves(eco);
+        
+        return also;
+    }
+    
 
     
     public static String getLibraryOfCongress(String eco) {
@@ -47,13 +78,59 @@ public class ChessECOManager {
         Map<String, String> map = new HashMap();
 
         String str = "";
-        for (int i = 60; i < 99; i++) {
-            map.put("C" + i, "http://id.loc.gov/authorities/subjects/sh98003603");
+        
+       //English
+        for (int i = 10; i < 39; i++) {
+            map.put("A" + i, "http://id.loc.gov/authorities/subjects/sh00005411");
         }
+
+       //Budapest
+        for (int i = 51; i < 52; i++) {
+            map.put("A" + i, "http://id.loc.gov/authorities/subjects/sh99002614");
+        }
+
+       //Benoni
+        for (int i = 60; i < 79; i++) {
+
+        }
+        
+        
+       //Sicilian
+        for (int i = 20; i < 59; i++) {
+            map.put("B" + i, "http://id.loc.gov/authorities/subjects/sh2001008186");
+        }
+              
+       //Sicilian Dragon
         for (int i = 60; i < 79; i++) {
             map.put("B" + i, "http://id.loc.gov/authorities/subjects/sh200100818");
         }
+        
+       //Sicilian
+        for (int i = 80; i < 99; i++) {
+            map.put("B" + i, "http://id.loc.gov/authorities/subjects/sh2001008186");
+        }
+        
+        //King's gambit
+        for (int i = 30; i < 39; i++) {
+            map.put("C" + i, "http://id.loc.gov/authorities/subjects/sh98003564");
+        }
+        
+        //Spanish
+        for (int i = 60; i < 99; i++) {
+            map.put("C" + i, "http://id.loc.gov/authorities/subjects/sh98003603");
+        }
 
+        //Queen's gambit
+        for (int i = 06; i < 69; i++) {
+            map.put("D" + i, "http://id.loc.gov/authorities/subjects/sh98003550");
+        }
+
+        //Grünefeld
+        for (int i = 70; i < 99; i++) {
+            map.put("D" + i, "http://id.loc.gov/authorities/subjects/sh2004005503");
+        }
+        
+        
         map.put("E83", "http://id.loc.gov/authorities/subjects/sh00008710");
 
         return map;

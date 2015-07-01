@@ -7,12 +7,10 @@ import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.vocabulary.RDF;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import static java.lang.System.in;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
@@ -21,7 +19,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
@@ -80,15 +77,10 @@ public class GameServlet extends HttpServlet {
                     name = URLDecoder.decode(name, "UTF-8");
                     lista+="<a href=\"" + s +"\">"+name+"</a><br>";
                 }
-                
-                        
-                body = body.replace("<!--TEMPLATE_PGN-->", "<br>" + lista);
-            
-            
-            response.getWriter().println(body);
+            body = body.replace("<!--TEMPLATE_PGN-->", "<br>" + lista);
             response.setContentType("text/html;charset=utf-8");
+            response.getWriter().println(body);
             response.setStatus(HttpServletResponse.SC_OK);
-
             return;
         }
 
@@ -104,7 +96,6 @@ public class GameServlet extends HttpServlet {
         }
 
         try (PrintWriter out = response.getWriter()) {
-
             if (isRDFXML(request)) {
                 System.out.println("Serving RDF/XML for " + gameid);
                 response.getWriter().println(RDFStore.readXML(gameid));
@@ -149,21 +140,17 @@ public class GameServlet extends HttpServlet {
                     String eco = entidad.toString().substring(ultimo+1, entidad.toString().length());                
                     String s = "<h3>"+PGNProcessor.getNameFromOpening(model)+"</h3>";
                     s+= ChessECOManager.getMoves(eco);
-                    
-                            s += "\n<hr><div style=\"overflow: hidden; width: 100%;\">\n";
-                            List<String> partidas = RDFStore.listGamesByOpening(eco);
-                            s += "<h3>Some games</h3>";
-                            for (String partida : partidas) {
-                                s += "<a href=\"" + partida + "\">" + RDFStore.summary(partida) + "</a><br>\n";
-                            }
-                            s += "</div>";
-                    
-                    
+                    s += "\n<hr><div style=\"overflow: hidden; width: 100%;\">\n";
+                    List<String> partidas = RDFStore.listGamesByOpening(eco);
+                    s += "<h3>Some games</h3>";
+                    for (String partida : partidas) {
+                        s += "<a href=\"" + partida + "\">" + RDFStore.summary(partida) + "</a><br>\n";
+                    }
+                    s += "</div>";
                     body = body.replace("<!--TEMPLATE_PGN-->", "\n" + s);
                 }
 
                 if (titulo.equals("ChessGame")) {
-
                     String pgn = PGNProcessor.buildPGN(model, true);
                     String superpgn = "<div><center>\n"
                             + "        <a class=\"back\" href=\"#\">Back</a>\n"
@@ -175,7 +162,6 @@ public class GameServlet extends HttpServlet {
                             + "      <pre id=\"pgn-fischer-spassky\">\n"
                             + pgn
                             + "      </pre> ";
-
                     body = body.replace("<!--TEMPLATE_PGN-->", "\n" + superpgn);
                 }
                 if (titulo.equals("Agent")) {

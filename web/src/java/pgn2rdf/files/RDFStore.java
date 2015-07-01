@@ -48,42 +48,31 @@ public class RDFStore {
 //        clearACHTUNGGames();
       //  listGames();
 
+        deleteGame("http://salonica.dia.fi.upm.es:8080/rdfchess/resource/chessgame/b2407396-3589-4d12-bbed-4086f726f2fd");
         List<String> ls = RDFStore.listGamesByOpening("C60");
 
 //        int n =countGames();
         System.out.println(ls.size());
     }
     
-    public static void clearACHTUNGGames()
+    public static void deleteGame(String s)
     {
         String endpoint = "http://localhost:3030/RDFChess/update";
         UpdateRequest request = UpdateFactory.create() ;
-        request.add("DROP ALL");      
+        request.add("DROP GRAPH <"+s+">");      
         UpdateProcessor qexec=UpdateExecutionFactory.createRemoteForm(request,endpoint);
         qexec.execute();
     }
 
     public static void listDeleteGames() {
-        String sresults = "";
-        String sparql = "SELECT DISTINCT ?g\n"
-                + "WHERE {\n"
-                + "  GRAPH ?g {\n"
-                + "    ?s ?p ?o\n"
-                + "  }\n"
-                + "}";
-        Query query = QueryFactory.create(sparql);
-        String endpoint = "http://localhost:3030/RDFChess/query";
-        QueryExecution qexec = QueryExecutionFactory.sparqlService(endpoint, query);
-        ResultSet results = qexec.execSelect();
-        int conta=9;
-        for (; results.hasNext();) {
-            QuerySolution soln = results.nextSolution();
-            Resource p = soln.getResource("g");       // Get a result variable by name.
-            System.out.println(p.toString());
-            conta++;
+        int offset=0;
+        int limit=1000;
+        
+        List<String> ls = RDFStore.listGames(offset, limit);
+        for(String s : ls)
+        {
+            RDFStore.deleteGame(s);
         }
-        System.out.println(conta);
-        return ;
     }
     
     public static List<String> listChessPlayers()
@@ -158,6 +147,33 @@ public class RDFStore {
         }
         System.out.println(conta);
         return uris;        
+    }
+    
+    public static List<String> listGames(int offset, int limit) {
+        String sresults = "";
+        List games=new ArrayList();
+        String sparql = "SELECT DISTINCT ?g\n"
+                + "WHERE {\n"
+                + "  GRAPH ?g {\n"
+                + "    ?s ?p ?o\n"
+                + "  }\n"
+                + "}"; 
+        sparql += " OFFSET " + offset +"\n";
+        sparql += " LIMIT " + limit +"\n";
+        
+        Query query = QueryFactory.create(sparql);
+        String endpoint = "http://localhost:3030/RDFChess/query";
+        QueryExecution qexec = QueryExecutionFactory.sparqlService(endpoint, query);
+        ResultSet results = qexec.execSelect();
+        int conta=9;
+        for (; results.hasNext();) {
+            QuerySolution soln = results.nextSolution();
+            Resource p = soln.getResource("g");       // Get a result variable by name.
+            games.add(p.toString());
+            conta++;
+        }
+        System.out.println(conta+" games");
+        return games;
     }
     
     public static void listGames() {
