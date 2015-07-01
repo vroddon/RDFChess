@@ -48,11 +48,12 @@ public class RDFStore {
 //        clearACHTUNGGames();
       //  listGames();
 
-        deleteGame("http://salonica.dia.fi.upm.es:8080/rdfchess/resource/chessgame/b2407396-3589-4d12-bbed-4086f726f2fd");
-        List<String> ls = RDFStore.listGamesByOpening("C60");
+        listDeleteGames();
+//        deleteGame("http://salonica.dia.fi.upm.es:8080/rdfchess/resource/chessgame/df7655ba-8fc3-4645-b081-05bd8e1ad9ef");
+//        List<String> ls = RDFStore.listGamesByOpening("C60");
 
 //        int n =countGames();
-        System.out.println(ls.size());
+        System.out.println(countGames());
     }
     
     public static void deleteGame(String s)
@@ -66,12 +67,15 @@ public class RDFStore {
 
     public static void listDeleteGames() {
         int offset=0;
-        int limit=1000;
+        int limit=10;
         
         List<String> ls = RDFStore.listGames(offset, limit);
+        int count=0;
         for(String s : ls)
         {
+            count++;
             RDFStore.deleteGame(s);
+            System.out.println(count +" deleted " + s);
         }
     }
     
@@ -132,7 +136,7 @@ public class RDFStore {
                 + "  GRAPH ?g {\n"
                 + "    ?s <http://purl.org/NET/rdfchess/ontology/ECOID> \""+eco+ "\"\n"
                 + "  }\n"
-                + "} LIMIT 10";
+                + "} LIMIT 1000";
         Query query = QueryFactory.create(sparql);
         String endpoint = "http://localhost:3030/RDFChess/query";
         QueryExecution qexec = QueryExecutionFactory.sparqlService(endpoint, query);
@@ -165,14 +169,13 @@ public class RDFStore {
         String endpoint = "http://localhost:3030/RDFChess/query";
         QueryExecution qexec = QueryExecutionFactory.sparqlService(endpoint, query);
         ResultSet results = qexec.execSelect();
-        int conta=9;
+        int conta=0;
         for (; results.hasNext();) {
             QuerySolution soln = results.nextSolution();
             Resource p = soln.getResource("g");       // Get a result variable by name.
             games.add(p.toString());
             conta++;
         }
-        System.out.println(conta+" games");
         return games;
     }
     
@@ -201,7 +204,7 @@ public class RDFStore {
 
         public static int countGames() {
         String sresults = "";
-        String sparql = "SELECT COUNT(DISTINCT ?g)\n"
+        String sparql = "SELECT (COUNT(DISTINCT ?g) AS ?count)\n"
                 + "WHERE {\n"
                 + "  GRAPH ?g {\n"
                 + "    ?s ?p ?o\n"
@@ -217,7 +220,9 @@ public class RDFStore {
             while(it.hasNext())
             {
                 String col = it.next();
-                return Integer.parseInt(col);
+                System.out.println(col);
+                Literal literal = soln.getLiteral(col);
+                return Integer.parseInt(literal.getLexicalForm());
                 
             }
         }
