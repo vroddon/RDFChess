@@ -6,6 +6,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.jsoup.select.Evaluator.Tag;
 
 /**
  *
@@ -29,19 +30,18 @@ public class ManagerWikipedia {
         Element content = doc.getElementById("mw-content-text");
         
         Elements hijos = content.getElementsByTag("p");
+        String res="";
         for(Element hijo : hijos)
         {
-            String t = hijo.text();
-            if (t.length()>64)
-            {
-//                System.out.println(hijo.text());
-                return t;
- //               break;
-            }
+            org.jsoup.parser.Tag tag = hijo.tag();
+            if (tag.toString().equals("p"))
+                res+="<p>"+hijo.text() + "</p>";
+            if (tag.toString().equals("h1"))
+                break;
+            if (tag.toString().equals("h2"))
+                break;
         }
-   //    String s = content.text();
-   //     System.out.println(s);
-        return "";
+        return res;
     }
 
     public static String infoBox(String url) throws IOException {
