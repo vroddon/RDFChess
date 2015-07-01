@@ -77,6 +77,7 @@ public class ChessECOManager {
             also+=c+"..."+mn+"/";
             c++;
         }
+        also=also.replace("O", "0");
         also = "https://en.wikibooks.org/wiki/Chess_Opening_Theory/" + also;
         also = also.substring(0, also.length()-1);
         
