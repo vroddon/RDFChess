@@ -118,20 +118,22 @@ public class ManagerDBpedia {
         "";
         Query query = QueryFactory.create(sparql);
         QueryExecution qexec = QueryExecutionFactory.sparqlService(endpoint, query);
+        String res="";
         try {
             ResultSet results = qexec.execSelect();
             for (;results.hasNext();) {
                 QuerySolution qs=results.next();
                 Literal l = qs.getLiteral("?o");
+                if (res.isEmpty())
+                    res=l.getLexicalForm();
                 if (l.getLanguage().equals("en"))
                 {
-                    String res=l.getLexicalForm();
-                    System.out.println(res);
+                    res=l.getLexicalForm();
                 }
             }
         }catch(Exception e){
             
         }
-        return "";        
+        return res;        
     }    
   }

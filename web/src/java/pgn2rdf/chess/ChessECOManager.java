@@ -72,7 +72,6 @@ public class ChessECOManager {
             int b3 = m.indexOf(' ',i+1);
             if (b3==-1)
                 break;
-            System.out.println(b2+" "+b3);
             String mn = m.substring(b2+1, b3);
             also+=c+"..."+mn+"/";
             c++;
