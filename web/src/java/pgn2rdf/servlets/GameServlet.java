@@ -170,11 +170,7 @@ public class GameServlet extends HttpServlet {
                     
                     String jquery="\n loadChessGame( '#game9', { pgn : $('#middle-game').html() }, function(chess) {\n chess.transitionTo(5);\n}); \n";
                     body = body.replace("//TEMPLATE_JQUERY", jquery);
-                    
-                    
-                         
-                    
-                    
+                  
                     //END OF TESTING...
                     
                     s += "\n<hr><div style=\"overflow: hidden; width: 100%;\">\n";
@@ -200,9 +196,8 @@ public class GameServlet extends HttpServlet {
                             + pgn
                             + "      </pre> ";
                     
-//                    String jquery="\n loadChessGame( '#game3', { pgn : $('#pgn-fischer-spassky').html()}); \n";
-//                    body = body.replace("//TEMPLATE_JQUERY", jquery);
-                    
+                    String jquery="\n loadChessGame( '#game3', { pgn : $('#pgn-fischer-spassky').html()}); \n";
+                    body = body.replace("//TEMPLATE_JQUERY", jquery);
                     
                     body = body.replace("<!--TEMPLATE_PGN-->", "\n" + superpgn);
                 }
