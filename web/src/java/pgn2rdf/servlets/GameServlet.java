@@ -198,10 +198,9 @@ public class GameServlet extends HttpServlet {
                             + "      <pre id=\"pgn-fischer-spassky\">\n"
                             + pgn
                             + "      </pre> ";
-                    superpgn+="<script>";
-                    superpgn+="$(document).ready(function (){ loadChessGame( '#game3', { pgn : $('#pgn-fischer-spassky').html()}); });";
-                    superpgn+="</script>";
                     
+                    String jquery="$(document).ready(function (){ loadChessGame( '#game3', { pgn : $('#pgn-fischer-spassky').html()}); });";
+                    body = body.replace("//TEMPLATE_JQUERY", jquery);
                     
                     
                     body = body.replace("<!--TEMPLATE_PGN-->", "\n" + superpgn);
