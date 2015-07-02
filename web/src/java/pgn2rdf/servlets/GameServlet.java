@@ -146,7 +146,8 @@ public class GameServlet extends HttpServlet {
                     int ultimo = entidad.toString().lastIndexOf("/");
                     String eco = entidad.toString().substring(ultimo+1, entidad.toString().length());                
                     String s = "<h3>"+PGNProcessor.getNameFromOpening(model)+"</h3>";
-                    s+= ChessECOManager.getMoves(eco);
+                    String moves = ChessECOManager.getMoves(eco);
+                    s+= moves;
                     NodeIterator ni7 = model.listObjectsOfProperty(entidad, model.createProperty("http://www.w3.org/2000/01/rdf-schema#seeAlso"));
                     String sr = "";
                     if (ni7.hasNext()) {
@@ -157,6 +158,24 @@ public class GameServlet extends HttpServlet {
                             s+="</p>";
                         }
                     }
+                     
+                    String fen = PGNProcessor.getFEN(moves);
+                    
+                    //ACHTUNG! REMOVE IF IT DOES NOT WORK. ONLY TESTING
+                    s += " <div id=\"board9\" class=\"board\"></div>\n"
+                            + "      <p class=\"annot\"></p>\n"
+                            + "      <pre id=\"pgn-fischer-spassky\">\n"
+                            + moves
+                            + "      </pre> ";
+                    s+="<script>";
+                    s+="loadChessGame( '#game9', { pgn : $('#middle-game').html() }, function(chess) {\n chess.transitionTo(5);\n});";
+                    s+="</script>";
+                    
+                         
+                    
+                    
+                    //END OF TESTING...
+                    
                     s += "\n<hr><div style=\"overflow: hidden; width: 100%;\">\n";
                     List<String> partidas = RDFStore.listGamesByOpening(eco);
                     s += "<h3>Some games</h3>";
@@ -179,6 +198,12 @@ public class GameServlet extends HttpServlet {
                             + "      <pre id=\"pgn-fischer-spassky\">\n"
                             + pgn
                             + "      </pre> ";
+                    superpgn+="<script>";
+                    superpgn+="loadChessGame( '#game3', { pgn : $('#pgn-fischer-spassky').html()});";
+                    superpgn+="</script>";
+                    
+                    
+                    
                     body = body.replace("<!--TEMPLATE_PGN-->", "\n" + superpgn);
                 }
                 if (titulo.equals("Agent")) {

@@ -13,6 +13,7 @@ import java.util.Map;
 public class ChessECOManager {
 
     /**
+     * Test method for the functionalities in this class
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException {
@@ -23,7 +24,6 @@ public class ChessECOManager {
         System.out.println(getMoves(eco));
         System.out.println(getLibraryOfCongress(eco));
         System.out.println(getSeeAlso(eco));
-        
     }
     
     
@@ -38,6 +38,14 @@ public class ChessECOManager {
         name = mapa.get(eco);
         return name;
     }
+    
+    
+    /**
+     * Returns an English string with the moves the opening consists of.
+     *
+     * @param eco ECO code of opening. For examle: "C41"
+     * @return En English string. For example: "Philidor Defense"
+     */
     public static String getMoves(String eco) {
         String name = "";
         name = mapamoves.get(eco);
@@ -45,7 +53,8 @@ public class ChessECOManager {
     }
 
     /**
-     * Takes advantage of the chess opening book 
+     * Takes advantage of the chess opening book, giving a link to the proper chapter. 
+     * The chapter may not exist.
      * https://en.wikibooks.org/wiki/Chess_Opening_Theory/1._e4/1...e5/2._Nf3/2...Nc6/3._Bb5
      * https://en.wikibooks.org/wiki/Chess_Opening_Theory/1._e4/1...c5/2._Nf3/2...d6/3._d4/3...cxd4/4._Nxd4/4...Nf6/5._Nc3/5...a6/6._Bg5/6...e6
      *         1.e4 e5 2.Nf3
@@ -82,9 +91,11 @@ public class ChessECOManager {
         
         return also;
     }
-    
 
-    
+    /**
+     * Gets the link to the most approximate Library of Congress subject
+     * for chess openings.
+     */
     public static String getLibraryOfCongress(String eco) {
         String name = "";
         name = mapaloc.get(eco);
@@ -160,6 +171,9 @@ public class ChessECOManager {
         return map;
     }
 
+    /**
+     * Initilizes the moves in the openings.
+     */
     private static Map<String, String> initmoves() {
         Map<String, String> mapa = new HashMap();
         mapa.put("A00", "1.g4, a3, h3, etc.");
@@ -667,6 +681,9 @@ public class ChessECOManager {
 
     }
 
+    /**
+     * Initializes the names of each of the openings
+     */
     private static Map<String, String> init() {
         Map<String, String> mapa = new HashMap();
         mapa.put("A00", "Uncommon Opening");

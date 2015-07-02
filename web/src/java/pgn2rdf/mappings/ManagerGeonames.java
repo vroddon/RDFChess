@@ -106,8 +106,6 @@ public class ManagerGeonames {
         WebService.setUserName("vroddon");
         try {
             String server = WebService.getGeoNamesServer();
-
-//            List<Toponym> sitios1 = WebService.findNearbyPlaceName(lat, lon);
             String cadenas[] = {"MTRO"};
             PostalCodeSearchCriteria psc = new PostalCodeSearchCriteria();
             psc.setLatitude(lat);
@@ -172,12 +170,10 @@ public class ManagerGeonames {
             RDFDataMgr.read(model, is, Lang.RDFXML);
             System.out.println(rdf);
             NodeIterator nit = model.listObjectsOfProperty(ModelFactory.createDefaultModel().createProperty("http://www.geonames.org/ontology#countryCode"));
-//            NodeIterator nit = model.listObjectsOfProperty(ModelFactory.createDefaultModel().createResource(place),ModelFactory.createDefaultModel().createProperty("http://www.geonames.org/ontology#name"));
             while(nit.hasNext())
             {
                 return nit.next().asLiteral().getLexicalForm();
             }
-//            System.out.println(rdf);
         } catch (IOException ex) {
             Logger.getLogger(ManagerGeonames.class.getName()).log(Level.SEVERE, null, ex);
         }

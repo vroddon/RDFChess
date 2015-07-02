@@ -145,7 +145,7 @@ public class RDFStore {
                 + "  GRAPH ?g {\n"
                 + "    ?s <http://purl.org/NET/rdfchess/ontology/ECOID> \""+eco+ "\"\n"
                 + "  }\n"
-                + "} LIMIT 1000";
+                + "} LIMIT 20";
         Query query = QueryFactory.create(sparql);
         String endpoint = "http://localhost:3030/RDFChess/query";
         QueryExecution qexec = QueryExecutionFactory.sparqlService(endpoint, query);

@@ -2,11 +2,9 @@ package pgn2rdf.servlets;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.net.URLDecoder;
 import javax.servlet.http.*;
 import org.apache.jena.riot.Lang;
 import pgn2rdf.chess.PGNProcessor;
-import pgn2rdf.mappings.DBpediaSpotlight;
 
 /**
  * This is the servlet in charge of the conversion
