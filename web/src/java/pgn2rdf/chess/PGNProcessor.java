@@ -165,22 +165,6 @@ public class PGNProcessor {
         return "";
     }
     
-    public static String getChessPlayerName(String s)
-    {
-        String name="";
-        String rdf=RDFStore.readGame(s);
-        Model model = ModelFactory.createDefaultModel();
-        InputStream is = new ByteArrayInputStream(rdf.getBytes(StandardCharsets.UTF_8));
-        RDFDataMgr.read(model, is, Lang.TTL);
-        NodeIterator nit = model.listObjectsOfProperty(model.createProperty("http://purl.org/NET/rdfchess/ontology/hasName"));
-        while (nit.hasNext()) {
-            Literal l = nit.next().asLiteral();
-            name = l.getLexicalForm();
-        }
-        if (name.isEmpty())
-            name=s;
-        return name;
-    }
     
 
     /**
@@ -212,7 +196,7 @@ public class PGNProcessor {
 
         //FIRST EXPANSION, WHITE PLAYER
         String blanco = PGNProcessor.getWhitePlayer(model);
-        String dbblanco = PGNProcessor.getMappingDBpedia(blanco);
+        String dbblanco = ChessPlayerProcessor.getMappingDBpedia(blanco);
 
         if (!dbblanco.equals(blanco)) {
             String literal = blanco;
@@ -240,7 +224,7 @@ public class PGNProcessor {
 
         //SECOND EXPANSION, WHITE PLAYER
         String negro = PGNProcessor.getBlackPlayer(model);
-        String dbnegro = PGNProcessor.getMappingDBpedia(negro);
+        String dbnegro = ChessPlayerProcessor.getMappingDBpedia(negro);
         if (!negro.equals(dbnegro)) {
             String literal = negro;
             String dbpedia = dbnegro;
@@ -844,7 +828,7 @@ public class PGNProcessor {
      */
     public static void main(String[] args) throws IOException {
 
-        String db=getMappingDBpedia("West, Guy");
+        String db=ChessPlayerProcessor.getMappingDBpedia("West, Guy");
         System.out.println(db);
         /*
         String input = new String(Files.readAllBytes(Paths.get("samples/test.pgn")));
@@ -859,53 +843,11 @@ public class PGNProcessor {
 //        out.println(rdf);*/
     }
 
-    static Map<String, String> jugadores = initJugadores();
     static Map<String, String> openings = new HashMap();
     static Map<String, String> locations = new HashMap();
     
     
-    //makes some corrections to make sure they are
-    public static Map<String, String> initJugadores()
-    {
-        Map<String, String> mapa = new HashMap();
-        mapa.put("Timman, Jan H", "http://dbpedia.org/resource/Jan_Timman");
-        mapa.put("Steinitz, William", "http://dbpedia.org/resource/Wilhelm_Steinitz");
-        mapa.put("Pachman, Ludek", "http://dbpedia.org/resource/Lud%C4%9Bk_Pachman");
-        mapa.put("Tal, Mihail", "http://dbpedia.org/resource/Mikhail_Tal");
-        mapa.put("Marshall, Frank James", "http://dbpedia.org/resource/Frank_Marshall");
-        mapa.put("Kortschnoj, Viktor", "http://dbpedia.org/resource/Viktor_Korchnoi");
-        mapa.put("Petrosian, Tigran V", "http://dbpedia.org/resource/Tigran_Petrosian");
-        mapa.put("Panno, Oscar", "http://dbpedia.org/resource/Oscar_Panno");
-        
-        
-        return mapa;
-    }
 
-    public static String getMappingDBpedia(String jugador) {
-        String dbpedia = jugadores.get(jugador);
-        if (dbpedia == null) {
-            System.out.println("Query in external endpoint for " + jugador);
-            dbpedia = DBpediaSpotlight.getDBPediaResource(jugador, "/chess/chess_player", "chess");
-            if (dbpedia.equals(jugador)) {
-                int coma=jugador.indexOf(",");
-                if (coma!=-1)
-                {
-                    String nom = jugador.substring(coma+2, jugador.length());
-                    if (nom.contains(" "))
-                        nom=nom.substring(0,nom.indexOf(" ")-1);
-                    String cognom = jugador.substring(0,coma);
-                    String url = "http://dbpedia.org/resource/"+nom+"_"+cognom;
-                    url=url.replace(" ", "_");
-                    String country=ManagerDBpedia.getAbstract(url);
-                    System.out.println(country);
-                    if (!country.isEmpty())
-                        dbpedia=url;
-                }
-            }
-            jugadores.put(jugador, dbpedia);
-        }
-        return jugadores.get(jugador);
-    }
 
     public static String getMappingDBpediaOpening(String sx) {
         String dbpedia = openings.get(sx);
