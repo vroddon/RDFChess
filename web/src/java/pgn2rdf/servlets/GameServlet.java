@@ -134,9 +134,13 @@ public class GameServlet extends HttpServlet {
                     int ultimo = entidad.toString().lastIndexOf("/");
                     String name= entidad.toString().substring(ultimo+1, entidad.toString().length());    
                     System.out.println("Getting name of: " + name);
-                    name= ManagerGeonames.getName("http://sws.geonames.org/"+name+"");
-                    System.out.println(name);
-                    body = body.replace("<!--TEMPLATE_PGN-->", "<h2>"+name+"</h2>");                    
+                    String name2= ManagerGeonames.getName("http://sws.geonames.org/"+name+"");
+                    String country=ManagerGeonames.getCountry("http://sws.geonames.org/"+name);
+                    
+                    String html="<h2>"+name2+"</h2>";
+                    html+="Country: " + country;
+                    body = body.replace("<!--TEMPLATE_PGN-->", html);                    
+                    
                 }
                 if (titulo.equals("ChessGameOpening")) {
                     int ultimo = entidad.toString().lastIndexOf("/");

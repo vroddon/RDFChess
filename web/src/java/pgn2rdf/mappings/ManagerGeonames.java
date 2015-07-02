@@ -54,7 +54,6 @@ public class ManagerGeonames {
 
     public static String getName(String place) {
         String name = "";
-//        WebService.setUserName("vroddon"); // add your username here
         String rdf;
         try {
             rdf = Tutorial.REST(place,"", "application/rdf+xml");
@@ -161,6 +160,28 @@ public class ManagerGeonames {
         } catch (Exception e) {
             e.printStackTrace();
         }*/
+    }
+
+    public static String getCountry(String place) {
+        String name = "";
+        String rdf;
+        try {
+            rdf = Tutorial.REST(place,"", "application/rdf+xml");
+            InputStream is = new ByteArrayInputStream(rdf.getBytes(StandardCharsets.UTF_8));        
+            Model model = ModelFactory.createDefaultModel();
+            RDFDataMgr.read(model, is, Lang.RDFXML);
+            System.out.println(rdf);
+            NodeIterator nit = model.listObjectsOfProperty(ModelFactory.createDefaultModel().createProperty("http://www.geonames.org/ontology#countryCode"));
+//            NodeIterator nit = model.listObjectsOfProperty(ModelFactory.createDefaultModel().createResource(place),ModelFactory.createDefaultModel().createProperty("http://www.geonames.org/ontology#name"));
+            while(nit.hasNext())
+            {
+                return nit.next().asLiteral().getLexicalForm();
+            }
+//            System.out.println(rdf);
+        } catch (IOException ex) {
+            Logger.getLogger(ManagerGeonames.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return name;
     }
 
 }
