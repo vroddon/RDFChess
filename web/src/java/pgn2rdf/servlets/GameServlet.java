@@ -162,13 +162,13 @@ public class GameServlet extends HttpServlet {
                     String fen = PGNProcessor.getFEN(moves);
                     
                     //ACHTUNG! REMOVE IF IT DOES NOT WORK. ONLY TESTING
-                    s += " <div id=\"board9\" class=\"board\"></div>\n"
+                    s += " <div id=\"board3\" class=\"board\"></div>\n"
                             + "      <p class=\"annot\"></p>\n"
-                            + "      <pre id=\"pgn-fischer-spassky\">\n"
+                            + "      <pre id=\"apertura\">\n"
                             + moves
                             + "      </pre> ";
                     
-                    String jquery="\n loadChessGame( '#game9', { pgn : $('#middle-game').html() }, function(chess) {\n chess.transitionTo(5);\n}); \n";
+                    String jquery="\n loadChessGame( '#game3', { pgn : $('#apertura').html() }, function(chess) {\n chess.transitionTo(5);\n}); \n";
                     body = body.replace("//TEMPLATE_JQUERY", jquery);
                   
                     //END OF TESTING...
