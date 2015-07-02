@@ -200,8 +200,8 @@ public class GameServlet extends HttpServlet {
                             + pgn
                             + "      </pre> ";
                     
-                    String jquery="\n loadChessGame( '#game3', { pgn : $('#pgn-fischer-spassky').html()}); \n";
-                    body = body.replace("//TEMPLATE_JQUERY", jquery);
+//                    String jquery="\n loadChessGame( '#game3', { pgn : $('#pgn-fischer-spassky').html()}); \n";
+//                    body = body.replace("//TEMPLATE_JQUERY", jquery);
                     
                     
                     body = body.replace("<!--TEMPLATE_PGN-->", "\n" + superpgn);
