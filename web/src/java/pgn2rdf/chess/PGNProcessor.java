@@ -176,6 +176,15 @@ public class PGNProcessor {
         return fen;
     }
 
+    public static int getPly(String moves) {
+        int count = moves.length() - moves.replace(".", "").length();
+        int i=moves.lastIndexOf(".");
+        int k=moves.indexOf(" ",i);
+        if (k==-1)
+            return count*2-1;
+        return count*2;
+    }
+
     private String execSELECT(Dataset dataxet, String sparql) {
         QueryExecution qexec = QueryExecutionFactory.create(QueryFactory.create(sparql), dataxet);
         ResultSet results = qexec.execSelect();
@@ -844,9 +853,9 @@ public class PGNProcessor {
      */
     public static void main(String[] args) throws IOException {
 
-        String moves = "1.d4 Nf6 2.c4 c5 3.d5 e6 4.Nc3 exd5 5.cxd5 d6 6.e4 g6 7.Nf3 Bg7 8.Be2 O-O 9.O-O a6 10.a4 Bg4";
-        String fen = PGNProcessor.getFEN(moves);
-        System.out.println(moves);
+        String moves = "1.d4 Nf6 2.c4 c5 3.d5 e6 4.Nc3 exd5 5.cxd5 d6 6.e4 g6 7.Nf3 Bg7 8.Be2 O-O 9.O-O a6 10.a4";
+        int fen = PGNProcessor.getPly(moves);
+        System.out.println(fen);
 
   //      String db=ChessPlayerProcessor.getMappingDBpedia("West, Guy");
 //        System.out.println(db);

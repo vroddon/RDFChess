@@ -167,8 +167,8 @@ public class GameServlet extends HttpServlet {
                             + "      <pre id=\"apertura\">\n"
                             + moves
                             + "      </pre> ";
-                    
-                    String jquery="\n loadChessGame( '#game3', { pgn : $('#apertura').html() }, function(chess) {\n chess.transitionTo(5);\n}); \n";
+                    int ply = PGNProcessor.getPly(moves);
+                    String jquery="\n loadChessGame( '#game3', { pgn : $('#apertura').html() }, function(chess) {\n chess.transitionTo("+ply+");\n}); \n";
                     body = body.replace("//TEMPLATE_JQUERY", jquery);
                   
                     //END OF TESTING...
