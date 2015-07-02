@@ -3,6 +3,7 @@ package pgn2rdf.chess;
 import chesspresso.game.Game;
 import chesspresso.move.Move;
 import chesspresso.pgn.PGNReader;
+import chesspresso.pgn.PGNSyntaxError;
 import chesspresso.pgn.PGNWriter;
 import com.hp.hpl.jena.graph.Graph;
 import com.hp.hpl.jena.mem.GraphMem;
@@ -155,7 +156,26 @@ public class PGNProcessor {
         return id;
     }
 
-    
+    /**
+     * @param moves sequence like: 1.d4 Nf6 2.c4 c5 3.d5 e6 4.Nc3 exd5 5.cxd5 d6
+     * 6.e4 g6 7.Nf3 Bg7 8.Be2 O-O 9.O-O a6 10.a4 Bg4
+     * @return FEN sequence.
+     */
+    public static String getFEN(String moves) {
+        String fen = "";
+
+        try {
+            Reader reader = new StringReader(moves);
+            PGNReader pgnreader = new PGNReader(reader, "web");
+            StringWriter sw = new StringWriter();
+            Game g = pgnreader.parseGame();
+
+            g.gotoEndOfLine();
+        } catch (Exception e) {
+        }
+        return fen;
+    }
+
     private String execSELECT(Dataset dataxet, String sparql) {
         QueryExecution qexec = QueryExecutionFactory.create(QueryFactory.create(sparql), dataxet);
         ResultSet results = qexec.execSelect();
@@ -164,8 +184,6 @@ public class PGNProcessor {
         }
         return "";
     }
-    
-    
 
     /**
      * Applies the view expansion chess:e9fcb74a-301e-4dd4-854a-b98b33554dde
@@ -203,11 +221,12 @@ public class PGNProcessor {
             String dbpedia = dbblanco;
             System.out.println("Expanding " + blanco + " to " + dbblanco);
             String idw = RDFChess.DATA_URI + "chessplayer/" + UUID.randomUUID().toString();
-                idw = RDFChess.DATA_URI + "chessplayer/"+URLEncoder.encode(blanco,"UTF-8");
+            idw = RDFChess.DATA_URI + "chessplayer/" + URLEncoder.encode(blanco, "UTF-8");
             String newname = ManagerDBpedia.getLabel(dbblanco);
-            if (newname!=null && !newname.isEmpty())
-                idw = RDFChess.DATA_URI + "chessplayer/"+URLEncoder.encode(newname,"UTF-8");
-            
+            if (newname != null && !newname.isEmpty()) {
+                idw = RDFChess.DATA_URI + "chessplayer/" + URLEncoder.encode(newname, "UTF-8");
+            }
+
             String sparql = "PREFIX chess: <http://purl.org/NET/rdfchess/ontology/>\n"
                     + "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
                     + "PREFIX skos: <http://www.w3.org/2004/02/skos/core#>\n"
@@ -230,13 +249,13 @@ public class PGNProcessor {
             String dbpedia = dbnegro;
             System.out.println("Expanding " + negro + " to " + dbnegro);
             String idw = RDFChess.DATA_URI + "chessplayer/" + UUID.randomUUID().toString();
-            idw = RDFChess.DATA_URI + "chessplayer/"+URLEncoder.encode(negro,"UTF-8");
+            idw = RDFChess.DATA_URI + "chessplayer/" + URLEncoder.encode(negro, "UTF-8");
 
             String newname = ManagerDBpedia.getLabel(dbnegro);
-            if (newname!=null && !newname.isEmpty())
-                idw = RDFChess.DATA_URI + "chessplayer/"+URLEncoder.encode(newname,"UTF-8");
-            
-            
+            if (newname != null && !newname.isEmpty()) {
+                idw = RDFChess.DATA_URI + "chessplayer/" + URLEncoder.encode(newname, "UTF-8");
+            }
+
             String sparql = "PREFIX chess: <http://purl.org/NET/rdfchess/ontology/>\n"
                     + "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
                     + "PREFIX skos: <http://www.w3.org/2004/02/skos/core#>\n"
@@ -254,7 +273,7 @@ public class PGNProcessor {
         //THIRD EXPANSION, ECO OPENING
         String eco = PGNProcessor.getECO(model);
         String econame = ChessECOManager.getName(eco);
-    //    System.out.println("ECO: " + eco + " " + econame);
+        //    System.out.println("ECO: " + eco + " " + econame);
         String sx = eco + " " + econame + " ";
         String loc = ChessECOManager.getLibraryOfCongress(eco);
         if (loc == null || loc.isEmpty()) {
@@ -265,7 +284,7 @@ public class PGNProcessor {
             dbpedia = "";
         }
         String seealso = ChessECOManager.getSeeAlso(eco);
-        
+
         String literal = eco;
         String idw = RDFChess.DATA_URI + "opening/" + eco;
         String sparql = "PREFIX chess: <http://purl.org/NET/rdfchess/ontology/>\n"
@@ -289,7 +308,7 @@ public class PGNProcessor {
         }
         sparql += "}\n"
                 + "WHERE { <" + id + "> <http://purl.org/NET/rdfchess/ontology/hasECOOpening> \"" + literal + "\" }";
-  //      System.out.println("Expanding " + eco + " to " + econame);
+        //      System.out.println("Expanding " + eco + " to " + econame);
         UpdateAction.parseExecute(sparql, graphStore);         //DROP ALL
 
         //FOURTH EXPANSION, GEONAMES
@@ -298,8 +317,8 @@ public class PGNProcessor {
         if (!site.isEmpty() && site2 != null && !site2.isEmpty() && !site2.equals(site)) {
             System.out.println("Expanding " + site + " to " + site2);
             int idsite = site2.lastIndexOf("/");
-            String sidsite=site2.substring(idsite+1, site2.length());
-            idw=RDFChess.DATA_URI + "location/"+sidsite;
+            String sidsite = site2.substring(idsite + 1, site2.length());
+            idw = RDFChess.DATA_URI + "location/" + sidsite;
             System.out.println(" in turn to  " + idw);
 //            idw = RDFChess.DATA_URI + "location/"+ UUID.randomUUID().toString();
             sparql = "PREFIX chess: <http://purl.org/NET/rdfchess/ontology/>\n"
@@ -314,7 +333,7 @@ public class PGNProcessor {
                     + "<" + idw + "> skos:closeMatch <" + site2 + "> .\n"
                     + "}\n"
                     + "WHERE { <" + id + "> <http://purl.org/NET/rdfchess/ontology/hasChessGameAtNamedPlace> \"" + site + "\" }";
-       //     System.out.println(sparql);
+            //     System.out.println(sparql);
             UpdateAction.parseExecute(sparql, graphStore);
         }
 
@@ -360,7 +379,7 @@ public class PGNProcessor {
         Model modelo = ModelFactory.createDefaultModel();
 
         String id = UUID.randomUUID().toString();
-        Resource r = modelo.createResource(RDFChess.DATA_URI + "chessgame/"+id);
+        Resource r = modelo.createResource(RDFChess.DATA_URI + "chessgame/" + id);
         Resource r2 = modelo.createResource("http://purl.org/NET/rdfchess/ontology/ChessGame");
         modelo.add(r, RDF.type, r2);
         Property r96 = modelo.createProperty("http://purl.org/NET/rdfchess/ontology/hasWhitePlayerName");
@@ -477,12 +496,12 @@ public class PGNProcessor {
         String event = PGNProcessor.getEvent(model);
         String result = PGNProcessor.getResult(model);
         String round = PGNProcessor.getRound(model);
-        
+
         white = Normalizer.normalize(white, Normalizer.Form.NFD);
         white = white.replaceAll("[^\\p{ASCII}]", "");
         black = Normalizer.normalize(black, Normalizer.Form.NFD);
         black = black.replaceAll("[^\\p{ASCII}]", "");
-        
+
         if (html) {
             String wuri = PGNProcessor.getWhitePlayerURI(model);
             if (!wuri.isEmpty()) {
@@ -503,7 +522,6 @@ public class PGNProcessor {
             }
         }
 
-        
         pgn += "[Event \"" + event + "\"]\n";
         pgn += "[Site \"" + site + "\"]\n";
         pgn += "[Date \"" + date + "\"]\n";
@@ -638,17 +656,15 @@ public class PGNProcessor {
         }
         return "";
     }
-    public static String getNameFromOpening(Model model)
-    {
-             NodeIterator nit2 = model.listObjectsOfProperty(model.createProperty("http://www.w3.org/2000/01/rdf-schema#label"));
-            if (nit2.hasNext()) {
-                return nit2.next().asLiteral().toString();
-            }
-            return "";
-       
+
+    public static String getNameFromOpening(Model model) {
+        NodeIterator nit2 = model.listObjectsOfProperty(model.createProperty("http://www.w3.org/2000/01/rdf-schema#label"));
+        if (nit2.hasNext()) {
+            return nit2.next().asLiteral().toString();
+        }
+        return "";
+
     }
-    
-    
 
     public static String getECOURI(Model model) {
         String id = "";
@@ -828,26 +844,27 @@ public class PGNProcessor {
      */
     public static void main(String[] args) throws IOException {
 
-        String db=ChessPlayerProcessor.getMappingDBpedia("West, Guy");
-        System.out.println(db);
+        String moves = "1.d4 Nf6 2.c4 c5 3.d5 e6 4.Nc3 exd5 5.cxd5 d6 6.e4 g6 7.Nf3 Bg7 8.Be2 O-O 9.O-O a6 10.a4 Bg4";
+        String fen = PGNProcessor.getFEN(moves);
+        System.out.println(moves);
+
+  //      String db=ChessPlayerProcessor.getMappingDBpedia("West, Guy");
+//        System.out.println(db);
         /*
-        String input = new String(Files.readAllBytes(Paths.get("samples/test.pgn")));
-        String rdf = PGNProcessor.getRDF(input, Lang.TTL);
-        System.out.println(rdf);
-        Model model = ModelFactory.createDefaultModel();
-        InputStream is = new ByteArrayInputStream(rdf.getBytes(StandardCharsets.UTF_8));
-        RDFDataMgr.read(model, is, Lang.TTL);
-        String s = PGNProcessor.buildPGN(model, true);
-        System.out.println(s);
-//        PrintWriter out = new PrintWriter("samples/test.ttl");
-//        out.println(rdf);*/
+         String input = new String(Files.readAllBytes(Paths.get("samples/test.pgn")));
+         String rdf = PGNProcessor.getRDF(input, Lang.TTL);
+         System.out.println(rdf);
+         Model model = ModelFactory.createDefaultModel();
+         InputStream is = new ByteArrayInputStream(rdf.getBytes(StandardCharsets.UTF_8));
+         RDFDataMgr.read(model, is, Lang.TTL);
+         String s = PGNProcessor.buildPGN(model, true);
+         System.out.println(s);
+         //        PrintWriter out = new PrintWriter("samples/test.ttl");
+         //        out.println(rdf);*/
     }
 
     static Map<String, String> openings = new HashMap();
     static Map<String, String> locations = new HashMap();
-    
-    
-
 
     public static String getMappingDBpediaOpening(String sx) {
         String dbpedia = openings.get(sx);

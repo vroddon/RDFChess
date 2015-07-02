@@ -9,7 +9,7 @@ import org.jsoup.select.Elements;
 import org.jsoup.select.Evaluator.Tag;
 
 /**
- *
+ * Gets direct access to the Wikipedia pages, making use of the JSoup library-
  * @author admin
  */
 public class ManagerWikipedia {
@@ -23,6 +23,10 @@ public class ManagerWikipedia {
         System.out.println(s);
     }
 
+    /**
+     * Gets the text of the first section under a Wikibook page
+     * @param url URL of a wikibook
+     */
     public static String getAbstractFromWikiBook(String url) throws IOException {
         Document doc = Jsoup.connect(url).get();
         String title = doc.title();
@@ -44,6 +48,9 @@ public class ManagerWikipedia {
         return res;
     }
 
+    /**
+     * Gets the infobox from a given Wikipedia web page
+     */
     public static String infoBox(String url) throws IOException {
         Response res = Jsoup.connect(url).execute();
         String html = res.body();

@@ -1,12 +1,8 @@
 package pgn2rdf.chess;
 
 //JAVA
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -94,7 +90,7 @@ public class RDFChessConfig {
             tmp.putAll(prop);
             tmp.store(new FileWriter(CONFIGFILE), null);
         } catch (Exception ex) {
-            Logger.getLogger("ldr").error("Error opening config file" + ex.toString());
+            Logger.getLogger("rdfchess").error("Error opening config file" + ex.toString());
             System.out.println("Error trying to write config file");
         }
     }

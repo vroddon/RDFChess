@@ -21,8 +21,12 @@ import pgn2rdf.mappings.ManagerDBpedia;
  * @author admin
  */
 public class ChessPlayerProcessor {
-        static Map<String, String> jugadores = initJugadores();
+    
+    private static Map<String, String> jugadores = initJugadores();
 
+    /**
+     * Gets the dbpedia URL resource for the given string name.
+     */
     public static String getMappingDBpedia(String jugador) {
         String dbpedia = jugadores.get(jugador);
         if (dbpedia == null) {

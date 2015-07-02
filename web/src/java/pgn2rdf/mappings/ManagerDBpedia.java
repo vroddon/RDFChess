@@ -4,10 +4,6 @@ package pgn2rdf.mappings;
 import com.hp.hpl.jena.query.*;
 import com.hp.hpl.jena.rdf.model.Literal;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import pgn2rdf.chess.Tutorial;
 
 /**

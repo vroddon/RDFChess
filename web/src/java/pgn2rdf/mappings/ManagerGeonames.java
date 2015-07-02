@@ -54,7 +54,6 @@ public class ManagerGeonames {
 
     public static String getName(String place) {
         String name = "";
-//        WebService.setUserName("vroddon"); // add your username here
         String rdf;
         try {
             rdf = Tutorial.REST(place,"", "application/rdf+xml");
@@ -107,8 +106,6 @@ public class ManagerGeonames {
         WebService.setUserName("vroddon");
         try {
             String server = WebService.getGeoNamesServer();
-
-//            List<Toponym> sitios1 = WebService.findNearbyPlaceName(lat, lon);
             String cadenas[] = {"MTRO"};
             PostalCodeSearchCriteria psc = new PostalCodeSearchCriteria();
             psc.setLatitude(lat);
@@ -161,6 +158,26 @@ public class ManagerGeonames {
         } catch (Exception e) {
             e.printStackTrace();
         }*/
+    }
+
+    public static String getCountry(String place) {
+        String name = "";
+        String rdf;
+        try {
+            rdf = Tutorial.REST(place,"", "application/rdf+xml");
+            InputStream is = new ByteArrayInputStream(rdf.getBytes(StandardCharsets.UTF_8));        
+            Model model = ModelFactory.createDefaultModel();
+            RDFDataMgr.read(model, is, Lang.RDFXML);
+            System.out.println(rdf);
+            NodeIterator nit = model.listObjectsOfProperty(ModelFactory.createDefaultModel().createProperty("http://www.geonames.org/ontology#countryCode"));
+            while(nit.hasNext())
+            {
+                return nit.next().asLiteral().getLexicalForm();
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(ManagerGeonames.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return name;
     }
 
 }
