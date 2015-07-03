@@ -2,10 +2,12 @@ package pgn2rdf.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import pgn2rdf.files.RDFStore;
 
 /**
  *
@@ -15,8 +17,8 @@ public class ServiceServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *http://www.jquery-bootgrid.com/Examples
+     * methods. http://www.jquery-bootgrid.com/Examples
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -26,32 +28,39 @@ public class ServiceServlet extends HttpServlet {
             throws ServletException, IOException {
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            String uri=request.getRequestURI();
+            String uri = request.getRequestURI();
 //            out.println(uri);
-                        PrintWriter archivo = new PrintWriter("d:\\test.txt");
-                        archivo.println(uri);
-                       archivo.close();
-            
-            
-            String s="{\n" +
-"  \"current\": 1,\n" +
-"  \"rowCount\": 2,\n" +
-"  \"rows\": [\n" +
-"    {\n" +
-"      \"chessplayer\": \"asdf\",\n" +
-"      \"chessplayerurl\": \"http://asdf\"\n" +
-"    },\n" +
-"    {\n" +
-"      \"chessplayer\": \"fasd\",\n" +
-"      \"chessplayerurl\": \"http://fasd\"\n" +
-"    }\n" +
-"  ],\n" +
-"  \"total\": 2\n" +
-"}    ";
-            out.print(s);
-            response.setStatus(HttpServletResponse.SC_OK);
-            response.setContentType("application/json");
-            
+            if (uri.equals("/rdfchess/service/getChessplayers")) {
+                //current=1&rowCount=10&sort[sender]=asc&searchPhrase=&id=b0df282a-0d67-40e5-8558-c9e93b7befed
+                String offset = request.getParameter("current");
+                String limit = request.getParameter("rowCount");
+                List<String> ls = RDFStore.listChessPlayers(Integer.parseInt(offset), Integer.parseInt(limit));
+            //PrintWriter archivo = new PrintWriter("d:\\test.txt");
+                //archivo.println(uri);
+                //archivo.close();
+
+                String s = "{\n"
+                        + "  \"current\": 1,\n"
+                        + "  \"rowCount\": 2,\n"
+                        + "  \"rows\": [\n";
+                int conta=0;
+                for (String cp : ls) {
+                    if (conta!=0)
+                        s+=",\n";
+                    s += "    {\n"
+                            + "      \"chessplayer\": \"" +cp+"\",\n"
+                            + "      \"chessplayerurl\": \""+cp+"\"\n"
+                            + "    } ";
+                    conta++;
+                }
+                
+                s += "  ],\n"
+                        + "  \"total\": 2\n"
+                        + "}    ";
+                out.print(s);
+                response.setStatus(HttpServletResponse.SC_OK);
+                response.setContentType("application/json");
+            }
         }
     }
 
