@@ -82,8 +82,9 @@
         <script src="js/jchess-0.1.0.js" type="text/javascript"></script>
 
         <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
-<!--//https://github.com/bmarini/jchess -->
+
         <script>
+            //https://github.com/bmarini/jchess
             jQuery(function ($) {
                 function loadChessGame(container, options, callback) {
                     var chess = $('.board', container).chess(options);
@@ -109,10 +110,10 @@
                     }
                     ;
                 }
-                //TEMPLATE_JQUERY
+                //TREMPLATE_JQUERY
+                loadChessGame('#game3', {pgn: $('#pgn-fischer-spassky').html()});
             });
         </script>
-<!-- loadChessGame('#game3', {pgn: $('#pgn-fischer-spassky').html()}); -->
 
     </head>
     <body>
@@ -144,7 +145,6 @@
              </div> -->
 
             <div class="panel panel-default"> 
-                <div class="panel-header"><h3><!--TEMPLATE_URI--></h3></div>
                 <div class="panel-body">
                     <!-- game comes here -->
                     <div id="game3">

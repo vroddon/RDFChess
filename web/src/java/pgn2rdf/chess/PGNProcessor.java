@@ -302,6 +302,7 @@ public class PGNProcessor {
         }
         String seealso = ChessECOManager.getSeeAlso(eco);
         List<String> children = ChessECOManager.getChildren(eco);
+        String parent = ChessECOManager.getParent(eco);
 
         String literal = eco;
         String idw = RDFChess.DATA_URI + "opening/" + eco;
@@ -319,6 +320,11 @@ public class PGNProcessor {
         {
             child = RDFChess.DATA_URI + "opening/" + child;
             sparql += "<" + idw + "> skos:broaderTransitive <" + child + "> .\n";
+        }
+        if (!parent.isEmpty())
+        {
+            parent = RDFChess.DATA_URI + "opening/" + parent;
+            sparql += "<" + idw + "> skos:narrowerTransitive <" + parent + "> .\n";
         }
         
         if (!loc.isEmpty()) {

@@ -26,6 +26,7 @@ import org.apache.jena.riot.RDFDataMgr;
 import pgn2rdf.chess.ChessECOManager;
 import pgn2rdf.chess.Main;
 import pgn2rdf.chess.PGNProcessor;
+import pgn2rdf.chess.RDFChess;
 import pgn2rdf.files.RDFStore;
 import pgn2rdf.mappings.ManagerDBpedia;
 import pgn2rdf.mappings.ManagerGeonames;
@@ -67,7 +68,6 @@ public class GameServlet extends HttpServlet {
             }
             String body = outx.toString();
             
-                body = body.replace("<!--TEMPLATE_URI-->", "\n" + "");
                 body = body.replace("<!--TEMPLATE_TITLE-->", "\n" + "List of chess players");
                 
                 String lista="";
@@ -147,14 +147,30 @@ public class GameServlet extends HttpServlet {
                     String eco = entidad.toString().substring(ultimo+1, entidad.toString().length());                
                     String s = "<h3>"+PGNProcessor.getNameFromOpening(model)+"</h3>";
                     String moves = ChessECOManager.getMoves(eco);
-                    s+= moves;
+                    String parent = ChessECOManager.getParent(eco);
+                    if (!parent.isEmpty())
+                    {
+                        String ecourl=RDFChess.DATA_URI+"opening/"+parent;
+                        s+="Parent opening: <a href=\"" + ecourl+"\">" + parent + "</a>" ;
+                    }
+                    List<String> children = ChessECOManager.getChildren(eco);
+                    if (!children.isEmpty())
+                    {
+                        s+="Children openings: "; 
+                        for(String child : children)
+                        {
+                            String ecourl=RDFChess.DATA_URI+"opening/"+child;
+                            s+="<a href=\"" + ecourl+"\">" + child + "</a> " ;                            
+                        }
+                    }
+                    
                     NodeIterator ni7 = model.listObjectsOfProperty(entidad, model.createProperty("http://www.w3.org/2000/01/rdf-schema#seeAlso"));
                     String sr = "";
                     if (ni7.hasNext()) {
                         Resource clase = ni7.next().asResource();
                         if (clase.toString().startsWith("http://en.wikibooks") || clase.toString().startsWith("https://en.wikibooks")) {
                             s+="<p>";
-                            //s+=ManagerWikipedia.getAbstractFromWikiBook(clase.toString());
+                            s+=ManagerWikipedia.getAbstractFromWikiBook(clase.toString());
                             s+="</p>";
                         }
                     }
@@ -231,7 +247,6 @@ public class GameServlet extends HttpServlet {
 
                 }
 
-                body = body.replace("<!--TEMPLATE_URI-->", "\n" + gameid);
                 body = body.replace("<!--TEMPLATE_TITLE-->", "\n" + titulo);
                 body = body.replace("<!--TEMPLATE_TTL-->", "<br>" + ttl2);
                 response.getWriter().println(body);

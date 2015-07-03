@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import pgn2rdf.mappings.ManagerWikipedia;
 
 /**
  * Class in charge of naming the ECO Chess Openings It contains the hard-coded
@@ -21,13 +22,15 @@ public class ChessECOManager {
      */
     public static void main(String[] args) throws IOException {
     
-        String eco ="C30";
+        String eco ="B00";
         System.out.println(eco);
-        System.out.println(getName(eco));
-        System.out.println(getMoves(eco));
-        System.out.println(getLibraryOfCongress(eco));
-        System.out.println(getSeeAlso(eco));
-        System.out.println(getChildren(eco));
+        System.out.println("Name: " + getName(eco));
+        System.out.println("Moves: " + getMoves(eco));
+        System.out.println("Library: " + getLibraryOfCongress(eco));
+        System.out.println("See also:" + getSeeAlso(eco));
+        System.out.println("Children: " + getChildren(eco));
+        System.out.println("Parent: " + getParent(eco));
+        System.out.println(ManagerWikipedia.getAbstractFromWikiBook(getSeeAlso(eco)));
     }
     
     public static List<String> getChildren(String eco)
@@ -47,6 +50,36 @@ public class ChessECOManager {
         }
         return children;
     }
+    
+    public static String getParent(String eco) {
+        String parent="";
+        List<String> parents = new ArrayList();
+        String moves1 = mapamoves.get(eco);
+        if (moves1==null)
+            return parent;
+        Iterator it = mapamoves.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry e = (Map.Entry)it.next();        
+            String moves2=(String)e.getValue();
+            String eco2 = (String)e.getKey();
+            if (moves1.contains(moves2) && !moves1.equals(moves2))
+                parents.add(eco2);
+        }
+        int maxply=0;
+        for(String p : parents)
+        {
+            String mi = mapamoves.get(p);
+            int plyi=PGNProcessor.getPly(mi);
+            if (plyi>maxply)
+            {
+                maxply=plyi;
+                parent = p;
+            }
+        }
+        return parent;
+        
+    }
+    
     
     
     /**
@@ -79,8 +112,8 @@ public class ChessECOManager {
      * The chapter may not exist.
      * https://en.wikibooks.org/wiki/Chess_Opening_Theory/1._e4/1...e5/2._Nf3/2...Nc6/3._Bb5
      * https://en.wikibooks.org/wiki/Chess_Opening_Theory/1._e4/1...c5/2._Nf3/2...d6/3._d4/3...cxd4/4._Nxd4/4...Nf6/5._Nc3/5...a6/6._Bg5/6...e6
-     *         1.e4 e5 2.Nf3
-     *   1._e4/1...e5/2._Nf3
+     *   @param eco ECO Opening, whose move are: 1.e4 e5 2.Nf3
+     *   @return Link to the wikibook, with the symbols: 1._e4/1...e5/2._Nf3
      */
     public static String getSeeAlso(String eco)
     {
@@ -91,14 +124,17 @@ public class ChessECOManager {
             return"";
         int i=0;
         int c=1;
+        boolean blancas=true;
         while(true)
         {
+            blancas=true;
             int b1 = m.indexOf('.',i);
             if (b1==-1)
                 break;
             int b2 = m.indexOf(" ",b1);
             if (b2==-1)
                 break;
+            blancas=false;
             String mb = m.substring(b1+1, b2);
             also+=c+"._"+mb+"/";
             i=b2;
@@ -110,8 +146,19 @@ public class ChessECOManager {
             c++;
         }
         also=also.replace("O", "0");
+        int last=-1;
+        if (blancas)
+            last = m.lastIndexOf(".");
+        else
+            last = m.lastIndexOf(" ");
+        String slast = m.substring(last+1, m.length());
+        int lastm = blancas ? c : c;
+        if (blancas)
+            also=also+lastm+"._"+slast;
+        else
+            also=also+lastm+"..."+slast;
         also = "https://en.wikibooks.org/wiki/Chess_Opening_Theory/" + also;
-        also = also.substring(0, also.length()-1);
+//        also = also.substring(0, also.length()-1);
         
         return also;
     }
@@ -1214,5 +1261,6 @@ public class ChessECOManager {
         return mapa;
 
     }
+
 
 }
