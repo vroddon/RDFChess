@@ -186,11 +186,11 @@ $("#grid-data").bootgrid({
             currenturl: window.location.href 
         };
     },
-    url: "rdfchess/service/getChessplayers",
+    url: "/rdfchess/service/getChessplayers",
     formatters: {
         "link": function(column, row)
         {
-            return "<a href=\"#\">" + column.id + ": " + row.id + "</a>";
+            return "<a href=\"" + row.chessplayerurl + "\">"+ row.chessplayer +  "</a>";
         }
     }
 });
