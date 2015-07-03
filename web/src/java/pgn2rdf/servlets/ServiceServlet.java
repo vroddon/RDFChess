@@ -39,10 +39,12 @@ public class ServiceServlet extends HttpServlet {
 "  \"rowCount\": 2,\n" +
 "  \"rows\": [\n" +
 "    {\n" +
-"      \"chessplayer\": \"asdf\"\n" +
+"      \"chessplayer\": \"asdf\",\n" +
+"      \"chessplayerurl\": \"http://asdf\"\n" +
 "    },\n" +
 "    {\n" +
-"      \"chessplayer\": \"fasd\"\n" +
+"      \"chessplayer\": \"fasd\",\n" +
+"      \"chessplayerurl\": \"http://fasd\"\n" +
 "    }\n" +
 "  ],\n" +
 "  \"total\": 2\n" +
