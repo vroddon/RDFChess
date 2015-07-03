@@ -274,7 +274,7 @@ public class RDFStore {
         String sparql = "SELECT (COUNT(DISTINCT ?p) AS ?count)\n"
                 + "WHERE {\n"
                 + "  GRAPH ?g {\n"
-                + "    ?p a <http://http://purl.org/NET/rdfchess/ontology/Agent>\n"
+                + "    ?p a <http://purl.org/NET/rdfchess/ontology/Agent>\n"
                 + "  }\n"
                 + "}";
         Query query = QueryFactory.create(sparql);
