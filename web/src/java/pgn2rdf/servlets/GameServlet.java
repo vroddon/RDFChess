@@ -185,7 +185,7 @@ public class GameServlet extends HttpServlet {
                             + moves
                             + "      </pre> ";
                     int ply = PGNProcessor.getPly(moves);
-                    String jquery="\n loadChessGame( '#game3', { pgn : $('#apertura').html() }, function(chess) {\n chess.transitionTo("+ply+");\n}); \n";
+                    String jquery="loadChessGame( '#game3', { pgn : $('#apertura').html() }, function(chess) {\n chess.transitionTo("+ply+");\n});";
                     body = body.replace("//TEMPLATE_JQUERY", jquery);
                   
                     //END OF TESTING...
@@ -213,7 +213,7 @@ public class GameServlet extends HttpServlet {
                             + pgn
                             + "      </pre> ";
                     
-                    String jquery="\n loadChessGame( '#game3', { pgn : $('#pgn-fischer-spassky').html()}); \n";
+                    String jquery="loadChessGame( '#game3', { pgn : $('#pgn-fischer-spassky').html()});";
                     body = body.replace("//TEMPLATE_JQUERY", jquery);
                     
                     body = body.replace("<!--TEMPLATE_PGN-->", "\n" + superpgn);
