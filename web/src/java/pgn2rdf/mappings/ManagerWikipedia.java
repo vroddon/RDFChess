@@ -59,6 +59,8 @@ public class ManagerWikipedia {
             }
         }
         res = res.replace("<p>When contributing to this Wikibook, please follow the Conventions for organization.</p>", "");
+        res = res.replace("For explanation of theory tables see theory table and for notation see algebraic notation", "");
+        
         res = res.replace("<p></p>","");
         return res;
     }
