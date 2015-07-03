@@ -16,7 +16,7 @@ public class ServiceServlet extends HttpServlet {
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
-     *
+     *http://www.jquery-bootgrid.com/Examples
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -28,17 +28,27 @@ public class ServiceServlet extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             String uri=request.getRequestURI();
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ServiceServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println(uri);
-            System.out.println(uri);
-            out.println("<h1>Servlet ServiceServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+//            out.println(uri);
+                        PrintWriter archivo = new PrintWriter("d:\\test.txt");
+                        archivo.println(uri);
+                       archivo.close();
+            
+            
+            String s="{\n" +
+"  \"current\": 1,\n" +
+"  \"rowCount\": 2,\n" +
+"  \"rows\": [\n" +
+"    {\n" +
+"      \"chessplayer\": \"asdf\"\n" +
+"    },\n" +
+"    {\n" +
+"      \"chessplayer\": \"fasd\"\n" +
+"    }\n" +
+"  ],\n" +
+"  \"total\": 2\n" +
+"}    ";
+            out.print(s);
+            
         }
     }
 
