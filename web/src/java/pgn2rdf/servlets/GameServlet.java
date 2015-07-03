@@ -151,7 +151,7 @@ public class GameServlet extends HttpServlet {
                     if (!parent.isEmpty())
                     {
                         String ecourl=RDFChess.DATA_URI+"opening/"+parent;
-                        s+="Parent opening: <a href=\"" + ecourl+"\">" + parent + "</a>" ;
+                        s+="Parent opening: <a href=\"" + ecourl+"\">" + parent + "</a><br/>" ;
                     }
                     List<String> children = ChessECOManager.getChildren(eco);
                     if (!children.isEmpty())
@@ -162,6 +162,7 @@ public class GameServlet extends HttpServlet {
                             String ecourl=RDFChess.DATA_URI+"opening/"+child;
                             s+="<a href=\"" + ecourl+"\">" + child + "</a> " ;                            
                         }
+                        s+="<br/>";
                     }
                     
                     NodeIterator ni7 = model.listObjectsOfProperty(entidad, model.createProperty("http://www.w3.org/2000/01/rdf-schema#seeAlso"));
