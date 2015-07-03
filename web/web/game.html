@@ -168,8 +168,8 @@
                 </div>
             </div>
 
-		<!-- test -->
-		<table id="grid-data" class="table table-condensed table-hover table-striped" data-toggle="bootgrid" data-ajax="true" data-url="/service/getChessplayers">
+		<!-- test data-toggle="bootgrid" data-ajax="true" data-url="/service/getChessplayers" -->
+		<table id="grid-data" class="table table-condensed table-hover table-striped" >
 			<thead>
 				<tr>
 					<th data-column-id="chessplayer" data-order="desc">Chessplayer</th>
@@ -186,7 +186,7 @@ $("#grid-data").bootgrid({
             currenturl: window.location.href 
         };
     },
-    url: "/service/getChessplayers",
+    url: "/rdfchess/service/getChessplayers",
     formatters: {
         "link": function(column, row)
         {
