@@ -2,6 +2,7 @@ package pgn2rdf.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLDecoder;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -47,10 +48,14 @@ public class ServiceServlet extends HttpServlet {
                         + "  \"rows\": [\n";
                 int conta=0;
                 for (String cp : ls) {
+                    
+                    int lasti = cp.lastIndexOf("/");
+                    String nombre = cp.substring(lasti+1,cp.length());
+                    nombre=URLDecoder.decode(nombre, "UTF-8");
                     if (conta!=0)
                         s+=",\n";
                     s += "    {\n"
-                            + "      \"chessplayer\": \"" +cp+"\",\n"
+                            + "      \"chessplayer\": \"" +nombre+"\",\n"
                             + "      \"chessplayerurl\": \""+cp+"\"\n"
                             + "    } ";
                     conta++;
