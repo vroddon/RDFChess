@@ -45,7 +45,7 @@ public class ManagerWikipedia {
         for (Element hijo : hijos) {
             count++;
             org.jsoup.parser.Tag tag = hijo.tag();
-            if (tag.toString().equals("p")) {
+            if (tag.toString().equals("p") || tag.toString().equals("dl") || tag.toString().equals("dd")) {
                 count++;
                 if (count > 2) {
                     res += "<p>" + hijo.text() + "</p>";

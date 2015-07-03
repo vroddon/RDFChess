@@ -185,57 +185,29 @@ public class ChessECOManager {
 
         String str = "";
         
-       //English
-        for (int i = 10; i < 39; i++) {
-            map.put("A" + i, "http://id.loc.gov/authorities/subjects/sh00005411");
-        }
+       //English (a10-a39)
+        map.put("A10", "http://id.loc.gov/authorities/subjects/sh00005411");
 
-       //Budapest
-        for (int i = 51; i < 52; i++) {
-            map.put("A" + i, "http://id.loc.gov/authorities/subjects/sh99002614");
-        }
+       //Budapest a51 a52
+        map.put("A51", "http://id.loc.gov/authorities/subjects/sh99002614");
 
-       //Benoni
-        for (int i = 60; i < 79; i++) {
-
-        }
-        
-        
-       //Sicilian
-        for (int i = 20; i < 59; i++) {
-            map.put("B" + i, "http://id.loc.gov/authorities/subjects/sh2001008186");
-        }
+        //Sicilian 20 59
+        map.put("B20", "http://id.loc.gov/authorities/subjects/sh2001008186");
               
-       //Sicilian Dragon
-        for (int i = 60; i < 79; i++) {
-            map.put("B" + i, "http://id.loc.gov/authorities/subjects/sh200100818");
-        }
-        
-       //Sicilian
-        for (int i = 80; i < 99; i++) {
-            map.put("B" + i, "http://id.loc.gov/authorities/subjects/sh2001008186");
-        }
+       //Sicilian Dragon 6079
+        map.put("B60", "http://id.loc.gov/authorities/subjects/sh200100818");
         
         //King's gambit
-        for (int i = 30; i < 39; i++) {
-            map.put("C" + i, "http://id.loc.gov/authorities/subjects/sh98003564");
-        }
+        map.put("C30", "http://id.loc.gov/authorities/subjects/sh98003564");
         
-        //Spanish
-        for (int i = 60; i < 99; i++) {
-            map.put("C" + i, "http://id.loc.gov/authorities/subjects/sh98003603");
-        }
+        //Spanish 60 99
+        map.put("C60", "http://id.loc.gov/authorities/subjects/sh98003603");
 
-        //Queen's gambit
-        for (int i = 06; i < 69; i++) {
-            map.put("D" + i, "http://id.loc.gov/authorities/subjects/sh98003550");
-        }
+        //Queen's gambit 06 69
+        map.put("D06", "http://id.loc.gov/authorities/subjects/sh98003550");
 
-        //Grünefeld
-        for (int i = 70; i < 99; i++) {
-            map.put("D" + i, "http://id.loc.gov/authorities/subjects/sh2004005503");
-        }
-        
+        //Grünefeld 70 99
+        map.put("D70", "http://id.loc.gov/authorities/subjects/sh2004005503");
         
         map.put("E83", "http://id.loc.gov/authorities/subjects/sh00008710");
 
