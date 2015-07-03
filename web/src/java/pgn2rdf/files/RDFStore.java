@@ -420,7 +420,7 @@ public class RDFStore {
             
             if (!seealso.isEmpty())
                 model.add(reco, RDFS.seeAlso, model.createResource(seealso));
-            if (!loc.isEmpty())
+            if (loc!=null && !loc.isEmpty())
                 model.add(reco, model.createProperty("http://www.w3.org/2004/02/skos/core#closeMatch"), model.createResource(loc));
             if (!parent.isEmpty())
                 model.add(reco, model.createProperty("http://www.w3.org/2004/02/skos/core#narrowerTransitive"), model.createResource(parent));

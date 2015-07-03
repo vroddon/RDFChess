@@ -46,7 +46,9 @@ public class GameUploader {
      * Main method uploads Bobby fischer's games
      */
     public static void main(String[] args) {
-
+    /*   uploadECO("A01");
+        if (true) return;
+ 
         for(int i=0;i<100;i++)
             uploadECO(String.format("A%02d",i));
         for(int i=0;i<100;i++)
@@ -71,7 +73,7 @@ public class GameUploader {
         uploadPGN("samples/WorldChamp2014.pgn");
         uploadPGN("samples/Fischer.pgn");
         uploadPGN("samples/Kasparov.pgn");
-        uploadPGN("samples/Korchnoi.pgn");
+        uploadPGN("samples/Korchnoi.pgn");*/
         uploadPGN("samples/Keres.pgn");
         uploadPGN("samples/London1851.pgn");
         uploadPGN("samples/Philidor.pgn");
