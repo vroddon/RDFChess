@@ -39,7 +39,7 @@ public class ChessPlayerProcessor {
                     String nom = jugador.substring(coma+2, jugador.length());
                     String cognom = jugador.substring(0,coma);
                     String url = "http://dbpedia.org/resource/"+nom+"_"+cognom;
-                    url.replace(" ", "_");
+                    url = url.replace(" ", "_");
                     String country=ManagerDBpedia.getAbstract(url);
                     System.out.println(country);
                     if (!country.isEmpty() && country.contains("chess"))

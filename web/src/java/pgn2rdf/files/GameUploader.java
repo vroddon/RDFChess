@@ -41,6 +41,8 @@ public class GameUploader {
      */
     public static void main(String[] args) {
 //        uploadHugeCollection();
+    //    uploadPGN("samples/GM_games.pgn");
+    ////    if (true) return;
         uploadPGN("samples/London1872.pgn");
         uploadPGN("samples/NewYork1880.pgn");
         uploadPGN("samples/SovietChamp1968.pgn");

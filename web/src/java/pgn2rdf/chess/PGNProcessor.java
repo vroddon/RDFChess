@@ -252,7 +252,9 @@ public class PGNProcessor {
                     + "<" + idw + "> skos:closeMatch <" + dbpedia + "> .\n"
                     + "}\n"
                     + "WHERE { <" + id + "> chess:hasWhitePlayerName \"" + literal + "\" }";
-            UpdateAction.parseExecute(sparql, graphStore);         //DROP ALL
+            try{
+            UpdateAction.parseExecute(sparql, graphStore);       
+            }catch(Exception e ){System.err.println(sparql);}
         }
 
         //SECOND EXPANSION, WHITE PLAYER
@@ -280,7 +282,9 @@ public class PGNProcessor {
                     + "<" + idw + "> skos:closeMatch <" + dbpedia + "> .\n"
                     + "}\n"
                     + "WHERE { <" + id + "> chess:hasBlackPlayerName \"" + literal + "\" }";
-            UpdateAction.parseExecute(sparql, graphStore);         //DROP ALL
+            try{
+            UpdateAction.parseExecute(sparql, graphStore);       
+            }catch(Exception e ){System.err.println(sparql);}
         }
 
         //THIRD EXPANSION, ECO OPENING
