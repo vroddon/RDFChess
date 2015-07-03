@@ -200,6 +200,8 @@ public class GameServlet extends HttpServlet {
                     String jquery="loadChessGame( '#game3', { pgn : $('#apertura').html() }, function(chess) {\n chess.transitionTo("+ply+");\n});";
                     body = body.replace("//TEMPLATE_JQUERY", jquery);
                   
+                    body=body.replace("<!--TEMPLATE_HEADER-->","<base href=\"http://salonica.dia.fi.upm.es:8080/rdfchess/\">\n");
+                    
                     //END OF TESTING...
                     
                     s += "\n<hr><div style=\"overflow: hidden; width: 100%;\">\n";
@@ -227,6 +229,7 @@ public class GameServlet extends HttpServlet {
                     
                     String jquery="loadChessGame( '#game3', { pgn : $('#pgn-fischer-spassky').html()});";
                     body = body.replace("//TEMPLATE_JQUERY", jquery);
+                    body=body.replace("<!--TEMPLATE_HEADER-->","<base href=\"http://salonica.dia.fi.upm.es:8080/rdfchess/\">\n");
                     
                     body = body.replace("<!--TEMPLATE_PGN-->", "\n" + superpgn);
                 }

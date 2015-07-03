@@ -38,6 +38,7 @@ public class ServiceServlet extends HttpServlet {
                 String offset = request.getParameter("current");
                 String limit = request.getParameter("rowCount");
                 int current = Integer.parseInt(offset);
+                int total = RDFStore.countChessplayers();
                 int ilimit = Integer.parseInt(limit);
                 int init=(current-1)*ilimit;
                 List<String> ls = RDFStore.listChessPlayers(init, ilimit);
@@ -62,7 +63,7 @@ public class ServiceServlet extends HttpServlet {
                 }
                 
                 s += "  ],\n"
-                        + "  \"total\": 200\n"
+                        + "  \"total\": "+total+"\n"
                         + "}    ";
                 out.print(s);
                 response.setStatus(HttpServletResponse.SC_OK);

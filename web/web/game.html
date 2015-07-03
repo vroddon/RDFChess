@@ -4,7 +4,8 @@
         <title>RDF Chess pages</title>
         <meta charset="utf-8"> 
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!--<base href="http://salonica.dia.fi.upm.es:8080/rdfchess/">-->
+        
+        <!--TEMPLATE_HEADER-->
 
 
         <!-- Latest compiled and minified CSS -->
@@ -137,13 +138,13 @@ $("#grid-data").bootgrid({
         
         
 
-        <script>
+ <!--       <script>
             $(document).ready(function () {
                 document.getElementById('pgn').value = "[Event \"Once upon a time\"]\n[White \"Peasant\"]\n[Black \"King\"]\n[Result \"1-0\"]\n[ECO \"C23\"]\n1.e4 e5 2.Bc4 Nc6 3.Qh5 Nf6 4.Dxf7 1-0";
                 $.getJSON('/pgn2rdf', function (data) {
                     $('#result').html("Hello, " + data.name);
                 });
             });
-        </script>        
+        </script>        -->
     </body>
 </html>
