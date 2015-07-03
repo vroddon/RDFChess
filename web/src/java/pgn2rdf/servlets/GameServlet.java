@@ -70,17 +70,29 @@ public class GameServlet extends HttpServlet {
             
                 body = body.replace("<!--TEMPLATE_TITLE-->", "\n" + "List of chess players");
                 
+                String tabla ="<table id=\"grid-data\" class=\"table table-condensed table-hover table-striped\">\n" +
+"        <thead>\n" +
+"                <tr>\n" +
+"                        <th data-column-id=\"chessplayer\" data-formatter=\"link\" data-order=\"desc\">Chess players</th>\n" +
+"                </tr>\n" +
+"        </thead>\n" +
+"</table>	\n" +
+"";
+            body = body.replace("<!--TEMPLATE_PGN-->", "<br>" + tabla);
+                
+                
+/*
                 String lista="";
                 List<String> ls = RDFStore.listChessPlayers();
                 for(String s : ls)
                 {
-               //     String name = PGNProcessor.getChessPlayerName(s);     //too expensive!
                     int ultimo = s.lastIndexOf("/");
                     String name= s.substring(ultimo+1, s.length());
                     name = URLDecoder.decode(name, "UTF-8");
                     lista+="<a href=\"" + s +"\">"+name+"</a><br>";
                 }
             body = body.replace("<!--TEMPLATE_PGN-->", "<br>" + lista);
+            */
             response.getWriter().println(body);
             response.setStatus(HttpServletResponse.SC_OK);
             return;
@@ -225,16 +237,9 @@ public class GameServlet extends HttpServlet {
                         Resource clase = ni7.next().asResource();
                         if (clase.toString().startsWith("http://dbpedia.org") || clase.toString().startsWith("http://es.dbpedia.org")) {
                         String abst = ManagerDBpedia.getAbstract(clase.toString());
-                   //     System.out.println(abst);
-                   //     PrintWriter archivo = new PrintWriter("d:\\test.txt");
-                   //     archivo.println(abst);
-                    //    archivo.close();
-                            
-                            
                             s += "<h3>" + ManagerDBpedia.getLabel(clase.toString()) + "</h3>";
                             s += "<p><img style=\"float:left;margin:10px 10px;\" src=\"" + ManagerDBpedia.getThumbnailURL(clase.toString()) + "\" />";
                             s += "" + abst + "</p>";
-
                             s += "\n<hr><div style=\"overflow: hidden; width: 100%;\">\n";
                             List<String> partidas = RDFStore.listGamesByChessPlayer(entidad.toString());
                             s += "<h3>Some games</h3>";

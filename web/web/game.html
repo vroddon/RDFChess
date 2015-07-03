@@ -19,63 +19,6 @@
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>    
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-bootgrid/1.2.0/jquery.bootgrid.min.js"></script>
  		
-<!--        <style type="text/css">
-
-            /* Sticky footer styles
-            -------------------------------------------------- */
-
-            html,
-            body {
-                height: 100%;
-                /* The html and body elements cannot have any padding or margin. */
-            }
-
-            /* Wrapper for page content to push down footer */
-            #wrap {
-                min-height: 100%;
-                height: auto !important;
-                height: 100%;
-                /* Negative indent footer by it's height */
-                margin: 0 auto -60px;
-            }
-
-            /* Set the fixed height of the footer here */
-            #push,
-            #footer {
-                height: 60px;
-            }
-            #footer {
-                background-color: #f5f5f5;
-            }
-
-            /* Lastly, apply responsive CSS fixes as necessary */
-            @media (max-width: 767px) {
-                #footer {
-                    margin-left: -20px;
-                    margin-right: -20px;
-                    padding-left: 20px;
-                    padding-right: 20px;
-                }
-            }
-
-
-
-            /* Custom page CSS
-            -------------------------------------------------- */
-            /* Not required for template or sticky footer method. */
-
-            #wrap > .container {
-                padding-top: 60px;
-            }
-            .container .credit {
-                margin: 20px 0;
-            }
-
-            code {
-                font-size: 80%;
-            }
-
-        </style>-->
 
         <link rel="stylesheet" href="css/ladda-themeless.min.css"> <!-- http://msurguy.github.io/ladda-bootstrap/ -->
         <script src="js/spin.min.js"></script>
@@ -87,8 +30,7 @@
 
         <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
 <!-- //https://github.com/bmarini/jchess -->
-        <script>
-            
+        <script>            
             jQuery(function ($) {
                 function loadChessGame(container, options, callback) {
                     var chess = $('.board', container).chess(options);
@@ -150,19 +92,6 @@
                     <div id="game3">
                         <h1><!--TEMPLATE_TITLE--></h1>
                         <!--TEMPLATE_PGN-->
-                        
-		<!-- test -->
-		<table id="grid-data" class="table table-condensed table-hover table-striped">
-			<thead>
-				<tr>
-					<th data-column-id="chessplayer" data-formatter="link" data-order="desc">Chess players</th>
-				</tr>
-			</thead>
-		</table>	
-                        
-
-
-
                     </div>
                 </div>
             </div>
@@ -205,5 +134,16 @@ $("#grid-data").bootgrid({
                 <center> <p class="muted credit">Developed in May 2015 by the Daselab and OEG</p></center>
             </div>
         </div>
+        
+        
+
+        <script>
+            $(document).ready(function () {
+                document.getElementById('pgn').value = "[Event \"Once upon a time\"]\n[White \"Peasant\"]\n[Black \"King\"]\n[Result \"1-0\"]\n[ECO \"C23\"]\n1.e4 e5 2.Bc4 Nc6 3.Qh5 Nf6 4.Dxf7 1-0";
+                $.getJSON('/pgn2rdf', function (data) {
+                    $('#result').html("Hello, " + data.name);
+                });
+            });
+        </script>        
     </body>
 </html>
