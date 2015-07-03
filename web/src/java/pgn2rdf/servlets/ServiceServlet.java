@@ -53,6 +53,7 @@ public class ServiceServlet extends HttpServlet {
                     int lasti = cp.lastIndexOf("/");
                     String nombre = cp.substring(lasti+1,cp.length());
                     nombre=URLDecoder.decode(nombre, "UTF-8");
+                    cp=cp.replace(" ","+");
                     if (conta!=0)
                         s+=",\n";
                     s += "    {\n"
