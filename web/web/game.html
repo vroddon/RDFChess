@@ -4,7 +4,7 @@
         <title>RDF Chess pages</title>
         <meta charset="utf-8"> 
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <base href="http://salonica.dia.fi.upm.es:8080/rdfchess/">
+        <!--<base href="http://salonica.dia.fi.upm.es:8080/rdfchess/">-->
 
 
         <!-- Latest compiled and minified CSS -->
@@ -169,10 +169,10 @@
             </div>
 
 		<!-- test -->
-		<table id="grid-data" class="table table-condensed table-hover table-striped" data-toggle="bootgrid" data-ajax="true" data-url="/rdfchess/service/getChessplayers">
+		<table id="grid-data" class="table table-condensed table-hover table-striped">
 			<thead>
 				<tr>
-					<th data-column-id="chessplayer" data-formatter="link" data-order="desc">Received</th>
+					<th data-column-id="chessplayer" data-formatter="link" data-order="desc">Chess players</th>
 				</tr>
 			</thead>
 		</table>	
@@ -181,10 +181,10 @@ $("#grid-data").bootgrid({
     ajax: true,
     post: function ()
     {
-        /* To accumulate custom parameter with the request object */
+        /* To accumulate custom parameter with the request object 
         return {
             currenturl: window.location.href 
-        };
+        };*/
     },
     url: "/rdfchess/service/getChessplayers",
     formatters: {
@@ -206,14 +206,5 @@ $("#grid-data").bootgrid({
                 <center> <p class="muted credit">Developed in May 2015 by the Daselab and OEG</p></center>
             </div>
         </div>
-
-        <script>
-            $(document).ready(function () {
-                document.getElementById('pgn').value = "[Event \"Once upon a time\"]\n[White \"Peasant\"]\n[Black \"King\"]\n[Result \"1-0\"]\n[ECO \"C23\"]\n1.e4 e5 2.Bc4 Nc6 3.Qh5 Nf6 4.Dxf7 1-0";
-                $.getJSON('/pgn2rdf', function (data) {
-                    $('#result').html("Hello, " + data.name);
-                });
-            });
-        </script>
     </body>
 </html>

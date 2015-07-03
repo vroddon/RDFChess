@@ -29,19 +29,21 @@ public class ServiceServlet extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             String uri = request.getRequestURI();
-//            out.println(uri);
+            PrintWriter archivo = new PrintWriter("d:\\test.txt");
+            archivo.println(uri+request.getParameter("current"));
+            archivo.close();
             if (uri.equals("/rdfchess/service/getChessplayers")) {
                 //current=1&rowCount=10&sort[sender]=asc&searchPhrase=&id=b0df282a-0d67-40e5-8558-c9e93b7befed
                 String offset = request.getParameter("current");
                 String limit = request.getParameter("rowCount");
-                List<String> ls = RDFStore.listChessPlayers(Integer.parseInt(offset), Integer.parseInt(limit));
-            //PrintWriter archivo = new PrintWriter("d:\\test.txt");
-                //archivo.println(uri);
-                //archivo.close();
-
+                int current = Integer.parseInt(offset);
+                int ilimit = Integer.parseInt(limit);
+                int init=(current-1)*ilimit;
+                List<String> ls = RDFStore.listChessPlayers(init, ilimit);
+                System.out.println(offset+" "+limit);
                 String s = "{\n"
-                        + "  \"current\": 1,\n"
-                        + "  \"rowCount\": 2,\n"
+                        + "  \"current\": "+current+",\n"
+                        + "  \"rowCount\": " +ilimit+",\n"
                         + "  \"rows\": [\n";
                 int conta=0;
                 for (String cp : ls) {
@@ -55,11 +57,12 @@ public class ServiceServlet extends HttpServlet {
                 }
                 
                 s += "  ],\n"
-                        + "  \"total\": 2\n"
+                        + "  \"total\": 200\n"
                         + "}    ";
                 out.print(s);
                 response.setStatus(HttpServletResponse.SC_OK);
                 response.setContentType("application/json");
+                
             }
         }
     }
