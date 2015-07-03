@@ -59,12 +59,12 @@ public class RDFStore {
 //        clearACHTUNGGames();
       //  listGames();
 
-        listDeleteGames();
+    //    listDeleteGames();
 //        deleteGame("http://salonica.dia.fi.upm.es:8080/rdfchess/resource/chessgame/df7655ba-8fc3-4645-b081-05bd8e1ad9ef");
 //        List<String> ls = RDFStore.listGamesByOpening("C60");
 
 //        int n =countGames();
-        System.out.println(countGames());
+        System.out.println(countChessplayers());
     }
     
     
@@ -249,6 +249,32 @@ public class RDFStore {
                 + "WHERE {\n"
                 + "  GRAPH ?g {\n"
                 + "    ?s ?p ?o\n"
+                + "  }\n"
+                + "}";
+        Query query = QueryFactory.create(sparql);
+        String endpoint = "http://localhost:3030/RDFChess/query";
+        QueryExecution qexec = QueryExecutionFactory.sparqlService(endpoint, query);
+        ResultSet results = qexec.execSelect();
+        for (; results.hasNext();) {
+            QuerySolution soln = results.nextSolution();
+            Iterator<String> it = soln.varNames();
+            while(it.hasNext())
+            {
+                String col = it.next();
+                System.out.println(col);
+                Literal literal = soln.getLiteral(col);
+                return Integer.parseInt(literal.getLexicalForm());
+                
+            }
+        }
+        return 0;
+    }
+        public static int countChessplayers() {
+        String sresults = "";
+        String sparql = "SELECT (COUNT(DISTINCT ?p) AS ?count)\n"
+                + "WHERE {\n"
+                + "  GRAPH ?g {\n"
+                + "    ?p a <http://http://purl.org/NET/rdfchess/ontology/Agent>\n"
                 + "  }\n"
                 + "}";
         Query query = QueryFactory.create(sparql);
