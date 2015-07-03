@@ -9,13 +9,15 @@
 
         <!-- Latest compiled and minified CSS -->
         <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.4/journal/bootstrap.min.css" rel="stylesheet">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-bootgrid/1.2.0/jquery.bootgrid.min.css">		
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-bootgrid/1.2.0/jquery.bootgrid.min.css">		
        <!--    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"> -->
-        <!-- jQuery library -->
+        
+       
+       <!-- jQuery library -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <!-- Latest compiled JavaScript -->
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>    
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-bootgrid/1.2.0/jquery.bootgrid.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-bootgrid/1.2.0/jquery.bootgrid.min.js"></script>
  		
         <style type="text/css">
 
@@ -173,7 +175,26 @@
 					<th data-column-id="chessplayer" data-order="desc">Received</th>
 				</tr>
 			</thead>
-		</table>			
+		</table>	
+<script>
+$("#grid-data").bootgrid({
+    ajax: true,
+    post: function ()
+    {
+        /* To accumulate custom parameter with the request object */
+        return {
+            currenturl: window.location.href 
+        };
+    },
+    url: "/service/getChessplayers",
+    formatters: {
+        "link": function(column, row)
+        {
+            return "<a href=\"#\">" + column.id + ": " + row.id + "</a>";
+        }
+    }
+});
+</script>		
 		<!-- test -->
 			
 
