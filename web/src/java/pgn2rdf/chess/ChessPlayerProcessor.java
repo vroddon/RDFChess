@@ -63,6 +63,8 @@ public class ChessPlayerProcessor {
         mapa.put("Petrosian, Tigran V", "http://dbpedia.org/resource/Tigran_Petrosian");
         mapa.put("Panno, Oscar", "http://dbpedia.org/resource/Oscar_Panno");
         mapa.put("Loewenthal, Johann Jacob", "http://dbpedia.org/resource/Johann_Löwenthal");
+        mapa.put("Benko, Pal C", "http://dbpedia.org/resource/Pal_Benko");
+        
         
         
         

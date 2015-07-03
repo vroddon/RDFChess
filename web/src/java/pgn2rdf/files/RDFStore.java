@@ -19,6 +19,8 @@ import com.hp.hpl.jena.update.UpdateExecutionFactory;
 import com.hp.hpl.jena.update.UpdateFactory;
 import com.hp.hpl.jena.update.UpdateProcessor;
 import com.hp.hpl.jena.update.UpdateRequest;
+import com.hp.hpl.jena.vocabulary.RDF;
+import com.hp.hpl.jena.vocabulary.RDFS;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.StringWriter;
@@ -29,7 +31,9 @@ import java.util.List;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.riot.RDFFormat;
+import pgn2rdf.chess.ChessECOManager;
 import pgn2rdf.chess.PGNProcessor;
+import pgn2rdf.chess.RDFChess;
 import pgn2rdf.chess.RDFChessConfig;
 
 /**
@@ -364,7 +368,51 @@ public class RDFStore {
             e.printStackTrace();
             return "";
         }
-
     }
+    public static String writeOpening(String eco) {
+        String name=ChessECOManager.getName(eco);
+        String moves=ChessECOManager.getMoves(eco);
+        String seealso=ChessECOManager.getSeeAlso(eco);
+        String loc = ChessECOManager.getLibraryOfCongress(eco);
+        List<String> children = ChessECOManager.getChildren(eco);
+        String parent = ChessECOManager.getParent(eco);
+        String sx = eco + " " + name + " ";
+        String dbpedia = PGNProcessor.getMappingDBpediaOpening(sx);
+        
+        try {
+            String serviceURI = RDFChessConfig.get("fuseki", "http://localhost:3030/RDFChess/data");
+            DatasetAccessor dataAccessor = DatasetAccessorFactory.createHTTP(serviceURI);
+            Model model = ModelFactory.createDefaultModel();
+            String idw = RDFChess.DATA_URI + "opening/" + eco;
+
+            Resource reco = model.createResource(idw);
+            model.add(reco, RDF.type, model.createResource("http://purl.org/NET/rdfchess/ontology/ChessOpening"));
+            model.add(reco, RDFS.label, model.createLiteral(name));
+            model.add(reco, model.createProperty("http://purl.org/NET/rdfchess/ontology/ECOID"), model.createLiteral(eco));
+            
+            if (!seealso.isEmpty())
+                model.add(reco, RDFS.seeAlso, model.createResource(seealso));
+            if (!loc.isEmpty())
+                model.add(reco, model.createProperty("http://www.w3.org/2004/02/skos/core#closeMatch"), model.createResource(loc));
+            if (!parent.isEmpty())
+                model.add(reco, model.createProperty("http://www.w3.org/2004/02/skos/core#narrowerTransitive"), model.createResource(parent));
+            if (!children.isEmpty())
+            {
+                for (String child : children)
+                    model.add(reco, model.createProperty("http://www.w3.org/2004/02/skos/core#broaderTransitive"), model.createResource(child));
+            }
+            if (!dbpedia.isEmpty())
+                model.add(reco, model.createProperty("http://www.w3.org/2004/02/skos/core#closeMatch"), model.createResource(dbpedia));
+            
+            
+            dataAccessor.putModel(model); 
+            return idw;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+        
+    }
+    
 
 }

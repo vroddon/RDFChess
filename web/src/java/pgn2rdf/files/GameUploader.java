@@ -23,6 +23,12 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
+import static pgn2rdf.chess.ChessECOManager.getChildren;
+import static pgn2rdf.chess.ChessECOManager.getLibraryOfCongress;
+import static pgn2rdf.chess.ChessECOManager.getMoves;
+import static pgn2rdf.chess.ChessECOManager.getName;
+import static pgn2rdf.chess.ChessECOManager.getParent;
+import static pgn2rdf.chess.ChessECOManager.getSeeAlso;
 import pgn2rdf.chess.PGNProcessor;
 import static pgn2rdf.files.ChessGameIterator.getMoves;
 import static pgn2rdf.files.PGNFolderParser.MD5;
@@ -40,9 +46,17 @@ public class GameUploader {
      * Main method uploads Bobby fischer's games
      */
     public static void main(String[] args) {
-//        uploadHugeCollection();
-    //    uploadPGN("samples/GM_games.pgn");
-    ////    if (true) return;
+
+        for(int i=0;i<100;i++)
+            uploadECO(String.format("A%02d",i));
+        for(int i=0;i<100;i++)
+            uploadECO(String.format("B%02d",i));
+        for(int i=0;i<100;i++)
+            uploadECO(String.format("C%02d",i));
+        for(int i=0;i<100;i++)
+            uploadECO(String.format("D%02d",i));
+        
+        
         uploadPGN("samples/London1872.pgn");
         uploadPGN("samples/NewYork1880.pgn");
         uploadPGN("samples/SovietChamp1968.pgn");
@@ -72,7 +86,17 @@ public class GameUploader {
         uploadPGN("samples/Caruana.pgn");
  //       uploadPGN("samples/Petrosian.pgn");
     }
+    /**
+     * Transforms and uploads a Chess Opening
+     */
+    private static void uploadECO(String eco) {
+        RDFStore.writeOpening(eco);
+        
+    }
 
+    /**
+     * Transforms and uploads a PGN game
+     */
     private static int uploadPGN(String filename) {
         String ttl = "";
         int conta = 0;
