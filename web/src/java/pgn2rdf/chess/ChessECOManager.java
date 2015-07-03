@@ -1,5 +1,8 @@
 package pgn2rdf.chess;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Iterator;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,12 +21,31 @@ public class ChessECOManager {
      */
     public static void main(String[] args) throws IOException {
     
-        String eco ="B96";
+        String eco ="C30";
         System.out.println(eco);
         System.out.println(getName(eco));
         System.out.println(getMoves(eco));
         System.out.println(getLibraryOfCongress(eco));
         System.out.println(getSeeAlso(eco));
+        System.out.println(getChildren(eco));
+    }
+    
+    public static List<String> getChildren(String eco)
+    {
+        List<String> children = new ArrayList();
+        String moves1 = mapamoves.get(eco);
+        if (moves1==null)
+            return children;
+        
+        Iterator it = mapamoves.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry e = (Map.Entry)it.next();        
+            String moves2=(String)e.getValue();
+            String eco2 = (String)e.getKey();
+            if (moves2.contains(moves1) && !eco.equals(eco2))
+                children.add(eco2);
+        }
+        return children;
     }
     
     

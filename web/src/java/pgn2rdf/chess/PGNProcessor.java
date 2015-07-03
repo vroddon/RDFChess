@@ -1,5 +1,8 @@
 package pgn2rdf.chess;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Iterator;
 import chesspresso.game.Game;
 import chesspresso.move.Move;
 import chesspresso.pgn.PGNReader;
@@ -160,6 +163,7 @@ public class PGNProcessor {
      * @param moves sequence like: 1.d4 Nf6 2.c4 c5 3.d5 e6 4.Nc3 exd5 5.cxd5 d6
      * 6.e4 g6 7.Nf3 Bg7 8.Be2 O-O 9.O-O a6 10.a4 Bg4
      * @return FEN sequence.
+     * @todo NOT IMPLEMENTED
      */
     public static String getFEN(String moves) {
         String fen = "";
@@ -176,6 +180,9 @@ public class PGNProcessor {
         return fen;
     }
 
+    /**
+     * Given a sequence of moves, decides how many plies it contains.
+     */
     public static int getPly(String moves) {
         int count = moves.length() - moves.replace(".", "").length();
         int i=moves.lastIndexOf(".");
@@ -224,7 +231,6 @@ public class PGNProcessor {
         //FIRST EXPANSION, WHITE PLAYER
         String blanco = PGNProcessor.getWhitePlayer(model);
         String dbblanco = ChessPlayerProcessor.getMappingDBpedia(blanco);
-
         if (!dbblanco.equals(blanco)) {
             String literal = blanco;
             String dbpedia = dbblanco;
@@ -235,7 +241,6 @@ public class PGNProcessor {
             if (newname != null && !newname.isEmpty()) {
                 idw = RDFChess.DATA_URI + "chessplayer/" + URLEncoder.encode(newname, "UTF-8");
             }
-
             String sparql = "PREFIX chess: <http://purl.org/NET/rdfchess/ontology/>\n"
                     + "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
                     + "PREFIX skos: <http://www.w3.org/2004/02/skos/core#>\n"
@@ -264,7 +269,6 @@ public class PGNProcessor {
             if (newname != null && !newname.isEmpty()) {
                 idw = RDFChess.DATA_URI + "chessplayer/" + URLEncoder.encode(newname, "UTF-8");
             }
-
             String sparql = "PREFIX chess: <http://purl.org/NET/rdfchess/ontology/>\n"
                     + "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
                     + "PREFIX skos: <http://www.w3.org/2004/02/skos/core#>\n"
@@ -293,6 +297,7 @@ public class PGNProcessor {
             dbpedia = "";
         }
         String seealso = ChessECOManager.getSeeAlso(eco);
+        List<String> children = ChessECOManager.getChildren(eco);
 
         String literal = eco;
         String idw = RDFChess.DATA_URI + "opening/" + eco;
@@ -306,6 +311,12 @@ public class PGNProcessor {
                 + "<" + idw + "> rdf:type chess:ChessGameOpening .\n"
                 + "<" + idw + "> chess:ECOID \"" + eco + "\" .\n"
                 + "<" + idw + "> rdfs:label \"" + econame + "\" .\n";
+        for(String child : children)
+        {
+            child = RDFChess.DATA_URI + "opening/" + child;
+            sparql += "<" + idw + "> skos:broaderTransitive <" + child + "> .\n";
+        }
+        
         if (!loc.isEmpty()) {
             sparql += "<" + idw + "> skos:closeMatch <" + loc + "> .\n";
         }
