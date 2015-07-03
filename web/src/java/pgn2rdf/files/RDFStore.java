@@ -1,6 +1,5 @@
 package pgn2rdf.files;
 
-import static com.hp.hpl.jena.enhanced.BuiltinPersonalities.model;
 import com.hp.hpl.jena.query.DatasetAccessor;
 import com.hp.hpl.jena.query.DatasetAccessorFactory;
 import com.hp.hpl.jena.query.Query;
