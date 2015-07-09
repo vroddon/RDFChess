@@ -1,6 +1,7 @@
 package pgn2rdf.chess;
 
 //JAVA
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -42,7 +43,7 @@ public class RDFChessConfig {
      */
     public static String get(String p, String valor) {
         if (!loaded)
-            Load();
+            LoadEmbedded();
         return prop.getProperty(p, valor);
     }
 
@@ -60,16 +61,27 @@ public class RDFChessConfig {
      * Carga los parametros de configuracion del archivo contenidos.config
      * @return True si todo fue bien
      */
-    public static boolean Load() {
-        InputStream is;
+    public static boolean LoadEmbedded() {
         try {
             InputStream is_local = RDFChessConfig.class.getResourceAsStream(CONFIGFILE);
             prop.load(is_local);
             Logger.getLogger("rdfchess").info("Config file read from " + CONFIGFILE);
             return true;
         } catch (Exception ex) {
-            ex.printStackTrace(); //todavía no está el logger
-            return false;
+//            ex.printStackTrace(); //todavía no está el logger
+            System.out.println("There was no internal file " + CONFIGFILE + " at " + System.getProperty("user.dir"));
+            InputStream is;
+            try {
+                is = new FileInputStream(CONFIGFILE);
+                prop.load(is);
+                System.out.println("Successfuly read " + CONFIGFILE + " from the folder");
+                Logger.getLogger("rdfchess").info("Config file read from " + CONFIGFILE);
+                return true;
+            } catch (Exception ex2) {
+                System.out.println("NO CONFIG FILE AT ALL " + CONFIGFILE + " at " + System.getProperty("user.dir"));
+                ex.printStackTrace(); //todavía no está el logger
+                return false;
+            }
         }
     }
 

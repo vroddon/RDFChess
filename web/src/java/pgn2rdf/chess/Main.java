@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.apache.jena.riot.Lang;
+import org.apache.log4j.BasicConfigurator;
 
 /**
  * http://stackoverflow.com/questions/15906842/solr-4-2-1-sslinitializationexception
@@ -17,6 +18,7 @@ public class Main {
     public static boolean initialized = false;
     
     public static void main(String[] args) throws IOException {
+        BasicConfigurator.configure();
         System.out.println("Hello world");
         String input = new String(Files.readAllBytes(Paths.get("samples/test.pgn")));
         String rdf = PGNProcessor.getRDF(input, Lang.TTL);

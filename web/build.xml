@@ -68,53 +68,85 @@
     nbproject/build-impl.xml file. 
 
     -->
+<!--
+<target name="-post-compile">
+	<mkdir dir="dist"/>
+	<mkdir dir="dist/lib"/>
+    <property name="store.jar.name" value="rdfchess"/>
+    <property name="store.dir" value="dist"/>
+    <property name="store.jar" value="${store.dir}/${store.jar.name}.jar"/>
+    <echo message="Packaging ${application.title} into a single JAR at ${store.jar}"/>
+    <jar destfile="${store.dir}/temp_final.jar" filesetmanifest="skip">
+        <zipgroupfileset dir="dist" includes="*.jar"/>
+        <zipgroupfileset dir="dist/lib" includes="*.jar"/>
+        <manifest>
+            <attribute name="Created-By" value="Victor"/>
+            <attribute name="Main-Class" value="pgn2rdf.chess.Main"/>
+        </manifest>
+    </jar>
+    <zip destfile="${store.jar}">
+        <zipfileset src="${store.dir}/temp_final.jar" excludes="META-INF/*.SF, META-INF/*.DSA, META-INF/*.RSA"/>
+    </zip>
+    <delete file="${store.dir}/temp_final.jar"/>
+    <delete dir="${store.dir}/lib"/>
+    <delete file="${store.dir}/README.TXT"/>
+</target>	
+
+${build}
+-->	
+
+<property name="src" location="src"/>
+<property name="build" location="build"/>
+<property name="dist" location="dist"/>
+<property name="lib.dir" value="lib"/>
+<path id="classpath">
+	<fileset dir="${lib.dir}" includes="**/*.jar"/>
+</path>
+
+<target name="-post-dist" depends="verificar, copiar">
+    <echo message="Victor edition: generating also a jar file with"/>
+	<echo>Apache Ant version is ${ant.version}</echo>
+	<mkdir dir="build2"/>
+	<javac srcdir="${src}" destdir="build2" classpathref="classpath" includeantruntime="false"/>  
+	<jar destfile = "dist/rdfchess-nolibs.jar"
+		basedir = "build2"
+		includes = "**"
+		excludes="META-INF/*,**/*.RSA,**/*.SF,**/*.DSA" />		
+	<jar jarfile="dist/rdfchess-nosecurity.jar">
+		<zipfileset src="dist/rdfchess-nolibs.jar" excludes="META-INF/*,**/*.RSA,**/*.SF,**/*.DSA" > 
+			<exclude name="**/*.RSA, **/*.SF, **/*.DSA"/>
+		</zipfileset>
+		<zipgroupfileset dir="${lib.dir}" includes="**/*.jar" excludes="META-INF/*,**/*.RSA,**/*.SF,**/*.DSA" />	
+		<manifest>
+            <attribute name="Created-By" value="Victor"/>
+			<attribute name="Main-Class" value="pgn2rdf.chess.Main"/>
+		</manifest>
+	</jar>
+	<unzip src="dist/rdfchess-nosecurity.jar" dest="dist/rdfchess/"/>
+	<jar destfile="dist/rdfchess.jar"
+    basedir="dist/rdfchess/"
+    includes="**/*"
+    excludes="**/*.RSA,**/*.SF,**/*.DSA">
+		<manifest>
+            <attribute name="Created-By" value="Victor"/>
+			<attribute name="Main-Class" value="pgn2rdf.chess.Main"/>
+		</manifest>
+	</jar>
 	
-    <property name="source.dir"     value="src"/>
-    <property name="lib.dir"        value="lib"/>
-    <property name="class.dir"      value="bin"/>
-    <property name="jar.dir"        value="dist"/>
-    <property name="jar.file"        value="${jar.dir}/${ant.project.name}.jar"/>
-    <property name="main-class"     value="pack.HttpController"/>
+	<delete dir="dist/rdfchess"/>
+	<delete dir="build2"/>
+	<delete dir="build"/>
+	<delete file="dist/rdfchess-nolibs.jar"/>
+	<delete file="dist/rdfchess-nosecurity.jar"/>
 
-    <path id="libraries.path">    
-        <fileset dir="${lib.dir}">
-            <include name="*.jar"/>
-        </fileset>
-    </path>
+</target>	
 
-    <target name="clean" description="delete old files">
-        <delete dir="${class.dir}"/>
-        <delete dir="${jar.dir}"/>
-    </target>
+<target name="verificar">
+	<available file="rdfchess.config" property="existeconfig"/>
+</target>
+<target name="copiar" unless="existeconfig">
+	<copy file="src/java/pgn2rdf/chess/rdfchess.config" tofile="rdfchess.config"/>
+</target>
 
-    <target name="compile" description="build class files" depends="clean">
-        <mkdir dir="${class.dir}"/>
-        <javac includeantruntime="false" srcdir="${source.dir}" destdir="${class.dir}">
-            <classpath refid="libraries.path"/>
-        </javac>
-    </target>
 
-    <target name="jar" depends="compile">
-        <mkdir dir="${jar.dir}"/>
-        <mkdir dir="${class.dir}/${lib.dir}"/>
-        <copy todir="${class.dir}/${lib.dir}" flatten="true">
-            <path refid="libraries.path"/>
-        </copy>
-
-        <manifestclasspath property="manifest.classpath" jarfile="${jar.file}">
-            <classpath refid="libraries.path"/>
-        </manifestclasspath>
-
-        <jar destfile="${jar.file}" basedir="${class.dir}">
-            <manifest>
-                <attribute name="Main-Class" value="${main-class}"/>
-                <attribute name="Class-Path" value="${manifest.classpath}"/>
-            </manifest>
-        </jar>  
-    </target>
-
-    <target name="run" depends="jar">
-        <java jar="${jar.dir}/${ant.project.name}.jar" fork="true"/>
-    </target>
-	
 </project>
