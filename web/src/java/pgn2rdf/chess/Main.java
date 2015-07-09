@@ -1,6 +1,10 @@
 package pgn2rdf.chess;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import javax.xml.parsers.DocumentBuilderFactory;
+import org.apache.jena.riot.Lang;
 
 /**
  * http://stackoverflow.com/questions/15906842/solr-4-2-1-sslinitializationexception
@@ -11,6 +15,14 @@ import javax.xml.parsers.DocumentBuilderFactory;
 public class Main {
 
     public static boolean initialized = false;
+    
+    public static void main(String[] args) throws IOException {
+        System.out.println("Hello world");
+        String input = new String(Files.readAllBytes(Paths.get("samples/test.pgn")));
+        String rdf = PGNProcessor.getRDF(input, Lang.TTL);
+        System.out.println(rdf);
+    }
+     
 
     public static void init() throws Exception {
         System.out.println("Initializing RDFChess");
