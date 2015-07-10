@@ -20,15 +20,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
-import static pgn2rdf.chess.ChessECOManager.getChildren;
-import static pgn2rdf.chess.ChessECOManager.getLibraryOfCongress;
-import static pgn2rdf.chess.ChessECOManager.getMoves;
-import static pgn2rdf.chess.ChessECOManager.getName;
-import static pgn2rdf.chess.ChessECOManager.getParent;
-import static pgn2rdf.chess.ChessECOManager.getSeeAlso;
 import pgn2rdf.chess.PGNProcessor;
 import static pgn2rdf.files.ChessGameIterator.getMoves;
 import static pgn2rdf.files.PGNFolderParser.MD5;
@@ -99,7 +92,7 @@ public class GameUploader {
     /**
      * Transforms and uploads a PGN game
      */
-    private static int uploadPGN(String filename) {
+    public static int uploadPGN(String filename) {
         String ttl = "";
         int conta = 0;
         try {
