@@ -30,9 +30,9 @@ public class ServiceServlet extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             String uri = request.getRequestURI();
-            PrintWriter archivo = new PrintWriter("d:\\test.txt");
-            archivo.println(uri+request.getParameter("current"));
-            archivo.close();
+      //      PrintWriter archivo = new PrintWriter("d:\\test.txt");
+      //      archivo.println(uri+request.getParameter("current"));
+      //      archivo.close();
             if (uri.equals("/rdfchess/service/getChessplayers")) {
                 //current=1&rowCount=10&sort[sender]=asc&searchPhrase=&id=b0df282a-0d67-40e5-8558-c9e93b7befed
                 String offset = request.getParameter("current");
