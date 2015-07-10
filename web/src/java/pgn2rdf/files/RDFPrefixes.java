@@ -31,6 +31,9 @@ public class RDFPrefixes {
 
     }
 
+    /**
+     * Adds only the prefix that are required in a model
+     */
     public static Model addPrefixesIfNeeded(Model modelo) {
         if (map.isEmpty()) {
             init();
