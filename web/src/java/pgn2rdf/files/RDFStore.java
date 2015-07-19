@@ -100,7 +100,7 @@ public class RDFStore {
                 + "    ?s a <http://purl.org/NET/rdfchess/ontology/Agent> \n";
                 
        if (searchConcept!=null && !searchConcept.isEmpty())
-               sparql+="FILTER regex(?s,\""+searchConcept+"\",'i') \n";
+               sparql+="FILTER regex(str(?s),\""+searchConcept+"\",'i') \n";
                 
                 
                 sparql+= "  }\n"
