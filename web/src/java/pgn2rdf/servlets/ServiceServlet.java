@@ -41,7 +41,9 @@ public class ServiceServlet extends HttpServlet {
                 int total = RDFStore.countChessplayers();
                 int ilimit = Integer.parseInt(limit);
                 int init=(current-1)*ilimit;
-                List<String> ls = RDFStore.listChessPlayers(init, ilimit);
+                String searchFrase =request.getParameter("searchPhrase");
+
+                List<String> ls = RDFStore.listChessPlayers(init, ilimit, searchFrase);
                 System.out.println(offset+" "+limit);
                 String s = "{\n"
                         + "  \"current\": "+current+",\n"
