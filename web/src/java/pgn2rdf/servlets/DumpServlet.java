@@ -31,9 +31,20 @@ public class DumpServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        response.setHeader("Content-Disposition", "attachment;filename=data.tar");
-        String mimeType = "application/x-tar";
-        response.setContentType(mimeType);
+
+        if (request.getRequestURI().endsWith("rdfchess.tar"))
+        {
+            response.setHeader("Content-Disposition", "attachment;filename=rdfchess.tar");
+            String mimeType = "application/x-tar";
+            response.setContentType(mimeType);
+        }
+        else if (request.getRequestURI().endsWith("pgn.tar"))
+        {
+            response.setHeader("Content-Disposition", "attachment;filename=pgn.tar");
+            String mimeType = "application/x-tar";
+            response.setContentType(mimeType);
+        }
+        
         String dumpfolder = RDFChessConfig.get("dumpfolder", "E:\\Data\\RDFChess\\");
         String sfile = request.getRequestURI().replace("/RDFChess/dump/", dumpfolder);
         sfile = sfile.replace("/rdfchess/dump/", dumpfolder);
