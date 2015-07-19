@@ -91,14 +91,19 @@ public class RDFStore {
         }
     }
     
-    public static List<String> listChessPlayers(int offset, int limit)
+    public static List<String> listChessPlayers(int offset, int limit, String searchConcept)
     {
         List<String> uris = new ArrayList();
         String sparql = "SELECT DISTINCT ?s\n"
                 + "WHERE {\n"
                 + "  GRAPH ?g {\n"
-                + "    ?s a <http://purl.org/NET/rdfchess/ontology/Agent>\n"
-                + "  }\n"
+                + "    ?s a <http://purl.org/NET/rdfchess/ontology/Agent> \n";
+                
+       if (searchConcept!=null && !searchConcept.isEmpty())
+               sparql+="FILTER regex(?s,\""+searchConcept+"\",'i') \n";
+                
+                
+                sparql+= "  }\n"
                 + "} ";
         sparql += " OFFSET " + offset +"\n";
         sparql += " LIMIT " + limit +"\n";
