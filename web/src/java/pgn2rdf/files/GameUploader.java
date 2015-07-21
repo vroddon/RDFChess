@@ -39,9 +39,7 @@ public class GameUploader {
      * Main method uploads Bobby fischer's games
      */
     public static void main(String[] args) {
-    /*   uploadECO("A01");
-        if (true) return;
- 
+ /*
         for(int i=0;i<100;i++)
             uploadECO(String.format("A%02d",i));
         for(int i=0;i<100;i++)
@@ -50,12 +48,12 @@ public class GameUploader {
             uploadECO(String.format("C%02d",i));
         for(int i=0;i<100;i++)
             uploadECO(String.format("D%02d",i));
-        
+        */
+        uploadPGN("samples/WorldChamp1886.pgn");
         
         uploadPGN("samples/London1872.pgn");
         uploadPGN("samples/NewYork1880.pgn");
         uploadPGN("samples/SovietChamp1968.pgn");
-        uploadPGN("samples/WorldChamp1886.pgn");
         uploadPGN("samples/WorldChamp1892.pgn");
         uploadPGN("samples/WorldChamp1909.pgn");
         uploadPGN("samples/WorldChamp1921.pgn");
@@ -66,7 +64,7 @@ public class GameUploader {
         uploadPGN("samples/WorldChamp2014.pgn");
         uploadPGN("samples/Fischer.pgn");
         uploadPGN("samples/Kasparov.pgn");
-        uploadPGN("samples/Korchnoi.pgn");*/
+        uploadPGN("samples/Korchnoi.pgn");
         uploadPGN("samples/Keres.pgn");
         uploadPGN("samples/London1851.pgn");
         uploadPGN("samples/Philidor.pgn");
@@ -79,7 +77,7 @@ public class GameUploader {
         uploadPGN("samples/Botvinnik.pgn");
         uploadPGN("samples/Karpov.pgn");
         uploadPGN("samples/Caruana.pgn");
- //       uploadPGN("samples/Petrosian.pgn");
+ //       uploadPGN("samples/Petrosian.pgn");*/
     }
     /**
      * Transforms and uploads a Chess Opening
