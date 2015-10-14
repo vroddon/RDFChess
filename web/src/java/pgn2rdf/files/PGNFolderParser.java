@@ -38,10 +38,25 @@ public class PGNFolderParser {
      */
     public static void main(String[] args) throws Exception {
 
+        String pgn="";
+        FileInputStream inputStream = new FileInputStream("C:\\Users\\vrodriguez\\Desktop\\Fischer.pgn");
+        try {
+            pgn = IOUtils.toString(inputStream);
+        } finally {
+            inputStream.close();
+        }
+ //       System.out.println(pgn);
+        String rdf = PGNProcessor.getRDF(pgn, Lang.NTRIPLES);
+//        System.out.println(rdf);
+        byte[] data = rdf.getBytes();
+        FileOutputStream out = new FileOutputStream("C:\\Users\\vrodriguez\\Desktop\\fischer.nt");
+        out.write(data);
+        out.close();      
+
 //        String zipini = "C:\\svn\\PGN\\ZipFiles";
 //        String zipfin = "C:\\data\\pgn";
 //        generateHash(zipfin);
-        fromPGNToRDF("F:\\data\\pgn-victor", "F:\\data\\pgn-victor");
+//        fromPGNToRDF("F:\\data\\pgn-victor", "F:\\data\\pgn-victor");
 
     }
 

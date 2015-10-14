@@ -135,6 +135,7 @@ public class PGNProcessor {
                 modelo.add(m);
             }
         } catch (Exception e) {
+            e.printStackTrace();
         }
         RDFPrefixes.addPrefixesIfNeeded(modelo);
         RDFDataMgr.write(sw, modelo, lang);
