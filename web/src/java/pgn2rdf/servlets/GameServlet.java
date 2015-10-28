@@ -67,32 +67,17 @@ public class GameServlet extends HttpServlet {
                 outx.append(line);
             }
             String body = outx.toString();
-            
-                body = body.replace("<!--TEMPLATE_TITLE-->", "\n" + "List of chess players");
-                
-                String tabla ="<table id=\"grid-data\" class=\"table table-condensed table-hover table-striped\">\n" +
-"        <thead>\n" +
-"                <tr>\n" +
-"                        <th data-column-id=\"chessplayer\" data-formatter=\"link\" data-order=\"desc\">Chess players</th>\n" +
-"                </tr>\n" +
-"        </thead>\n" +
-"</table>	\n" +
-"";
+            body = body.replace("<!--TEMPLATE_TITLE-->", "\n" + "List of chess players");
+            String tabla ="<table id=\"grid-data\" class=\"table table-condensed table-hover table-striped\">\n" +
+            "        <thead>\n" +
+            "                <tr>\n" +
+            "                        <th data-column-id=\"chessplayer\" data-formatter=\"link\" data-order=\"desc\">Chess players</th>\n" +
+            "                </tr>\n" +
+            "        </thead>\n" +
+            "</table>	\n" +
+            "";
             body = body.replace("<!--TEMPLATE_PGN-->", "<br>" + tabla);
-                
-                
-/*
-                String lista="";
-                List<String> ls = RDFStore.listChessPlayers();
-                for(String s : ls)
-                {
-                    int ultimo = s.lastIndexOf("/");
-                    String name= s.substring(ultimo+1, s.length());
-                    name = URLDecoder.decode(name, "UTF-8");
-                    lista+="<a href=\"" + s +"\">"+name+"</a><br>";
-                }
-            body = body.replace("<!--TEMPLATE_PGN-->", "<br>" + lista);
-            */
+
             response.getWriter().println(body);
             response.setStatus(HttpServletResponse.SC_OK);
             return;
