@@ -10,3 +10,4 @@ This project was created in connection with the paper presented at COLD2015
 Pattern-Based Linked Data Publication: The Linked Chess Dataset Case, V. Rodríguez-Doncel, A. A. Krisnadhi, P. Hitzler, M. Cheatham, N. Karima and R. Amini, in Proc. of the 6rd Int. W. on Consuming Linked Data, ISSN: 1613-0073, CEUR Vol. 1426, O. Hartig et al. (Eds.) (2015)
 See the paper here: http://delicias.dia.fi.upm.es/~vrodriguez/pdf/2015.10.cold.pdf
 
+You can also find additional information http://dase.cs.wright.edu/content/pattern-driven-linked-data-publishing-primer, including the ontologies.
