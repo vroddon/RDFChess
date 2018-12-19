@@ -1,0 +1,671 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://purl.org/NET/rdfchess/ontology/chessgame#"
+     xml:base="http://purl.org/NET/rdfchess/ontology/chessgame"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:cpannotationschema="http://www.ontologydesignpatterns.org/schemas/cpannotationschema.owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+    <owl:Ontology rdf:about="https://w3id.org/rdfchess/ontology/chessgame"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- https://w3id.org/rdfchess/ontology/chessgame#atPlace -->
+
+    <owl:ObjectProperty rdf:about="https://w3id.org/rdfchess/ontology/chessgame#atPlace">
+        <rdfs:label>atPlace</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://w3id.org/rdfchess/ontology/chessgame#hasFirstHalfMove -->
+
+    <owl:ObjectProperty rdf:about="https://w3id.org/rdfchess/ontology/chessgame#hasFirstHalfMove">
+        <rdfs:subPropertyOf rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#hasHalfMove"/>
+        <rdfs:label>hasFirstHalfMove</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://w3id.org/rdfchess/ontology/chessgame#hasHalfMove -->
+
+    <owl:ObjectProperty rdf:about="https://w3id.org/rdfchess/ontology/chessgame#hasHalfMove">
+        <rdfs:subPropertyOf>
+            <rdf:Description>
+                <owl:inverseOf rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#subEventOf"/>
+            </rdf:Description>
+        </rdfs:subPropertyOf>
+        <rdfs:label>hasHalfMove</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://w3id.org/rdfchess/ontology/chessgame#hasLastHalfMove -->
+
+    <owl:ObjectProperty rdf:about="https://w3id.org/rdfchess/ontology/chessgame#hasLastHalfMove">
+        <rdfs:subPropertyOf rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#hasHalfMove"/>
+        <rdfs:label>hasLastHalfMove</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://w3id.org/rdfchess/ontology/chessgame#hasOpening -->
+
+    <owl:ObjectProperty rdf:about="https://w3id.org/rdfchess/ontology/chessgame#hasOpening">
+        <rdfs:label>hasOpening</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://w3id.org/rdfchess/ontology/chessgame#hasReport -->
+
+    <owl:ObjectProperty rdf:about="https://w3id.org/rdfchess/ontology/chessgame#hasReport">
+        <rdfs:label>hasReport</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://w3id.org/rdfchess/ontology/chessgame#hasResult -->
+
+    <owl:ObjectProperty rdf:about="https://w3id.org/rdfchess/ontology/chessgame#hasResult">
+        <rdfs:label>hasResult</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://w3id.org/rdfchess/ontology/chessgame#nextHalfMove -->
+
+    <owl:ObjectProperty rdf:about="https://w3id.org/rdfchess/ontology/chessgame#nextHalfMove">
+        <rdfs:label>nextHalfMove</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://w3id.org/rdfchess/ontology/chessgame#performedBy -->
+
+    <owl:ObjectProperty rdf:about="https://w3id.org/rdfchess/ontology/chessgame#performedBy">
+        <rdfs:label>performedBy</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://w3id.org/rdfchess/ontology/chessgame#providesAgentRole -->
+
+    <owl:ObjectProperty rdf:about="https://w3id.org/rdfchess/ontology/chessgame#providesAgentRole">
+        <rdfs:range rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#AgentRole"/>
+        <rdfs:label>providesAgentRole</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- https://w3id.org/rdfchess/ontology/chessgame#subEventOf -->
+
+    <owl:ObjectProperty rdf:about="https://w3id.org/rdfchess/ontology/chessgame#subEventOf">
+        <rdfs:label>subEventOf</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- https://w3id.org/rdfchess/ontology/chessgame#atTime -->
+
+    <owl:DatatypeProperty rdf:about="https://w3id.org/rdfchess/ontology/chessgame#atTime">
+        <rdfs:label>atTime</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- https://w3id.org/rdfchess/ontology/chessgame#encodedAsSAN -->
+
+    <owl:DatatypeProperty rdf:about="https://w3id.org/rdfchess/ontology/chessgame#encodedAsSAN">
+        <rdfs:comment>SAN = Standard Algebraic Notation</rdfs:comment>
+        <rdfs:label>encodedAsSAN</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- https://w3id.org/rdfchess/ontology/chessgame#hasECOCode -->
+
+    <owl:DatatypeProperty rdf:about="https://w3id.org/rdfchess/ontology/chessgame#hasECOCode">
+        <rdfs:comment>ECO = Encyclopedia of Chess Opening</rdfs:comment>
+        <rdfs:label>hasECOCode</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- https://w3id.org/rdfchess/ontology/chessgame#hasName -->
+
+    <owl:DatatypeProperty rdf:about="https://w3id.org/rdfchess/ontology/chessgame#hasName">
+        <rdfs:label>hasName</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- https://w3id.org/rdfchess/ontology/chessgame#hasPGNFile -->
+
+    <owl:DatatypeProperty rdf:about="https://w3id.org/rdfchess/ontology/chessgame#hasPGNFile">
+        <rdfs:comment>PGN = Portable Game Notation</rdfs:comment>
+        <rdfs:label>hasPGNFile</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- https://w3id.org/rdfchess/ontology/chessgame#hasSANRecord -->
+
+    <owl:DatatypeProperty rdf:about="https://w3id.org/rdfchess/ontology/chessgame#hasSANRecord">
+        <rdfs:comment>SAN = Standard Algebraic Notation</rdfs:comment>
+        <rdfs:label>hasSANRecord</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- https://w3id.org/rdfchess/ontology/chessgame#ActingPlayerRole -->
+
+    <owl:Class rdf:about="https://w3id.org/rdfchess/ontology/chessgame#ActingPlayerRole">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#AgentRole"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty>
+                    <rdf:Description>
+                        <owl:inverseOf rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#providesAgentRole"/>
+                    </rdf:Description>
+                </owl:onProperty>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#HalfMove"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:label>ActingPlayerRole</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/rdfchess/ontology/chessgame#Agent -->
+
+    <owl:Class rdf:about="https://w3id.org/rdfchess/ontology/chessgame#Agent">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#hasName"/>
+                <owl:allValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:label>Agent</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/rdfchess/ontology/chessgame#AgentRole -->
+
+    <owl:Class rdf:about="https://w3id.org/rdfchess/ontology/chessgame#AgentRole">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#performedBy"/>
+                <owl:allValuesFrom rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#Agent"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#performedBy"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#Agent"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:label>AgentRole</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/rdfchess/ontology/chessgame#AuthorRole -->
+
+    <owl:Class rdf:about="https://w3id.org/rdfchess/ontology/chessgame#AuthorRole">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#AgentRole"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty>
+                    <rdf:Description>
+                        <owl:inverseOf rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#providesAgentRole"/>
+                    </rdf:Description>
+                </owl:onProperty>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#ChessGameReport"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:label>AuthorRole</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/rdfchess/ontology/chessgame#BlackPlayerRole -->
+
+    <owl:Class rdf:about="https://w3id.org/rdfchess/ontology/chessgame#BlackPlayerRole">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#AgentRole"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty>
+                    <rdf:Description>
+                        <owl:inverseOf rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#providesAgentRole"/>
+                    </rdf:Description>
+                </owl:onProperty>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#ChessGame"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:label>BlackPlayerRole</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/rdfchess/ontology/chessgame#ChessGame -->
+
+    <owl:Class rdf:about="https://w3id.org/rdfchess/ontology/chessgame#ChessGame">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#Event"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#providesAgentRole"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#BlackPlayerRole"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#providesAgentRole"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#WhitePlayerRole"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#hasHalfMove"/>
+                <owl:allValuesFrom rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#HalfMove"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#hasOpening"/>
+                <owl:allValuesFrom rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#ChessOpening"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#hasReport"/>
+                <owl:allValuesFrom rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#ChessGameReport"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#hasResult"/>
+                <owl:allValuesFrom rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#ChessGameResult"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#subEventOf"/>
+                <owl:allValuesFrom rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#ChessTournament"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#hasFirstHalfMove"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#HalfMove"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#hasLastHalfMove"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#HalfMove"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:label>ChessGame</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/rdfchess/ontology/chessgame#ChessGameReport -->
+
+    <owl:Class rdf:about="https://w3id.org/rdfchess/ontology/chessgame#ChessGameReport">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#hasPGNFile"/>
+                <owl:allValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#anyURI"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:label>ChessGameReport</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/rdfchess/ontology/chessgame#ChessGameResult -->
+
+    <owl:Class rdf:about="https://w3id.org/rdfchess/ontology/chessgame#ChessGameResult">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#encodedAsSAN"/>
+                <owl:allValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:label>ChessGameResult</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/rdfchess/ontology/chessgame#ChessOpening -->
+
+    <owl:Class rdf:about="https://w3id.org/rdfchess/ontology/chessgame#ChessOpening">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#hasECOCode"/>
+                <owl:allValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:label>ChessOpening</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/rdfchess/ontology/chessgame#ChessTournament -->
+
+    <owl:Class rdf:about="https://w3id.org/rdfchess/ontology/chessgame#ChessTournament">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#Event"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#hasName"/>
+                <owl:allValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:label>ChessCompetitionRound</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/rdfchess/ontology/chessgame#Event -->
+
+    <owl:Class rdf:about="https://w3id.org/rdfchess/ontology/chessgame#Event">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#atPlace"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#Place"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#atPlace"/>
+                <owl:allValuesFrom rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#Place"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#subEventOf"/>
+                <owl:allValuesFrom rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#Event"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#atTime"/>
+                <owl:someValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#atTime"/>
+                <owl:allValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:label>Event</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/rdfchess/ontology/chessgame#HalfMove -->
+
+    <owl:Class rdf:about="https://w3id.org/rdfchess/ontology/chessgame#HalfMove">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#Event"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:complementOf>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#nextHalfMove"/>
+                        <owl:hasSelf rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</owl:hasSelf>
+                    </owl:Restriction>
+                </owl:complementOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#providesAgentRole"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#ActingPlayerRole"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#nextHalfMove"/>
+                <owl:allValuesFrom rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#HalfMove"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#subEventOf"/>
+                <owl:allValuesFrom rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#ChessGame"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty>
+                    <rdf:Description>
+                        <owl:inverseOf rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#hasHalfMove"/>
+                    </rdf:Description>
+                </owl:onProperty>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#ChessGame"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#nextHalfMove"/>
+                <owl:maxQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxQualifiedCardinality>
+                <owl:onClass rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#HalfMove"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#hasSANRecord"/>
+                <owl:allValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:label>HalfMove</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/rdfchess/ontology/chessgame#Place -->
+
+    <owl:Class rdf:about="https://w3id.org/rdfchess/ontology/chessgame#Place">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#hasName"/>
+                <owl:allValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:label>Place</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- https://w3id.org/rdfchess/ontology/chessgame#WhitePlayerRole -->
+
+    <owl:Class rdf:about="https://w3id.org/rdfchess/ontology/chessgame#WhitePlayerRole">
+        <rdfs:subClassOf rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#AgentRole"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty>
+                    <rdf:Description>
+                        <owl:inverseOf rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#providesAgentRole"/>
+                    </rdf:Description>
+                </owl:onProperty>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#ChessGame"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:label>WhitePlayerRole</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // General axioms
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <owl:Restriction>
+        <owl:onProperty rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#atPlace"/>
+        <owl:someValuesFrom rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#Place"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#Event"/>
+    </owl:Restriction>
+    <owl:Restriction>
+        <owl:onProperty rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#hasHalfMove"/>
+        <owl:someValuesFrom rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#HalfMove"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#ChessGame"/>
+    </owl:Restriction>
+    <owl:Restriction>
+        <owl:onProperty rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#hasOpening"/>
+        <owl:someValuesFrom rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#ChessOpening"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#ChessGame"/>
+    </owl:Restriction>
+    <owl:Restriction>
+        <owl:onProperty rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#hasReport"/>
+        <owl:someValuesFrom rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#ChessGameReport"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#ChessGame"/>
+    </owl:Restriction>
+    <owl:Restriction>
+        <owl:onProperty rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#hasResult"/>
+        <owl:someValuesFrom rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#ChessGameResult"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#ChessGame"/>
+    </owl:Restriction>
+    <owl:Restriction>
+        <owl:onProperty rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#nextHalfMove"/>
+        <owl:someValuesFrom rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#HalfMove"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#HalfMove"/>
+    </owl:Restriction>
+    <owl:Restriction>
+        <owl:onProperty rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#performedBy"/>
+        <owl:someValuesFrom rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#Agent"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#AgentRole"/>
+    </owl:Restriction>
+    <owl:Axiom>
+        <owl:annotatedSource>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#providesAgentRole"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#ActingPlayerRole"/>
+                <rdfs:subClassOf rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#HalfMove"/>
+            </owl:Restriction>
+        </owl:annotatedSource>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#subClassOf"/>
+        <owl:annotatedTarget rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#HalfMove"/>
+        <rdfs:comment>This is a guarded domain restriction for providesAgentRole with HalfMove as the domain. The corresponding guarded range restriction since HalfMove may provide roles of types other than ActingPlayerRole</rdfs:comment>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#providesAgentRole"/>
+                <owl:someValuesFrom rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#AuthorRole"/>
+                <rdfs:subClassOf rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#ChessGameReport"/>
+            </owl:Restriction>
+        </owl:annotatedSource>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#subClassOf"/>
+        <owl:annotatedTarget rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#ChessGameReport"/>
+        <rdfs:comment>This is the guarded domain restriction for providesAgentRole with ChessGameManifestation as the domain. The corresponding guarded range restriction for the property is not asserted since ChessGameManifestation may provide roles of types other than AuthorRole</rdfs:comment>
+    </owl:Axiom>
+    <owl:Axiom>
+        <owl:annotatedSource>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#providesAgentRole"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="https://w3id.org/rdfchess/ontology/chessgame#BlackPlayerRole"/>
+                            <rdf:Description rdf:about="https://w3id.org/rdfchess/ontology/chessgame#WhitePlayerRole"/>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+                <rdfs:subClassOf rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#ChessGame"/>
+            </owl:Restriction>
+        </owl:annotatedSource>
+        <owl:annotatedProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#subClassOf"/>
+        <owl:annotatedTarget rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#ChessGame"/>
+        <rdfs:comment>This is a guarded domain restriction for providesAgentRole with ChessGame as the domain. Note that the corresponding guarded range restriction is not asserted since ChessGame may provide roles of types other than WhitePlayerRole and BlackPlayerRole</rdfs:comment>
+    </owl:Axiom>
+    <owl:Restriction>
+        <owl:onProperty rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#subEventOf"/>
+        <owl:someValuesFrom rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#ChessGame"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#HalfMove"/>
+    </owl:Restriction>
+    <owl:Restriction>
+        <owl:onProperty rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#subEventOf"/>
+        <owl:someValuesFrom rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#ChessTournament"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#ChessGame"/>
+    </owl:Restriction>
+    <owl:Restriction>
+        <owl:onProperty rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#subEventOf"/>
+        <owl:someValuesFrom rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#Event"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#Event"/>
+    </owl:Restriction>
+    <owl:Restriction>
+        <owl:onProperty rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#encodedAsSAN"/>
+        <owl:someValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#ChessGameResult"/>
+    </owl:Restriction>
+    <owl:Restriction>
+        <owl:onProperty rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#hasECOCode"/>
+        <owl:someValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#ChessOpening"/>
+    </owl:Restriction>
+    <owl:Restriction>
+        <owl:onProperty rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#hasPGNFile"/>
+        <owl:someValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#anyURI"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#ChessGameReport"/>
+    </owl:Restriction>
+    <owl:Restriction>
+        <owl:onProperty rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#hasSANRecord"/>
+        <owl:someValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:subClassOf rdf:resource="https://w3id.org/rdfchess/ontology/chessgame#HalfMove"/>
+    </owl:Restriction>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.2.6.20160910-2108) https://github.com/owlcs/owlapi -->
+
