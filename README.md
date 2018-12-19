@@ -1,4 +1,5 @@
 # RDFChess
+
 RDFChess is a web service capable of offering structured information on chess players, chess games and chess openings. 
 You may download the project, generate a .war file and deploy it in any servlet container (e.g. Tomcat). Alternatively, you may generate a .jar file which is a self-contained servlet server (jetty) to be run.
 In addition, a Fuseki server is needed to serve the information as linked data.

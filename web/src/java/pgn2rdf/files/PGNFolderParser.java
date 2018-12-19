@@ -39,7 +39,7 @@ public class PGNFolderParser {
     public static void main(String[] args) throws Exception {
 
         String pgn="";
-        FileInputStream inputStream = new FileInputStream("C:\\Users\\vrodriguez\\Desktop\\Fischer.pgn");
+        FileInputStream inputStream = new FileInputStream("D:\\svn\\RDFChess\\web\\samples\\Fischer.pgn");
         try {
             pgn = IOUtils.toString(inputStream);
         } finally {
@@ -49,7 +49,7 @@ public class PGNFolderParser {
         String rdf = PGNProcessor.getRDF(pgn, Lang.NTRIPLES);
 //        System.out.println(rdf);
         byte[] data = rdf.getBytes();
-        FileOutputStream out = new FileOutputStream("C:\\Users\\vrodriguez\\Desktop\\fischer.nt");
+        FileOutputStream out = new FileOutputStream("D:\\svn\\RDFChess\\web\\samples\\Fischer.nt");
         out.write(data);
         out.close();      
 
