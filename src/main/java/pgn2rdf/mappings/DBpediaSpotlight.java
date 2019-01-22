@@ -34,6 +34,8 @@ public class DBpediaSpotlight {
      */
     public static String getDBPediaResource(String consulta, String tipo, String muletilla)
     {
+        if (consulta.isEmpty())
+            return "";
         String xml = queryDBPedia(consulta + " " + muletilla); //+" chess"
         String uri = parseDBPediaXML(xml, tipo);
         if (uri.isEmpty())
@@ -54,7 +56,7 @@ public class DBpediaSpotlight {
     private static String queryDBPedia(String termino) {
         try {
             String utermino = URLEncoder.encode(termino, "UTF-8");
-            String request = "http://spotlight.dbpedia.org/rest/annotate?text=" + utermino;
+            String request = "http://api.dbpedia-spotlight.org/en/annotate?text=" + utermino;
             request += "&confidence=0.2&support=20"; //&types=Person,Organisation        
             HttpGet method = new HttpGet(request);
 //            method.setHeader("Content-Type", "application/json");

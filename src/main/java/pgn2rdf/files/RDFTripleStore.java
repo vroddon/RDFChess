@@ -30,6 +30,7 @@ import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.riot.RDFFormat;
 import pgn2rdf.chess.ChessECOManager;
+import pgn2rdf.chess.Main;
 import pgn2rdf.chess.PGNProcessor;
 import pgn2rdf.chess.RDFChess;
 import pgn2rdf.chess.RDFChessConfig;
@@ -62,10 +63,10 @@ public class RDFTripleStore {
 //        List<String> ls = RDFTripleStore.listGamesByOpening("C60");
 
 //        int n =countGames();
-        System.out.println(RDFChessQueries.countChessplayers());
+        System.out.println(Main.rdfchessqueries.countChessplayers());
     }
     
-    public static int sparqlInt(String sparql)
+    public int sparqlInt(String sparql)
     {
         Query query = QueryFactory.create(sparql);
         String endpoint = "http://localhost:3030/RDFChess/query";

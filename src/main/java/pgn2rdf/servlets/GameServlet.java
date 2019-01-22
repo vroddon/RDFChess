@@ -185,7 +185,7 @@ public class GameServlet extends HttpServlet {
                     String jquery="loadChessGame( '#game3', { pgn : $('#apertura').html() }, function(chess) {\n chess.transitionTo("+ply+");\n});";
                     body = body.replace("//TEMPLATE_JQUERY", jquery);
                   
-                    body=body.replace("<!--TEMPLATE_HEADER-->","<base href=\"http://salonica.dia.fi.upm.es:8080/rdfchess/\">\n");
+                    body=body.replace("<!--TEMPLATE_HEADER-->","<base href=\"http://vroddon.linkeddata.es/rdfchess/resource/\">\n");
                     
                     //END OF TESTING...
                     

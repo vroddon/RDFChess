@@ -27,4 +27,9 @@ public class RDFFileStore implements RDFStore {
         }
         return nt;
     }
+
+    @Override
+    public int sparqlInt(String sparql) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

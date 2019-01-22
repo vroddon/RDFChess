@@ -31,7 +31,7 @@ public class ChessPlayerProcessor {
         String dbpedia = jugadores.get(jugador);
         if (dbpedia == null) {
             System.out.println("Query in external endpoint for " + jugador);
-            dbpedia = DBpediaSpotlight.getDBPediaResource(jugador, "/chess/chess_player", "chess");
+            dbpedia = DBpediaSpotlight.getDBPediaResource(jugador, "ChessPlayer", "chess");
             if (dbpedia.equals(jugador)) {
                 int coma=jugador.indexOf(",");
                 if (coma!=-1)
