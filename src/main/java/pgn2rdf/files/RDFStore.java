@@ -7,4 +7,9 @@ package pgn2rdf.files;
 public interface RDFStore {
     
     public String readGame(String gameid);
+
+    /**
+     * Launches a SPARQL query and returns an integer.
+     */
+//    public int sparqlInt(String sparql);
 }

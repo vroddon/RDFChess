@@ -181,7 +181,7 @@ public class GameUploader {
                 }
 
             } catch (Exception e) {
-                System.err.println("Could not be loaded. " + e.toString());
+                System.err.println("Could not   be loaded. " + e.toString());
             }
         }
     }

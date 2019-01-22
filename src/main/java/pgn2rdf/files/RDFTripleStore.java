@@ -11,7 +11,6 @@ import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.Literal;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.update.UpdateExecutionFactory;
@@ -63,10 +62,28 @@ public class RDFTripleStore {
 //        List<String> ls = RDFTripleStore.listGamesByOpening("C60");
 
 //        int n =countGames();
-        System.out.println(countChessplayers());
+        System.out.println(RDFChessQueries.countChessplayers());
     }
     
-    
+    public static int sparqlInt(String sparql)
+    {
+        Query query = QueryFactory.create(sparql);
+        String endpoint = "http://localhost:3030/RDFChess/query";
+        QueryExecution qexec = QueryExecutionFactory.sparqlService(endpoint, query);
+        ResultSet results = qexec.execSelect();
+        for (; results.hasNext();) {
+            QuerySolution soln = results.nextSolution();
+            Iterator<String> it = soln.varNames();
+            while(it.hasNext())
+            {
+                String col = it.next();
+                System.out.println(col);
+                Literal literal = soln.getLiteral(col);
+                return Integer.parseInt(literal.getLexicalForm());
+            }
+        }   
+        return 0;
+    }
     
     public static void deleteGame(String s)
     {
@@ -273,32 +290,7 @@ public class RDFTripleStore {
         }
         return 0;
     }
-        public static int countChessplayers() {
-        String sresults = "";
-        String sparql = "SELECT (COUNT(DISTINCT ?p) AS ?count)\n"
-                + "WHERE {\n"
-                + "  GRAPH ?g {\n"
-                + "    ?p a <http://purl.org/NET/rdfchess/ontology/Agent>\n"
-                + "  }\n"
-                + "}";
-        Query query = QueryFactory.create(sparql);
-        String endpoint = "http://localhost:3030/RDFChess/query";
-        QueryExecution qexec = QueryExecutionFactory.sparqlService(endpoint, query);
-        ResultSet results = qexec.execSelect();
-        for (; results.hasNext();) {
-            QuerySolution soln = results.nextSolution();
-            Iterator<String> it = soln.varNames();
-            while(it.hasNext())
-            {
-                String col = it.next();
-                System.out.println(col);
-                Literal literal = soln.getLiteral(col);
-                return Integer.parseInt(literal.getLexicalForm());
-                
-            }
-        }
-        return 0;
-    }
+
 
     
     /**

@@ -6,27 +6,24 @@ import pgn2rdf.chess.RDFChessConfig;
 
 /**
  * Very simple filestore just in case we dont have a fuseki running.
+ *
  * @author vroddon
  */
 public class RDFFileStore implements RDFStore {
-    
-    
-    public static void init()
-    {
-        
+
+    public static void init() {
+
     }
-    
+
     @Override
-    public String readGame(String gameid)
-    {
-        String nt="";
+    public String readGame(String gameid) {
+        String nt = "";
         String dumpfolder = RDFChessConfig.get("dumpfolder", "E:\\Data\\RDFChess\\");
         File file = new File(RDFChessConfig.get(dumpfolder) + gameid);
-        try{
-        nt = FileUtils.readFileToString(file, "UTF-8"); 
-        }catch(Exception e)
-        {
-            
+        try {
+            nt = FileUtils.readFileToString(file, "UTF-8");
+        } catch (Exception e) {
+
         }
         return nt;
     }
