@@ -12,7 +12,7 @@ import pgn2rdf.mappings.ManagerWikipedia;
  * Class in charge of naming the ECO Chess Openings It contains the hard-coded
  * list of openings.
  *
- * @author Victor Rodriguez
+ * @author Victor Rodriguez (vroddon)
  */
 public class ChessECOManager {
 
@@ -33,6 +33,10 @@ public class ChessECOManager {
         System.out.println(ManagerWikipedia.getAbstractFromWikiBook(getSeeAlso(eco)));
     }
     
+    /**
+     * Get the chidren openings
+     * @param eco Example: B00
+     */
     public static List<String> getChildren(String eco)
     {
         List<String> children = new ArrayList();

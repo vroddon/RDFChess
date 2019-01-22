@@ -27,7 +27,7 @@ import pgn2rdf.chess.ChessECOManager;
 import pgn2rdf.chess.Main;
 import pgn2rdf.chess.PGNProcessor;
 import pgn2rdf.chess.RDFChess;
-import pgn2rdf.files.RDFStore;
+import pgn2rdf.files.RDFTripleStore;
 import pgn2rdf.mappings.ManagerDBpedia;
 import pgn2rdf.mappings.ManagerGeonames;
 import pgn2rdf.mappings.ManagerWikipedia;
@@ -87,7 +87,7 @@ public class GameServlet extends HttpServlet {
         gameid = gameid.replace("/RDFChess/resource/", "");
 
         gameid = "http://salonica.dia.fi.upm.es:8080/rdfchess/resource/" + gameid;
-        String ttl = RDFStore.readGame(gameid);
+        String ttl = RDFTripleStore.readGame(gameid);
         if (ttl.isEmpty()) {
             response.getWriter().println("Not found " + gameid + "\n" + gameid);
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
@@ -97,7 +97,7 @@ public class GameServlet extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             if (isRDFXML(request)) {
                 System.out.println("Serving RDF/XML for " + gameid);
-                response.getWriter().println(RDFStore.readXML(gameid));
+                response.getWriter().println(RDFTripleStore.readXML(gameid));
                 response.setContentType("application/rdf+xml;charset=UTF-8");
             } else if (isRDFTTL(request)) {
                 System.out.println("Serving TTL for " + gameid);
@@ -190,10 +190,10 @@ public class GameServlet extends HttpServlet {
                     //END OF TESTING...
                     
                     s += "\n<hr><div style=\"overflow: hidden; width: 100%;\">\n";
-                    List<String> partidas = RDFStore.listGamesByOpening(eco);
+                    List<String> partidas = RDFTripleStore.listGamesByOpening(eco);
                     s += "<h3>Some games</h3>";
                     for (String partida : partidas) {
-                        s += "<a href=\"" + partida + "\">" + RDFStore.summary(partida) + "</a><br>\n";
+                        s += "<a href=\"" + partida + "\">" + RDFTripleStore.summary(partida) + "</a><br>\n";
                     }
                     s += "</div>";
                     body = body.replace("<!--TEMPLATE_PGN-->", "\n" + s);
@@ -229,10 +229,10 @@ public class GameServlet extends HttpServlet {
                             s += "<p><img style=\"float:left;margin:10px 10px;\" src=\"" + ManagerDBpedia.getThumbnailURL(clase.toString()) + "\" />";
                             s += "" + abst + "</p>";
                             s += "\n<hr><div style=\"overflow: hidden; width: 100%;\">\n";
-                            List<String> partidas = RDFStore.listGamesByChessPlayer(entidad.toString());
+                            List<String> partidas = RDFTripleStore.listGamesByChessPlayer(entidad.toString());
                             s += "<h3>Some games</h3>";
                             for (String partida : partidas) {
-                                s += "<a href=\"" + partida + "\">" + RDFStore.summary(partida) + "</a><br>\n";
+                                s += "<a href=\"" + partida + "\">" + RDFTripleStore.summary(partida) + "</a><br>\n";
                             }
                             s += "</div>";
                         }

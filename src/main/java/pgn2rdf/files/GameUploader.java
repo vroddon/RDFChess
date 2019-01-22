@@ -83,7 +83,7 @@ public class GameUploader {
      * Transforms and uploads a Chess Opening
      */
     private static void uploadECO(String eco) {
-        RDFStore.writeOpening(eco);
+        RDFTripleStore.writeOpening(eco);
         
     }
 
@@ -109,7 +109,7 @@ public class GameUploader {
                     
           //          System.out.println(rdf);
                     
-                    RDFStore.writeGame(id, rdf);
+                    RDFTripleStore.writeGame(id, rdf);
                     System.out.println(conta+ " Uploaded " + id);
          //           System.out.println(rdf);
                     conta++;
@@ -171,7 +171,7 @@ public class GameUploader {
                         hashes.add(md5);
                         if (hashes.size() - siz == 1) {
                             System.out.println(moves + " " + md5);
-                            RDFStore.writeGame(rgame.getURI(), rdf);
+                            RDFTripleStore.writeGame(rgame.getURI(), rdf);
                             total++;
                             if (total == 1000) {
                                 return;

@@ -2,7 +2,6 @@ package pgn2rdf.chess;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -13,12 +12,11 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
-import org.apache.commons.cli.Option;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.apache.log4j.varia.NullAppender;
 import pgn2rdf.files.GameUploader;
-import pgn2rdf.files.RDFStore;
+import pgn2rdf.files.RDFTripleStore;
 
 /**
  * http://stackoverflow.com/questions/15906842/solr-4-2-1-sslinitializationexception
@@ -47,6 +45,7 @@ public class Main {
             options.addOption("transform", true, "Transforms, a PGN file");
             options.addOption("out", true, "Specifies output file");
             options.addOption("count", false, "Counts the number of games");
+            options.addOption("ver", false, "Sees the version of this software");
             clparser = new BasicParser();
             cl = clparser.parse(options, args);
             if (cl.hasOption("help")) {
@@ -54,7 +53,7 @@ public class Main {
                 new HelpFormatter().printHelp(Main.class.getCanonicalName(), options);
             }
             if (cl.hasOption("count")) {
-                int total =RDFStore.countGames();
+                int total =RDFTripleStore.countGames();
                 System.out.println(total);
             }
             if (cl.hasOption("add")) {
@@ -99,4 +98,5 @@ public class Main {
          initialized = true;
          */
     }
+    
 }

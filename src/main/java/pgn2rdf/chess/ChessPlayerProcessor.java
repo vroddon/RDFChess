@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
-import pgn2rdf.files.RDFStore;
+import pgn2rdf.files.RDFTripleStore;
 import pgn2rdf.mappings.DBpediaSpotlight;
 import pgn2rdf.mappings.ManagerDBpedia;
 
@@ -74,7 +74,7 @@ public class ChessPlayerProcessor {
     public static String getChessPlayerName(String s)
     {
         String name="";
-        String rdf=RDFStore.readGame(s);
+        String rdf=RDFTripleStore.readGame(s);
         Model model = ModelFactory.createDefaultModel();
         InputStream is = new ByteArrayInputStream(rdf.getBytes(StandardCharsets.UTF_8));
         RDFDataMgr.read(model, is, Lang.TTL);

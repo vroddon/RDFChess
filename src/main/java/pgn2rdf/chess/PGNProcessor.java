@@ -48,7 +48,7 @@ import java.util.UUID;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
 import pgn2rdf.files.RDFPrefixes;
-import pgn2rdf.files.RDFStore;
+import pgn2rdf.files.RDFTripleStore;
 import pgn2rdf.mappings.DBpediaSpotlight;
 import pgn2rdf.mappings.ManagerDBpedia;
 import pgn2rdf.mappings.ManagerGeonames;
@@ -150,7 +150,7 @@ public class PGNProcessor {
      "} ";       
      */
     public static String uploadRDF(String pgn) {
-        String id = RDFStore.writeGame("", pgn);
+        String id = RDFTripleStore.writeGame("", pgn);
         return id;
     }
 
@@ -365,7 +365,7 @@ public class PGNProcessor {
         StringWriter sw = new StringWriter();
         RDFDataMgr.write(sw, dataxet, Lang.NQUADS);
 
-        System.out.println(RDFStore.summary(id));
+        System.out.println(RDFTripleStore.summary(id));
 //        System.out.println(sw);
         return sw.toString();
     }
