@@ -63,6 +63,7 @@ public class GameServlet extends HttpServlet {
             initialized=true;
         }
         String peticion = request.getRequestURI();
+        response.getWriter().println(peticion);
         if (peticion.equals("/rdfchess/resource/")) {                               //SERVING THE LIST OF GAMES.
             System.out.println("Serving HTML for general players");
             response.setContentType("text/html;charset=UTF-8");
