@@ -93,7 +93,7 @@ public class GameServlet extends HttpServlet {
         String gameid = request.getRequestURI().replace("/rdfchess/resource/", "");
         gameid = gameid.replace("/RDFChess/resource/", "");
 
-        gameid = "http://salonica.dia.fi.upm.es:8080/rdfchess/resource/" + gameid;
+        gameid = "http://vroddon.linkeddata.es/rdfchess/resource/" + gameid;
         String ttl = RDFTripleStore.readGame(gameid);
         if (ttl.isEmpty()) {
             response.getWriter().println("Not found " + gameid + "\n" + gameid);
@@ -221,7 +221,7 @@ public class GameServlet extends HttpServlet {
                     
                     String jquery="loadChessGame( '#game3', { pgn : $('#pgn-fischer-spassky').html()});";
                     body = body.replace("//TEMPLATE_JQUERY", jquery);
-                    body=body.replace("<!--TEMPLATE_HEADER-->","<base href=\"http://salonica.dia.fi.upm.es:8080/rdfchess/\">\n");
+                    body=body.replace("<!--TEMPLATE_HEADER-->","<base href=\"http://vroddon.linkeddata.es/rdfchess/\">\n");
                     
                     body = body.replace("<!--TEMPLATE_PGN-->", "\n" + superpgn);
                 }

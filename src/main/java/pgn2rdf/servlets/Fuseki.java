@@ -31,7 +31,7 @@ public class Fuseki {
                 + "} LIMIT 100";
         System.out.println(query);
 
-        Fuseki.startEmbeddedFuseki("D:\\data\\rdfchess\\nq\\data.nq", "/RDFChess", 3030);
+      //  Fuseki.startEmbeddedFuseki("D:\\data\\rdfchess\\nq\\data.nq", "/RDFChess", 3030);
         Fuseki.query(endpoint, query);
         System.out.println("bye bye guy");
     }
