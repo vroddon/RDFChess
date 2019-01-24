@@ -4,6 +4,7 @@ package pgn2rdf.servlets;
 import org.apache.jena.vocabulary.RDF;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -15,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -114,6 +116,15 @@ public class GameServlet extends HttpServlet {
                 response.setContentType("text/html;charset=UTF-8");
                 response.setCharacterEncoding("UTF-8");
                 System.out.println("Serving HTML for " + gameid);
+                
+            String uri = request.getRequestURI();
+                try{
+                    String sdebug="Serving HTML for " + gameid;
+                    FileUtils.writeStringToFile(new File("/etc/fuseki/debug5.txt"), sdebug,true);
+                }catch(Exception e23)
+                {
+                }                
+                
                 InputStream is1 = GameServlet.class.getResourceAsStream("../../../../game.html");
                 BufferedReader reader = new BufferedReader(new InputStreamReader(is1, "UTF-8"));
                 StringBuilder outx = new StringBuilder();
