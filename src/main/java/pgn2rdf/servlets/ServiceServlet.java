@@ -34,6 +34,12 @@ public class ServiceServlet extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             String uri = request.getRequestURI();
+            try{
+                String s = "a punto de entrar en rdfchessqueriexxs";
+                    FileUtils.writeStringToFile(new File("/etc/fuseki/debug3.txt"), s);
+            }catch(Exception e23)
+            {
+            }
       //      PrintWriter archivo = new PrintWriter("d:\\test.txt");
       //      archivo.println(uri+request.getParameter("current"));
       //      archivo.close();
@@ -43,12 +49,6 @@ public class ServiceServlet extends HttpServlet {
                 String limit = request.getParameter("rowCount");
                 int current = Integer.parseInt(offset);
                 
-            try{
-                String s = "a punto de entrar en rdfchessqueries";
-                    FileUtils.writeStringToFile(new File("/etc/fuseki/debug3.txt"), s);
-            }catch(Exception e23)
-            {
-            }
                 
                 
                 int total = Main.rdfchessqueries.countChessplayers();
