@@ -42,6 +42,15 @@ public class ServiceServlet extends HttpServlet {
                 String offset = request.getParameter("current");
                 String limit = request.getParameter("rowCount");
                 int current = Integer.parseInt(offset);
+                
+            try{
+                String s = "a punto de entrar en rdfchessqueries";
+                    FileUtils.writeStringToFile(new File("/etc/fuseki/debug3.txt"), s);
+            }catch(Exception e23)
+            {
+            }
+                
+                
                 int total = Main.rdfchessqueries.countChessplayers();
                 int ilimit = Integer.parseInt(limit);
                 int init=(current-1)*ilimit;
