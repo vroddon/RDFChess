@@ -35,7 +35,15 @@
             <version>3.8.0</version>
             <type>jar</type>
         </dependency>      
-        
+        <!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-catalina -->
+<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-catalina -->
+<!--<dependency>
+    <groupId>org.apache.tomcat</groupId>
+    <artifactId>tomcat-catalina</artifactId>
+    <version>9.0.14</version>
+</dependency>
+-->
+
         <dependency>
     <groupId>org.apache.jena</groupId>
     <artifactId>jena-fuseki-embedded</artifactId>
@@ -141,6 +149,36 @@
                     </execution>
                 </executions>
             </plugin>
+            <!--
+<plugin>
+    <groupId>com.github.goldin</groupId>
+    <artifactId>copy-maven-plugin</artifactId>
+    <version>0.2.5</version>
+    <executions>
+        <execution>
+            <id>deploy-to-local-directory</id>
+            <phase>install</phase>
+            <goals>
+                <goal>copy</goal>
+            </goals>
+            <configuration>
+                <skipIdentical>false</skipIdentical>
+                <failIfNotFound>false</failIfNotFound>
+                <resources>
+                    <resource>
+                        <description>Copy artifact to another directory</description>
+                        <targetPath>/your/local/path</targetPath>
+                        <directory>${project.build.directory}</directory>
+                        <includes>
+                            <include>*.jar</include>
+                        </includes>
+                    </resource>
+                </resources>
+            </configuration>
+        </execution>
+    </executions>
+</plugin>            -->
+            
         </plugins>
     </build>
 

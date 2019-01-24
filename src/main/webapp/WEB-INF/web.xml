@@ -2,19 +2,19 @@
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <servlet>
         <servlet-name>pgn2rdf</servlet-name>
-        <servlet-class>pgn2rdf.rdfstore.Pgn2rdfServlet</servlet-class>
+        <servlet-class>pgn2rdf.servlets.Pgn2rdfServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>resource</servlet-name>
-        <servlet-class>pgn2rdf.rdfstore.GameServlet</servlet-class>
+        <servlet-class>pgn2rdf.servlets.GameServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>dump</servlet-name>
-        <servlet-class>pgn2rdf.rdfstore.DumpServlet</servlet-class>
+        <servlet-class>pgn2rdf.servlets.DumpServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ServiceServlet</servlet-name>
-        <servlet-class>pgn2rdf.rdfstore.ServiceServlet</servlet-class>
+        <servlet-class>pgn2rdf.servlets.ServiceServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>pgn2rdf</servlet-name>
@@ -37,7 +37,7 @@
             30
         </session-timeout>
     </session-config>
-    <filter>
+ <!--   <filter>
         <filter-name>SetCharacterEncoding</filter-name>
         <filter-class>org.apache.catalina.filters.SetCharacterEncodingFilter</filter-class>
         <init-param>
@@ -48,5 +48,5 @@
     <filter-mapping>
         <filter-name>SetCharacterEncoding</filter-name>
         <url-pattern>/*</url-pattern>
-    </filter-mapping>
+    </filter-mapping> -->
 </web-app>
