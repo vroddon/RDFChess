@@ -152,6 +152,13 @@ public class RDFTripleStore {
     
     public static List<String> listChessPlayers(int offset, int limit, String searchConcept)
     {
+            try{
+                String s =""+offset+" "+limit+" "+searchConcept;
+                    FileUtils.writeStringToFile(new File("/etc/fuseki/debug2.txt"), s);
+            }catch(Exception e23)
+            {
+            }
+        
         List<String> uris = new ArrayList();
         String sparql = "SELECT DISTINCT ?s\n"
                 + "WHERE {\n"
@@ -166,13 +173,12 @@ public class RDFTripleStore {
                 + "} ";
         sparql += " OFFSET " + offset +"\n";
         sparql += " LIMIT " + limit +"\n";
-        
+        String debug = sparql+"\n";
         Query query = QueryFactory.create(sparql);
         String endpoint = RDFChess.sparqlq;
         QueryExecution qexec = QueryExecutionFactory.sparqlService(endpoint, query);
         ResultSet results = qexec.execSelect();
         int conta=0;
-        String debug = "";
         for (; results.hasNext();) {
             QuerySolution soln = results.nextSolution();
             Resource p = soln.getResource("s");       // Get a result variable by name.

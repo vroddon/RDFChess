@@ -34,13 +34,6 @@ public class ServiceServlet extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             String uri = request.getRequestURI();
-            try{
-                    FileUtils.writeStringToFile(new File("/etc/fuseki/debug.txt"), uri);
-            }catch(Exception e23)
-            {
-                
-            }
-
       //      PrintWriter archivo = new PrintWriter("d:\\test.txt");
       //      archivo.println(uri+request.getParameter("current"));
       //      archivo.close();
