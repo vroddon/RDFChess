@@ -5,6 +5,22 @@ import chesspresso.game.Game;
 import chesspresso.move.Move;
 import chesspresso.pgn.PGNReader;
 import chesspresso.pgn.PGNWriter;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.NodeIterator;
+import org.apache.jena.rdf.model.ResIterator;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.vocabulary.RDF;
+import org.apache.jena.query.Query;
+import org.apache.jena.query.QueryExecution;
+import org.apache.jena.query.QueryExecutionFactory;
+import org.apache.jena.query.QueryFactory;
+import org.apache.jena.query.QuerySolution;
+import org.apache.jena.query.ResultSet;
+import org.apache.jena.rdf.model.Literal;
+import org.apache.jena.riot.Lang;
+import org.apache.jena.riot.RDFDataMgr;
+import org.apache.jena.riot.RDFFormat;
+/*
 import com.hp.hpl.jena.graph.Graph;
 import com.hp.hpl.jena.mem.GraphMem;
 import com.hp.hpl.jena.query.Dataset;
@@ -29,6 +45,7 @@ import com.hp.hpl.jena.update.GraphStoreFactory;
 import com.hp.hpl.jena.update.UpdateAction;
 import com.hp.hpl.jena.vocabulary.RDF;
 import com.hp.hpl.jena.vocabulary.RDFS;
+*/
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -45,8 +62,24 @@ import java.text.Normalizer;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import org.apache.jena.graph.Graph;
+import org.apache.jena.graph.Node;
+import org.apache.jena.mem.GraphMem;
+import org.apache.jena.query.Dataset;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
+import org.apache.jena.sparql.core.DatasetGraph;
+import org.apache.jena.sparql.core.DatasetGraphFactory;
+//import org.apache.jena.sparql.core.DatasetGraphMaker;
+import org.apache.jena.sparql.core.DatasetImpl;
+import org.apache.jena.update.GraphStore;
+import org.apache.jena.update.GraphStoreFactory;
+import org.apache.jena.update.UpdateAction;
+import org.apache.jena.vocabulary.RDFS;
 import pgn2rdf.files.RDFPrefixes;
 import pgn2rdf.files.RDFTripleStore;
 import pgn2rdf.mappings.DBpediaSpotlight;
@@ -198,6 +231,7 @@ public class PGNProcessor {
 
     /**
      * Applies the view expansion chess:e9fcb74a-301e-4dd4-854a-b98b33554dde
+     * THIS METHOD HAS SUFFERED FROM THE JENA UPGRADE
      */
     public static String expandRDF(String rdf) throws UnsupportedEncodingException {
         System.out.println("A view expansion is going to take place");
@@ -211,15 +245,8 @@ public class PGNProcessor {
         } catch (Exception e) {
         }
         String id = PGNProcessor.getChessId(model);
-    //    System.out.println("The game id is: " + id);
-
-        //We load the game as a graph
-        DatasetGraphFactory.GraphMaker maker = new DatasetGraphFactory.GraphMaker() {
-            public Graph create() {
-                return new GraphMem();
-            }
-        };
-        Dataset dataxet = DatasetImpl.wrap(new DatasetGraphMaker(maker));
+        DatasetGraph mem = DatasetGraphFactory.createMem();
+        Dataset dataxet = DatasetImpl.wrap(mem);
         RDFDataMgr.read(dataxet, is, Lang.TTL);
         GraphStore graphStore = GraphStoreFactory.create(dataxet);
 

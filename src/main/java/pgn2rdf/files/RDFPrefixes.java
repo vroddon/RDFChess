@@ -1,6 +1,6 @@
 package pgn2rdf.files;
 
-import com.hp.hpl.jena.rdf.model.Model;
+//import com.hp.hpl.jena.rdf.model.Model;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -8,7 +8,11 @@ import java.util.Map;
 import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.riot.RDFFormat;
 import pgn2rdf.chess.RDFChess;
-
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.NodeIterator;
+import org.apache.jena.rdf.model.ResIterator;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.vocabulary.RDF;
 /**
  *
  * @author Victor

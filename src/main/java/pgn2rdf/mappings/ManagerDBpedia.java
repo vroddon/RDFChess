@@ -1,11 +1,25 @@
 package pgn2rdf.mappings;
 
 //JENA
-import com.hp.hpl.jena.query.*;
-import com.hp.hpl.jena.rdf.model.Literal;
+/*import com.hp.hpl.jena.query.*;
+import com.hp.hpl.jena.rdf.model.Literal;*/
 import java.io.IOException;
 import pgn2rdf.chess.Tutorial;
-
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.NodeIterator;
+import org.apache.jena.rdf.model.ResIterator;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.vocabulary.RDF;
+import org.apache.jena.query.Query;
+import org.apache.jena.query.QueryExecution;
+import org.apache.jena.query.QueryExecutionFactory;
+import org.apache.jena.query.QueryFactory;
+import org.apache.jena.query.QuerySolution;
+import org.apache.jena.query.ResultSet;
+import org.apache.jena.rdf.model.Literal;
+import org.apache.jena.riot.Lang;
+import org.apache.jena.riot.RDFDataMgr;
+import org.apache.jena.riot.RDFFormat;
 /**
  * Class to make some useful DBpedia queries
  * Ejemplo de consulta contra la dbpedia
