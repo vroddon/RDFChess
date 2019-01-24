@@ -1,5 +1,6 @@
 package pgn2rdf.servlets;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLDecoder;
@@ -8,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.io.FileUtils;
 import pgn2rdf.chess.Main;
 import pgn2rdf.files.RDFChessQueries;
 import pgn2rdf.files.RDFTripleStore;
@@ -32,6 +34,13 @@ public class ServiceServlet extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             String uri = request.getRequestURI();
+            try{
+                    FileUtils.writeStringToFile(new File("/etc/fuseki/debug.txt"), uri);
+            }catch(Exception e23)
+            {
+                
+            }
+
       //      PrintWriter archivo = new PrintWriter("d:\\test.txt");
       //      archivo.println(uri+request.getParameter("current"));
       //      archivo.close();
