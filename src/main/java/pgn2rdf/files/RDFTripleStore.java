@@ -106,7 +106,9 @@ public class RDFTripleStore {
     public int sparqlInt(String sparql)
     {
         Query query = QueryFactory.create(sparql);
-        String endpoint = "http://localhost:3030/RDFChess/query";
+        String endpoint = RDFChess.sparqlq;
+
+//        String endpoint = "http://localhost:3030/RDFChess/query";
         QueryExecution qexec = QueryExecutionFactory.sparqlService(endpoint, query);
         ResultSet results = qexec.execSelect();
         for (; results.hasNext();) {
@@ -125,7 +127,7 @@ public class RDFTripleStore {
     
     public static void deleteGame(String s)
     {
-        String endpoint = "http://localhost:3030/RDFChess/update";
+        String endpoint = RDFChess.sparqlu;
         UpdateRequest request = UpdateFactory.create() ;
         request.add("DROP GRAPH <"+s+">");      
         UpdateProcessor qexec=UpdateExecutionFactory.createRemoteForm(request,endpoint);
@@ -164,7 +166,7 @@ public class RDFTripleStore {
         sparql += " LIMIT " + limit +"\n";
         
         Query query = QueryFactory.create(sparql);
-        String endpoint = "http://localhost:3030/RDFChess/query";
+        String endpoint = RDFChess.sparqlq;
         QueryExecution qexec = QueryExecutionFactory.sparqlService(endpoint, query);
         ResultSet results = qexec.execSelect();
         int conta=0;
@@ -189,7 +191,7 @@ public class RDFTripleStore {
                 + "  }\n"
                 + "} LIMIT 200";
         Query query = QueryFactory.create(sparql);
-        String endpoint = "http://localhost:3030/RDFChess/query";
+        String endpoint = RDFChess.sparqlq;
         QueryExecution qexec = QueryExecutionFactory.sparqlService(endpoint, query);
         ResultSet results = qexec.execSelect();
         int conta=0;
@@ -214,7 +216,7 @@ public class RDFTripleStore {
                 + "  }\n"
                 + "} LIMIT 20";
         Query query = QueryFactory.create(sparql);
-        String endpoint = "http://localhost:3030/RDFChess/query";
+        String endpoint = RDFChess.sparqlq;
         QueryExecution qexec = QueryExecutionFactory.sparqlService(endpoint, query);
         ResultSet results = qexec.execSelect();
         int conta=9;
@@ -238,7 +240,7 @@ public class RDFTripleStore {
                 + "  }\n"
                 + "} LIMIT 20";
         Query query = QueryFactory.create(sparql);
-        String endpoint = "http://localhost:3030/RDFChess/query";
+        String endpoint = RDFChess.sparqlq;
         QueryExecution qexec = QueryExecutionFactory.sparqlService(endpoint, query);
         ResultSet results = qexec.execSelect();
         int conta=9;
@@ -266,7 +268,7 @@ public class RDFTripleStore {
         sparql += " LIMIT " + limit +"\n";
         
         Query query = QueryFactory.create(sparql);
-        String endpoint = "http://localhost:3030/RDFChess/query";
+        String endpoint = RDFChess.sparqlq;
         QueryExecution qexec = QueryExecutionFactory.sparqlService(endpoint, query);
         ResultSet results = qexec.execSelect();
         int conta=0;
@@ -288,7 +290,7 @@ public class RDFTripleStore {
                 + "  }\n"
                 + "}";
         Query query = QueryFactory.create(sparql);
-        String endpoint = "http://localhost:3030/RDFChess/query";
+        String endpoint = RDFChess.sparqlq;
         QueryExecution qexec = QueryExecutionFactory.sparqlService(endpoint, query);
         ResultSet results = qexec.execSelect();
         int conta=9;
@@ -311,7 +313,7 @@ public class RDFTripleStore {
                 + "  }\n"
                 + "}";
         Query query = QueryFactory.create(sparql);
-        String endpoint = "http://localhost:3030/RDFChess/query";
+        String endpoint = RDFChess.sparqlq;
         QueryExecution qexec = QueryExecutionFactory.sparqlService(endpoint, query);
         ResultSet results = qexec.execSelect();
         for (; results.hasNext();) {
@@ -347,7 +349,7 @@ public class RDFTripleStore {
                 + "}";
 
         Query query = QueryFactory.create(sparql);
-        String endpoint = "http://localhost:3030/RDFChess/query";
+        String endpoint = RDFChess.sparqlq;
         QueryExecution qexec = QueryExecutionFactory.sparqlService(endpoint, query);
 //        QueryExecution qexec = QueryExecutionFactory.create(query, model);
         ResultSet results = qexec.execSelect();

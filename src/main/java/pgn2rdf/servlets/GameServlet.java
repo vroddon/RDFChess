@@ -58,7 +58,8 @@ public class GameServlet extends HttpServlet {
         }
         if (!initialized)
         {
-            Fuseki.startEmbeddedFuseki("/data/rdfchess/dump/data.nq", "/RDFChess", 3030);
+ //           Fuseki.startEmbeddedFuseki("/data/rdfchess/dump/data.nq", "/RDFChess", 3030);
+//            Fuseki.startEmbeddedFuseki("D:\\data\\rdfchess\\nq\\data.nq", "/RDFChess", 3030);
             initialized=true;
         }
         String peticion = request.getRequestURI();

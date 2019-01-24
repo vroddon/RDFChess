@@ -11,6 +11,7 @@ import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.riot.RDFDataMgr;
+import pgn2rdf.chess.RDFChess;
 
 /**
  * This is an embedded Fuseki answering SPARQL questions.
@@ -23,7 +24,7 @@ public class Fuseki {
 
     public static void main(String[] args) throws IOException {
 
-        String endpoint = "http://localhost:3030/RDFChess/query";
+        String endpoint = RDFChess.sparqlq;
         String query = "SELECT *\n"
                 + "WHERE {\n"
                 + "  {  GRAPH ?graph{  ?x ?p ?o} .} \n"

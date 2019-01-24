@@ -52,7 +52,8 @@ public class Tutorial {
      */
     public static void clearAll()
     {
-        String endpoint = "http://localhost:3030/RDFChess/update";
+//        String endpoint = RDFChessConfig.get("sparqlu","http://localhost:3030/RDFChess/update");
+        String endpoint = RDFChess.sparqlu;
         UpdateRequest request = UpdateFactory.create() ;
         request.add("DROP ALL");      
         UpdateProcessor qexec=UpdateExecutionFactory.createRemoteForm(request,endpoint);
@@ -61,7 +62,7 @@ public class Tutorial {
     
     public static void clearOneByOne()
     {
-        String endpoint = "http://localhost:3030/RDFChess/update";
+        String endpoint = RDFChess.sparqlu;
         UpdateRequest request = UpdateFactory.create() ;
         request.add("DROP ALL");   
         UpdateProcessor qexec=UpdateExecutionFactory.createRemoteForm(request,endpoint);
