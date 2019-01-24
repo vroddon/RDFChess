@@ -1,23 +1,13 @@
 package pgn2rdf.servlets;
 
-/*import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.rdf.model.NodeIterator;
-import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.vocabulary.RDF;*/
-import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.NodeIterator;
-import org.apache.jena.rdf.model.ResIterator;
-import org.apache.jena.rdf.model.Resource;
+
 import org.apache.jena.vocabulary.RDF;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.PrintStream;
 import java.io.PrintWriter;
-import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
 import java.util.List;
@@ -50,6 +40,8 @@ import pgn2rdf.mappings.ManagerWikipedia;
  */
 public class GameServlet extends HttpServlet {
 
+    public static boolean initialized = false;
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -63,6 +55,11 @@ public class GameServlet extends HttpServlet {
         try {
             Main.init();
         } catch (Exception e) {
+        }
+        if (!initialized)
+        {
+            Fuseki.startEmbeddedFuseki("/data/rdfchess/dump/data.nq", "/RDFChess", 3030);
+            initialized=true;
         }
         String peticion = request.getRequestURI();
         if (peticion.equals("/rdfchess/resource/")) {                               //SERVING THE LIST OF GAMES.
