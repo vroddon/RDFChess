@@ -36,7 +36,7 @@ public class ServiceServlet extends HttpServlet {
             String uri = request.getRequestURI();
             try{
                 String s = "a punto de entrar en rdfchessqueriexxs";
-                    FileUtils.writeStringToFile(new File("/etc/fuseki/debug3.txt"), s);
+                    FileUtils.writeStringToFile(new File("/etc/fuseki/debug5.txt"), s);
             }catch(Exception e23)
             {
             }
