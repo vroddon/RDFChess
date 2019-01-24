@@ -34,15 +34,16 @@ public class RDFChessQueries {
     RDFStore store = new RDFJenaStore();
     
     
-    public int countChessplayers() {
+    public static int countChessplayers() {
         String sparql = "SELECT (COUNT(DISTINCT ?p) AS ?count)\n"
                 + "WHERE {\n"
                 + "  GRAPH ?g {\n"
                 + "    ?p a <http://purl.org/NET/rdfchess/ontology/Agent>\n"
                 + "  }\n"
                 + "}";
-//        int tot = RDFTripleStore.sparqlInt(sparql);
-        int tot = store.sparqlInt(sparql);
+        RDFTripleStore ts = new RDFTripleStore();
+        int tot = ts.sparqlInt(sparql);
+//        int tot = store.sparqlInt(sparql);
         return tot;
     }
 }
