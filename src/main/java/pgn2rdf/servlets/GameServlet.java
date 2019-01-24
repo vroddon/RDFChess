@@ -120,7 +120,7 @@ public class GameServlet extends HttpServlet {
             String uri = request.getRequestURI();
                 try{
                     String sdebug="Serving HTML for " + gameid;
-                    FileUtils.writeStringToFile(new File("/etc/fuseki/debug5.txt"), sdebug,true);
+                    FileUtils.writeStringToFile(new File("/etc/fuseki/debug5.txt"), ttl,true);
                 }catch(Exception e23)
                 {
                 }                
