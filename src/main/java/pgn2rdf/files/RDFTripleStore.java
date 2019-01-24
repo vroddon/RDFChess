@@ -410,7 +410,7 @@ public class RDFTripleStore {
      * @return A String that contains Valid RDF
      */
     public static String readGame(String gameid) {
-        String serviceURI = RDFChessConfig.get("fuseki", "http://localhost:3030/RDFChess/data");
+        String serviceURI = RDFChessConfig.get("fuseki", "http://127.0.0.1:8082/fuseki/RDFChess/data");
         try {
             DatasetAccessor dataAccessor = DatasetAccessorFactory.createHTTP(serviceURI);
             Model model = dataAccessor.getModel(gameid);
@@ -444,7 +444,7 @@ public class RDFTripleStore {
      * Reads a chess game from the store
      */
     public static String readXML(String gameid) {
-        String serviceURI = RDFChessConfig.get("fuseki", "http://localhost:3030/RDFChess/data");
+        String serviceURI = RDFChessConfig.get("fuseki", "http://127.0.0.1:8082/fuseki/RDFChess/data");
         DatasetAccessor dataAccessor = DatasetAccessorFactory.createHTTP(serviceURI);
         Model model = dataAccessor.getModel(gameid);
         StringWriter sw = new StringWriter();
@@ -460,7 +460,7 @@ public class RDFTripleStore {
      */
     public static String writeGame(String gameid, String game) {
         try {
-            String serviceURI = RDFChessConfig.get("fuseki", "http://localhost:3030/RDFChess/data");
+            String serviceURI = RDFChessConfig.get("fuseki", "http://127.0.0.1:8082/fuseki/RDFChess/data");
             DatasetAccessor dataAccessor = DatasetAccessorFactory.createHTTP(serviceURI);
             Model model = ModelFactory.createDefaultModel();
             InputStream stream = new ByteArrayInputStream(game.getBytes("UTF-8"));
@@ -486,7 +486,7 @@ public class RDFTripleStore {
         String dbpedia = PGNProcessor.getMappingDBpediaOpening(sx);
         
         try {
-            String serviceURI = RDFChessConfig.get("fuseki", "http://localhost:3030/RDFChess/data");
+            String serviceURI = RDFChessConfig.get("fuseki", "http://127.0.0.1:8082/fuseki/RDFChess/data");
             DatasetAccessor dataAccessor = DatasetAccessorFactory.createHTTP(serviceURI);
             Model model = ModelFactory.createDefaultModel();
             String idw = RDFChess.DATA_URI + "opening/" + eco;
