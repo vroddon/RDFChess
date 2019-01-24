@@ -41,12 +41,14 @@ import org.apache.jena.rdf.model.ResIterator;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.RDF;
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.util.Iterator;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.io.FileUtils;
 import org.apache.jena.query.DatasetAccessor;
 import org.apache.jena.query.DatasetAccessorFactory;
 import org.apache.jena.query.Query;
@@ -170,12 +172,20 @@ public class RDFTripleStore {
         QueryExecution qexec = QueryExecutionFactory.sparqlService(endpoint, query);
         ResultSet results = qexec.execSelect();
         int conta=0;
+        String debug = "";
         for (; results.hasNext();) {
             QuerySolution soln = results.nextSolution();
             Resource p = soln.getResource("s");       // Get a result variable by name.
             uris.add(p.toString());
 //            System.out.println(p.toString());
             conta++;
+            debug+=p.toString()+"\n";
+        }
+        try{
+        FileUtils.writeStringToFile(new File("/etc/fuseki/debug.txt"), debug);
+        }catch(Exception e)
+        {
+            
         }
    //     System.out.println(conta);        
         return uris;            
