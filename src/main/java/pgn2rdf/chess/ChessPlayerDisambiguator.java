@@ -1,9 +1,5 @@
 package pgn2rdf.chess;
 
-/*import com.hp.hpl.jena.rdf.model.Literal;
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.rdf.model.NodeIterator;*/
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,27 +17,29 @@ import pgn2rdf.mappings.DBpediaSpotlight;
 import pgn2rdf.mappings.ManagerDBpedia;
 
 /**
- *
+ * Class to disambiguate approximate names of chessplayers
  * @author admin
  */
-public class ChessPlayerProcessor {
+public class ChessPlayerDisambiguator {
     
     private static Map<String, String> jugadores = initJugadores();
 
     /**
      * Gets the dbpedia URL resource for the given string name.
+     * @param player An approximate name for the chess player
+     * @return The precise, disambiguated DBpedia resource
      */
-    public static String getMappingDBpedia(String jugador) {
-        String dbpedia = jugadores.get(jugador);
+    public static String getMappingDBpedia(String player) {
+        String dbpedia = jugadores.get(player);
         if (dbpedia == null) {
-            System.out.println("Query in external endpoint for " + jugador);
-            dbpedia = DBpediaSpotlight.getDBPediaResource(jugador, "ChessPlayer", "chess");
-            if (dbpedia.equals(jugador)) {
-                int coma=jugador.indexOf(",");
+            System.out.println("Query in external endpoint for " + player);
+            dbpedia = DBpediaSpotlight.getDBPediaResource(player, "ChessPlayer", "chess");
+            if (dbpedia.equals(player)) {
+                int coma=player.indexOf(",");
                 if (coma!=-1)
                 {
-                    String nom = jugador.substring(coma+2, jugador.length());
-                    String cognom = jugador.substring(0,coma);
+                    String nom = player.substring(coma+2, player.length());
+                    String cognom = player.substring(0,coma);
                     String url = "http://dbpedia.org/resource/"+nom+"_"+cognom;
                     url = url.replace(" ", "_");
                     String country=ManagerDBpedia.getAbstract(url);
@@ -50,9 +48,9 @@ public class ChessPlayerProcessor {
                         dbpedia=url;
                 }
             }
-            jugadores.put(jugador, dbpedia);
+            jugadores.put(player, dbpedia);
         }
-        return jugadores.get(jugador);
+        return jugadores.get(player);
     }
         //makes some corrections to makehey are
     public static Map<String, String> initJugadores()
@@ -95,7 +93,7 @@ public class ChessPlayerProcessor {
     
     public static void main(String[] args) throws IOException {
 
-        String db=ChessPlayerProcessor.getMappingDBpedia("Fox, Maurice");
+        String db=ChessPlayerDisambiguator.getMappingDBpedia("Fox, Maurice");
         System.out.println(db);
     }
 

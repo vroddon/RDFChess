@@ -18,7 +18,7 @@ import org.apache.log4j.Logger;
  * Reads and writes parameters in a configfile
  *
  * The file is <i>"RDFChess.config"</i> and must be located together with jar or
- * at least in the java path.
+ * at least in the java path. It is of no use in a war file.
  *
  * @author Victor Rodriguez Doncel
  */

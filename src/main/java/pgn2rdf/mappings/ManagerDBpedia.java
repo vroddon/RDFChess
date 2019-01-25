@@ -35,8 +35,8 @@ import org.apache.jena.riot.RDFFormat;
 public class ManagerDBpedia {
 
 // static String endpoint="http://dbpedia.linkeddata.es:8898/sparql";
- static String endpoint="http://dbpedia.org/sparql";
-//   static String endpoint="http://live.dbpedia.org/sparql";
+ // static String endpoint="http://dbpedia.org/sparql";
+   static String endpoint="http://live.dbpedia.org/sparql";
 
   
     public static void main(String[] args) throws IOException {

@@ -5,47 +5,16 @@ import chesspresso.game.Game;
 import chesspresso.move.Move;
 import chesspresso.pgn.PGNReader;
 import chesspresso.pgn.PGNWriter;
-import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.NodeIterator;
 import org.apache.jena.rdf.model.ResIterator;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.RDF;
-import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QueryExecutionFactory;
 import org.apache.jena.query.QueryFactory;
-import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Literal;
-import org.apache.jena.riot.Lang;
-import org.apache.jena.riot.RDFDataMgr;
-import org.apache.jena.riot.RDFFormat;
-/*
-import com.hp.hpl.jena.graph.Graph;
-import com.hp.hpl.jena.mem.GraphMem;
-import com.hp.hpl.jena.query.Dataset;
-import com.hp.hpl.jena.query.QueryExecution;
-import com.hp.hpl.jena.query.QueryExecutionFactory;
-import com.hp.hpl.jena.query.QueryFactory;
-import com.hp.hpl.jena.query.ResultSet;
-import com.hp.hpl.jena.rdf.model.Literal;
 
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.rdf.model.NodeIterator;
-import com.hp.hpl.jena.rdf.model.Property;
-import com.hp.hpl.jena.rdf.model.RDFNode;
-import com.hp.hpl.jena.rdf.model.ResIterator;
-import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.sparql.core.DatasetGraphFactory;
-import com.hp.hpl.jena.sparql.core.DatasetGraphMaker;
-import com.hp.hpl.jena.sparql.core.DatasetImpl;
-import com.hp.hpl.jena.update.GraphStore;
-import com.hp.hpl.jena.update.GraphStoreFactory;
-import com.hp.hpl.jena.update.UpdateAction;
-import com.hp.hpl.jena.vocabulary.RDF;
-import com.hp.hpl.jena.vocabulary.RDFS;
-*/
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -62,9 +31,6 @@ import java.text.Normalizer;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import org.apache.jena.graph.Graph;
-import org.apache.jena.graph.Node;
-import org.apache.jena.mem.GraphMem;
 import org.apache.jena.query.Dataset;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -252,7 +218,7 @@ public class PGNProcessor {
 
         //FIRST EXPANSION, WHITE PLAYER
         String blanco = PGNProcessor.getWhitePlayer(model);
-        String dbblanco = ChessPlayerProcessor.getMappingDBpedia(blanco);
+        String dbblanco = ChessPlayerDisambiguator.getMappingDBpedia(blanco);
         if (!dbblanco.equals(blanco)) {
             String literal = blanco;
             String dbpedia = dbblanco;
@@ -281,7 +247,7 @@ public class PGNProcessor {
 
         //SECOND EXPANSION, WHITE PLAYER
         String negro = PGNProcessor.getBlackPlayer(model);
-        String dbnegro = ChessPlayerProcessor.getMappingDBpedia(negro);
+        String dbnegro = ChessPlayerDisambiguator.getMappingDBpedia(negro);
         if (!negro.equals(dbnegro)) {
             String literal = negro;
             String dbpedia = dbnegro;
@@ -900,7 +866,7 @@ public class PGNProcessor {
         int fen = PGNProcessor.getPly(moves);
         System.out.println(fen);
 
-  //      String db=ChessPlayerProcessor.getMappingDBpedia("West, Guy");
+  //      String db=ChessPlayerDisambiguator.getMappingDBpedia("West, Guy");
 //        System.out.println(db);
         /*
          String input = new String(Files.readAllBytes(Paths.get("samples/test.pgn")));

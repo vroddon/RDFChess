@@ -6,13 +6,16 @@ import java.util.Iterator;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
 import pgn2rdf.mappings.ManagerWikipedia;
 
 /**
- * Class in charge of naming the ECO Chess Openings It contains the hard-coded
- * list of openings.
+ * Class in charge of naming the ECO Chess Openings.
+ * 
+ * Besides having a hard-coded list of openings, 
+ * this class relies on https://en.wikibooks.org/wiki/Chess_Opening_Theory/
  *
- * @author Victor Rodriguez (vroddon)
+ * @author vroddon
  */
 public class ChessECOManager {
 
@@ -34,7 +37,7 @@ public class ChessECOManager {
     }
     
     /**
-     * Get the chidren openings
+     * Get the children openings
      * @param eco Example: B00
      */
     public static List<String> getChildren(String eco)
@@ -55,6 +58,10 @@ public class ChessECOManager {
         return children;
     }
     
+    /**
+     * Get the parent openings
+     * @param eco Example: B00
+     */
     public static String getParent(String eco) {
         String parent="";
         List<String> parents = new ArrayList();
@@ -103,7 +110,7 @@ public class ChessECOManager {
      * Returns an English string with the moves the opening consists of.
      *
      * @param eco ECO code of opening. For examle: "C41"
-     * @return En English string. For example: "Philidor Defense"
+     * @return En English string. For example: "1.e4"
      */
     public static String getMoves(String eco) {
         String name = "";

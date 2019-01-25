@@ -14,7 +14,7 @@ public class Log {
     public static void log(String msg)
     {
         try{
-            FileUtils.writeStringToFile(new File(FILENAME), msg,true);
+            FileUtils.writeStringToFile(new File(FILENAME), msg+"\n",true);
         }catch(Exception e23)
         {
         }                

@@ -12,7 +12,6 @@ public class RDFChess {
     
 //    public static final String sparqlu = "http://localhost:3030/RDFChess/update";
 //    public static final String sparqlq = "http://localhost:3030/RDFChess/query";
-
     public static final String sparqlu = "http://127.0.0.1:8082/fuseki/RDFChess/update";
     public static final String sparqlq = "http://127.0.0.1:8082/fuseki/RDFChess/query";
 
