@@ -1,11 +1,5 @@
 package pgn2rdf.chess;
 
-/*import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.update.UpdateExecutionFactory;
-import com.hp.hpl.jena.update.UpdateFactory;
-import com.hp.hpl.jena.update.UpdateProcessor;
-import com.hp.hpl.jena.update.UpdateRequest;*/
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

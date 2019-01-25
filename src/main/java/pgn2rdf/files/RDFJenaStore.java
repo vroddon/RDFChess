@@ -1,18 +1,8 @@
 package pgn2rdf.files;
-/*
-import com.hp.hpl.jena.query.Query;
-import com.hp.hpl.jena.query.QueryExecution;
-import com.hp.hpl.jena.query.QueryExecutionFactory;
-import com.hp.hpl.jena.query.QueryFactory;
-import com.hp.hpl.jena.query.QuerySolution;
-import com.hp.hpl.jena.query.ResultSet;
-import com.hp.hpl.jena.query.ResultSetFormatter;
-import com.hp.hpl.jena.rdf.model.Literal;
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;*/
+
+
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
@@ -31,15 +21,13 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
-import pgn2rdf.chess.Main;
-import pgn2rdf.chess.PGNProcessor;
 import pgn2rdf.chess.RDFChessConfig;
 
 /**
  *
  * @author vroddon
  */
-public class RDFJenaStore implements RDFStore {
+public class RDFJenaStore  {
 
     Model model = null;
 
@@ -60,7 +48,7 @@ public class RDFJenaStore implements RDFStore {
                 + "}";
         jena.doQuery(queryString);
 
-        System.out.println(Main.rdfchessqueries.countChessplayers());
+        System.out.println(RDFTripleStore.countChessplayers());
     }
 
     public void init() {
@@ -125,9 +113,17 @@ public class RDFJenaStore implements RDFStore {
         return 0;
     }    
 
-    @Override
+
     public String readGame(String gameid) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+        String nt = "";
+        String dumpfolder = RDFChessConfig.get("dumpfolder", "E:\\Data\\RDFChess\\");
+        File file = new File(RDFChessConfig.get(dumpfolder) + gameid);
+        try {
+            nt = FileUtils.readFileToString(file, "UTF-8");
+        } catch (Exception e) {
+
+        }
+        return nt;
+    }    
 
 }

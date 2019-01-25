@@ -9,13 +9,10 @@ import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.riot.RDFFormat;
 import pgn2rdf.chess.RDFChess;
 import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.NodeIterator;
-import org.apache.jena.rdf.model.ResIterator;
-import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.vocabulary.RDF;
+
 /**
- *
- * @author Victor
+ * Adds common RDF prefixes if necessary.
+ * @author vroddon
  */
 public class RDFPrefixes {
 

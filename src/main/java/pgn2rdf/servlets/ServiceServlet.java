@@ -10,8 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.FileUtils;
-import pgn2rdf.chess.Main;
-import pgn2rdf.files.RDFChessQueries;
+
 import pgn2rdf.files.RDFTripleStore;
 
 /**
@@ -51,7 +50,7 @@ public class ServiceServlet extends HttpServlet {
                 
                 
                 
-                int total = Main.rdfchessqueries.countChessplayers();
+                int total = RDFTripleStore.countChessplayers();
                 int ilimit = Integer.parseInt(limit);
                 int init=(current-1)*ilimit;
                 String searchFrase =request.getParameter("searchPhrase");

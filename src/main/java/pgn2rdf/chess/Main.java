@@ -16,7 +16,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.apache.log4j.varia.NullAppender;
 import pgn2rdf.files.GameUploader;
-import pgn2rdf.files.RDFChessQueries;
+//import pgn2rdf.files.RDFChessQueries;
 import pgn2rdf.files.RDFTripleStore;
 
 /**
@@ -31,7 +31,7 @@ public class Main {
 
     public static boolean initialized = false;
     
-    public static RDFChessQueries rdfchessqueries = new RDFChessQueries();
+ //   public static RDFChessQueries rdfchessqueries = new RDFChessQueries();
 
     public static void main(String[] args) throws IOException {
         BasicConfigurator.configure();
