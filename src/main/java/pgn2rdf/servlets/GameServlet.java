@@ -25,6 +25,7 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
 import pgn2rdf.chess.ChessECOManager;
+import pgn2rdf.chess.Log;
 import pgn2rdf.chess.Main;
 import pgn2rdf.chess.PGNProcessor;
 import pgn2rdf.chess.RDFChess;
@@ -118,12 +119,7 @@ public class GameServlet extends HttpServlet {
                 System.out.println("Serving HTML for " + gameid);
                 
             String uri = request.getRequestURI();
-                try{
-                    String sdebug="Serving HTML for " + gameid;
-                    FileUtils.writeStringToFile(new File("/etc/fuseki/debug5.txt"), ttl,true);
-                }catch(Exception e23)
-                {
-                }                
+            Log.log(uri);
                 
                 InputStream is1 = GameServlet.class.getResourceAsStream("../../../../game.html");
                 BufferedReader reader = new BufferedReader(new InputStreamReader(is1, "UTF-8"));
@@ -242,6 +238,7 @@ public class GameServlet extends HttpServlet {
                     if (ni7.hasNext()) {
                         Resource clase = ni7.next().asResource();
                         if (clase.toString().startsWith("http://dbpedia.org") || clase.toString().startsWith("http://es.dbpedia.org")) {
+                        Log.log("Agente: "+ clase.toString());
                         String abst = ManagerDBpedia.getAbstract(clase.toString());
                             s += "<h3>" + ManagerDBpedia.getLabel(clase.toString()) + "</h3>";
                             s += "<p><img style=\"float:left;margin:10px 10px;\" src=\"" + ManagerDBpedia.getThumbnailURL(clase.toString()) + "\" />";

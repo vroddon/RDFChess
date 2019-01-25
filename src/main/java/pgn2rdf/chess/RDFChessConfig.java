@@ -90,7 +90,7 @@ public class RDFChessConfig {
                     Logger.getLogger("rdfchess").info("Config file read from " + CONFIGFILE);
                     return true;
                 } catch (Exception ex2) {
-                    System.out.println("NO CONFIG FILE AT ALL " + CONFIGFILE + " at " + System.getProperty("user.dir"));
+                    System.out.println("We could not read the " + CONFIGFILE + " at " + System.getProperty("user.dir"));
                     ex.printStackTrace(); //todavía no está el logger
                     return false;
                 }

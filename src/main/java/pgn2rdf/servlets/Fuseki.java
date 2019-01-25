@@ -15,7 +15,7 @@ import pgn2rdf.chess.RDFChess;
 
 /**
  * This is an embedded Fuseki answering SPARQL questions.
- *
+ * It is actually too slow with reasonably big datasets.
  * @author vroddon
  */
 public class Fuseki {
