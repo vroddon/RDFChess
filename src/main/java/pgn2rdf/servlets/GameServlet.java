@@ -61,7 +61,6 @@ public class GameServlet extends HttpServlet {
         } catch (Exception e) {
         }
         if (!initialized) {
-
             if (SystemUtils.IS_OS_LINUX) {
                 Fuseki.startEmbeddedFuseki("/data/rdfchess/dump/data.nq", "/RDFChess", 3330);
             } else {
