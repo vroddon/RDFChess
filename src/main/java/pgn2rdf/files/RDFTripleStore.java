@@ -38,40 +38,43 @@ import pgn2rdf.chess.Main;
 import pgn2rdf.chess.PGNProcessor;
 import pgn2rdf.chess.RDFChess;
 import pgn2rdf.chess.RDFChessConfig;
+import pgn2rdf.servlets.Fuseki;
 
 /**
- * Accesor methods for the RDF Chess Fuseki data store
- * This is based on Fuseki.
- * To start fuseki:
- * fuseki-server --update --loc=data /RDFChess
- * 
- * 
+ * Accesor methods for the RDF Chess Fuseki data store This is based on Fuseki.
+ * To start fuseki: fuseki-server --update --loc=data /RDFChess
+ *
+ *
  * To start apache: java/apachetomcat/bin> startup
- * 
- * 
- * @author vroddon 
+ *
+ *
+ * @author vroddon
  */
 public class RDFTripleStore {
 
     public static void main(String[] args) throws Exception {
 
+        Fuseki.startEmbeddedFuseki("c:\\data.nq", "/RDFChess", 3330);
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException ex) {
+            Thread.currentThread().interrupt();
+        }
+
 //        String ttl = RDFTripleStore.read("http://salonica.dia.fi.upm.es:8080/rdfchess/resource/45bee133-d88c-42e4-89bd-681c81170702");
 //        System.out.println(ttl);
-     //   String rdf = RDFTripleStore.readResource("http://salonica.dia.fi.upm.es:8080/rdfchess/resource/9f577224-f63c-4d2f-aa2f-5649ad7aa9be");
-     //   System.out.println(rdf);
+        //   String rdf = RDFTripleStore.readResource("http://salonica.dia.fi.upm.es:8080/rdfchess/resource/9f577224-f63c-4d2f-aa2f-5649ad7aa9be");
+        //   System.out.println(rdf);
 //        clearACHTUNGGames();
-      //  listGames();
-
-    //    listDeleteGames();
+        //  listGames();
+        //    listDeleteGames();
 //        deleteGame("http://salonica.dia.fi.upm.es:8080/rdfchess/resource/chessgame/df7655ba-8fc3-4645-b081-05bd8e1ad9ef");
 //        List<String> ls = RDFTripleStore.listGamesByOpening("C60");
-
 //        int n =countGames();
         System.out.println(RDFTripleStore.countChessplayers());
     }
-    
-    public int sparqlInt(String sparql)
-    {
+
+    public int sparqlInt(String sparql) {
         Query query = QueryFactory.create(sparql);
         String endpoint = RDFChess.sparqlq;
 
@@ -81,89 +84,82 @@ public class RDFTripleStore {
         for (; results.hasNext();) {
             QuerySolution soln = results.nextSolution();
             Iterator<String> it = soln.varNames();
-            while(it.hasNext())
-            {
+            while (it.hasNext()) {
                 String col = it.next();
                 System.out.println(col);
                 Literal literal = soln.getLiteral(col);
                 return Integer.parseInt(literal.getLexicalForm());
             }
-        }   
+        }
         return 0;
     }
-    
-    public static void deleteGame(String s)
-    {
+
+    public static void deleteGame(String s) {
         String endpoint = RDFChess.sparqlu;
-        UpdateRequest request = UpdateFactory.create() ;
-        request.add("DROP GRAPH <"+s+">");      
-        UpdateProcessor qexec=UpdateExecutionFactory.createRemoteForm(request,endpoint);
+        UpdateRequest request = UpdateFactory.create();
+        request.add("DROP GRAPH <" + s + ">");
+        UpdateProcessor qexec = UpdateExecutionFactory.createRemoteForm(request, endpoint);
         qexec.execute();
     }
 
     public static void listDeleteGames() {
-        int offset=0;
-        int limit=1000;
-        
+        int offset = 0;
+        int limit = 1000;
+
         List<String> ls = RDFTripleStore.listGames(offset, limit);
-        int count=0;
-        for(String s : ls)
-        {
+        int count = 0;
+        for (String s : ls) {
             count++;
             RDFTripleStore.deleteGame(s);
-            System.out.println(count +" deleted " + s);
+            System.out.println(count + " deleted " + s);
         }
     }
-    
-    public static List<String> listChessPlayers(int offset, int limit, String searchConcept)
-    {
-            try{
-                String s =""+offset+" "+limit+" "+searchConcept;
-                    FileUtils.writeStringToFile(new File("/etc/fuseki/debug2.txt"), s);
-            }catch(Exception e23)
-            {
-            }
-        
+
+    public static List<String> listChessPlayers(int offset, int limit, String searchConcept) {
+        try {
+            String s = "" + offset + " " + limit + " " + searchConcept;
+            FileUtils.writeStringToFile(new File("/etc/fuseki/debug2.txt"), s);
+        } catch (Exception e23) {
+        }
+
         List<String> uris = new ArrayList();
         String sparql = "SELECT DISTINCT ?s\n"
                 + "WHERE {\n"
                 + "  GRAPH ?g {\n"
                 + "    ?s a <http://purl.org/NET/rdfchess/ontology/Agent> \n";
-                
-       if (searchConcept!=null && !searchConcept.isEmpty())
-               sparql+="FILTER regex(str(?s),\""+searchConcept+"\",'i') \n";
-                
-                
-                sparql+= "  }\n"
+
+        if (searchConcept != null && !searchConcept.isEmpty()) {
+            sparql += "FILTER regex(str(?s),\"" + searchConcept + "\",'i') \n";
+        }
+
+        sparql += "  }\n"
                 + "} ";
-        sparql += " OFFSET " + offset +"\n";
-        sparql += " LIMIT " + limit +"\n";
-        String debug = sparql+"\n";
+        sparql += " OFFSET " + offset + "\n";
+        sparql += " LIMIT " + limit + "\n";
+        String debug = sparql + "\n";
         Query query = QueryFactory.create(sparql);
         String endpoint = RDFChess.sparqlq;
         QueryExecution qexec = QueryExecutionFactory.sparqlService(endpoint, query);
         ResultSet results = qexec.execSelect();
-        int conta=0;
+        int conta = 0;
         for (; results.hasNext();) {
             QuerySolution soln = results.nextSolution();
             Resource p = soln.getResource("s");       // Get a result variable by name.
             uris.add(p.toString());
 //            System.out.println(p.toString());
             conta++;
-            debug+=p.toString()+"\n";
+            debug += p.toString() + "\n";
         }
-        try{
-        FileUtils.writeStringToFile(new File("/etc/fuseki/debug.txt"), debug);
-        }catch(Exception e)
-        {
-            
+        try {
+            FileUtils.writeStringToFile(new File("/etc/fuseki/debug.txt"), debug);
+        } catch (Exception e) {
+
         }
-   //     System.out.println(conta);        
-        return uris;            
-    }    
-    
-    public static List<String> listChessPlayers()
-    {
+        //     System.out.println(conta);        
+        return uris;
+    }
+
+    public static List<String> listChessPlayers() {
         List<String> uris = new ArrayList();
         String sparql = "SELECT DISTINCT ?s\n"
                 + "WHERE {\n"
@@ -175,7 +171,7 @@ public class RDFTripleStore {
         String endpoint = RDFChess.sparqlq;
         QueryExecution qexec = QueryExecutionFactory.sparqlService(endpoint, query);
         ResultSet results = qexec.execSelect();
-        int conta=0;
+        int conta = 0;
         for (; results.hasNext();) {
             QuerySolution soln = results.nextSolution();
             Resource p = soln.getResource("s");       // Get a result variable by name.
@@ -183,24 +179,23 @@ public class RDFTripleStore {
             System.out.println(p.toString());
             conta++;
         }
-        System.out.println(conta);        
-        return uris;            
+        System.out.println(conta);
+        return uris;
     }
-    
-    public static List<String> listGamesByChessPlayer(String chessplayeruri)
-    {
+
+    public static List<String> listGamesByChessPlayer(String chessplayeruri) {
         List<String> uris = new ArrayList();
         String sparql = "SELECT DISTINCT ?g\n"
                 + "WHERE {\n"
                 + "  GRAPH ?g {\n"
-                + "    ?s ?p <"+chessplayeruri+ ">\n"
+                + "    ?s ?p <" + chessplayeruri + ">\n"
                 + "  }\n"
                 + "} LIMIT 20";
         Query query = QueryFactory.create(sparql);
         String endpoint = RDFChess.sparqlq;
         QueryExecution qexec = QueryExecutionFactory.sparqlService(endpoint, query);
         ResultSet results = qexec.execSelect();
-        int conta=9;
+        int conta = 9;
         for (; results.hasNext();) {
             QuerySolution soln = results.nextSolution();
             Resource p = soln.getResource("g");       // Get a result variable by name.
@@ -209,22 +204,22 @@ public class RDFTripleStore {
             conta++;
         }
         System.out.println(conta);
-        return uris;        
+        return uris;
     }
-    public static List<String> listGamesByOpening(String eco)
-    {
+
+    public static List<String> listGamesByOpening(String eco) {
         List<String> uris = new ArrayList();
         String sparql = "SELECT DISTINCT ?g\n"
                 + "WHERE {\n"
                 + "  GRAPH ?g {\n"
-                + "    ?s <http://purl.org/NET/rdfchess/ontology/ECOID> \""+eco+ "\"\n"
+                + "    ?s <http://purl.org/NET/rdfchess/ontology/ECOID> \"" + eco + "\"\n"
                 + "  }\n"
                 + "} LIMIT 20";
         Query query = QueryFactory.create(sparql);
         String endpoint = RDFChess.sparqlq;
         QueryExecution qexec = QueryExecutionFactory.sparqlService(endpoint, query);
         ResultSet results = qexec.execSelect();
-        int conta=9;
+        int conta = 9;
         for (; results.hasNext();) {
             QuerySolution soln = results.nextSolution();
             Resource p = soln.getResource("g");       // Get a result variable by name.
@@ -233,26 +228,26 @@ public class RDFTripleStore {
             conta++;
         }
         System.out.println(conta);
-        return uris;        
+        return uris;
     }
-    
+
     public static List<String> listGames(int offset, int limit) {
         String sresults = "";
-        List games=new ArrayList();
+        List games = new ArrayList();
         String sparql = "SELECT DISTINCT ?g\n"
                 + "WHERE {\n"
                 + "  GRAPH ?g {\n"
                 + "    ?s ?p ?o\n"
                 + "  }\n"
-                + "}"; 
-        sparql += " OFFSET " + offset +"\n";
-        sparql += " LIMIT " + limit +"\n";
-        
+                + "}";
+        sparql += " OFFSET " + offset + "\n";
+        sparql += " LIMIT " + limit + "\n";
+
         Query query = QueryFactory.create(sparql);
         String endpoint = RDFChess.sparqlq;
         QueryExecution qexec = QueryExecutionFactory.sparqlService(endpoint, query);
         ResultSet results = qexec.execSelect();
-        int conta=0;
+        int conta = 0;
         for (; results.hasNext();) {
             QuerySolution soln = results.nextSolution();
             Resource p = soln.getResource("g");       // Get a result variable by name.
@@ -261,7 +256,7 @@ public class RDFTripleStore {
         }
         return games;
     }
-    
+
     public static void listGames() {
         String sresults = "";
         String sparql = "SELECT DISTINCT ?g\n"
@@ -274,7 +269,7 @@ public class RDFTripleStore {
         String endpoint = RDFChess.sparqlq;
         QueryExecution qexec = QueryExecutionFactory.sparqlService(endpoint, query);
         ResultSet results = qexec.execSelect();
-        int conta=9;
+        int conta = 9;
         for (; results.hasNext();) {
             QuerySolution soln = results.nextSolution();
             Resource p = soln.getResource("g");       // Get a result variable by name.
@@ -282,10 +277,10 @@ public class RDFTripleStore {
             conta++;
         }
         System.out.println(conta);
-        return ;
+        return;
     }
 
-        public static int countGames() {
+    public static int countGames() {
         String sresults = "";
         String sparql = "SELECT (COUNT(DISTINCT ?g) AS ?count)\n"
                 + "WHERE {\n"
@@ -300,20 +295,17 @@ public class RDFTripleStore {
         for (; results.hasNext();) {
             QuerySolution soln = results.nextSolution();
             Iterator<String> it = soln.varNames();
-            while(it.hasNext())
-            {
+            while (it.hasNext()) {
                 String col = it.next();
                 System.out.println(col);
                 Literal literal = soln.getLiteral(col);
                 return Integer.parseInt(literal.getLexicalForm());
-                
+
             }
         }
         return 0;
     }
 
-
-    
     /**
      * Serves an arbitrary resource as linked data
      *
@@ -352,23 +344,22 @@ public class RDFTripleStore {
     }
 
     public static String summary(String partida) {
-        String s="";
+        String s = "";
 
-        try{
+        try {
             String rdf = readGame(partida);
             InputStream is = new ByteArrayInputStream(rdf.getBytes(StandardCharsets.UTF_8));
             Model model = ModelFactory.createDefaultModel();
             RDFDataMgr.read(model, is, Lang.TTL);
-            s+=PGNProcessor.getWhitePlayer(model)+" - ";
-            s+=PGNProcessor.getBlackPlayer(model);
-            s+= " ("+PGNProcessor.getDate(model) +") ";
-            
-            
-        }catch(Exception e){}
+            s += PGNProcessor.getWhitePlayer(model) + " - ";
+            s += PGNProcessor.getBlackPlayer(model);
+            s += " (" + PGNProcessor.getDate(model) + ") ";
+
+        } catch (Exception e) {
+        }
         return s;
     }
-    
-    
+
     /**
      * Reads a chess game from the store
      *
@@ -440,16 +431,17 @@ public class RDFTripleStore {
             return "";
         }
     }
+
     public static String writeOpening(String eco) {
-        String name=ChessECOManager.getName(eco);
-        String moves=ChessECOManager.getMoves(eco);
-        String seealso=ChessECOManager.getSeeAlso(eco);
+        String name = ChessECOManager.getName(eco);
+        String moves = ChessECOManager.getMoves(eco);
+        String seealso = ChessECOManager.getSeeAlso(eco);
         String loc = ChessECOManager.getLibraryOfCongress(eco);
         List<String> children = ChessECOManager.getChildren(eco);
         String parent = ChessECOManager.getParent(eco);
         String sx = eco + " " + name + " ";
         String dbpedia = PGNProcessor.getMappingDBpediaOpening(sx);
-        
+
         try {
             String serviceURI = RDFChessConfig.get("fuseki", "http://127.0.0.1:8082/fuseki/RDFChess/data");
             DatasetAccessor dataAccessor = DatasetAccessorFactory.createHTTP(serviceURI);
@@ -460,31 +452,34 @@ public class RDFTripleStore {
             model.add(reco, RDF.type, model.createResource("http://purl.org/NET/rdfchess/ontology/ChessOpening"));
             model.add(reco, RDFS.label, model.createLiteral(name));
             model.add(reco, model.createProperty("http://purl.org/NET/rdfchess/ontology/ECOID"), model.createLiteral(eco));
-            
-            if (!seealso.isEmpty())
+
+            if (!seealso.isEmpty()) {
                 model.add(reco, RDFS.seeAlso, model.createResource(seealso));
-            if (loc!=null && !loc.isEmpty())
-                model.add(reco, model.createProperty("http://www.w3.org/2004/02/skos/core#closeMatch"), model.createResource(loc));
-            if (!parent.isEmpty())
-                model.add(reco, model.createProperty("http://www.w3.org/2004/02/skos/core#narrowerTransitive"), model.createResource(parent));
-            if (!children.isEmpty())
-            {
-                for (String child : children)
-                    model.add(reco, model.createProperty("http://www.w3.org/2004/02/skos/core#broaderTransitive"), model.createResource(child));
             }
-            if (!dbpedia.isEmpty())
+            if (loc != null && !loc.isEmpty()) {
+                model.add(reco, model.createProperty("http://www.w3.org/2004/02/skos/core#closeMatch"), model.createResource(loc));
+            }
+            if (!parent.isEmpty()) {
+                model.add(reco, model.createProperty("http://www.w3.org/2004/02/skos/core#narrowerTransitive"), model.createResource(parent));
+            }
+            if (!children.isEmpty()) {
+                for (String child : children) {
+                    model.add(reco, model.createProperty("http://www.w3.org/2004/02/skos/core#broaderTransitive"), model.createResource(child));
+                }
+            }
+            if (!dbpedia.isEmpty()) {
                 model.add(reco, model.createProperty("http://www.w3.org/2004/02/skos/core#closeMatch"), model.createResource(dbpedia));
-            
-            
-            dataAccessor.putModel(model); 
+            }
+
+            dataAccessor.putModel(model);
             return idw;
         } catch (Exception e) {
             e.printStackTrace();
             return "";
         }
-        
+
     }
-    
+
     public static int countChessplayers() {
         String sparql = "SELECT (COUNT(DISTINCT ?p) AS ?count)\n"
                 + "WHERE {\n"

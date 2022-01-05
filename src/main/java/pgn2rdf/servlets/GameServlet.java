@@ -1,10 +1,10 @@
 package pgn2rdf.servlets;
 
-
 import org.apache.jena.vocabulary.RDF;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.SystemUtils;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.NodeIterator;
@@ -44,7 +45,7 @@ import pgn2rdf.mappings.ManagerWikipedia;
 public class GameServlet extends HttpServlet {
 
     public static boolean initialized = false;
-    
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -59,17 +60,23 @@ public class GameServlet extends HttpServlet {
             Main.init();
         } catch (Exception e) {
         }
-        if (!initialized)
-        {
- //           Fuseki.startEmbeddedFuseki("/data/rdfchess/dump/data.nq", "/RDFChess", 3030);
-//            Fuseki.startEmbeddedFuseki("D:\\data\\rdfchess\\nq\\data.nq", "/RDFChess", 3030);
-            initialized=true;
+        if (!initialized) {
+
+            if (SystemUtils.IS_OS_LINUX) {
+                Fuseki.startEmbeddedFuseki("/data/rdfchess/dump/data.nq", "/RDFChess", 3330);
+            } else {
+                Fuseki.startEmbeddedFuseki("c:\\data.nq", "/RDFChess", 3330);
+            }
+            initialized = true;
         }
         String peticion = request.getRequestURI();
-        if (peticion.equals("/rdfchess/resource/")) {                               //SERVING THE LIST OF GAMES.
+        if (peticion.endsWith("/resource/")) {                               //SERVING THE LIST OF GAMES. Cuando es sin jetty creo que hace /rdfchess/resource/. Pero con jetty, /resource/. 
             System.out.println("Serving HTML for general players");
             response.setContentType("text/html;charset=UTF-8");
-            InputStream is1 = GameServlet.class.getResourceAsStream("../../../../game.html");
+//            InputStream is1 = GameServlet.class.getResourceAsStream("../../../../game.html");   //SIN JETTY
+            InputStream is1 = new FileInputStream(new File("./src/main/webapp/game.html"));       //CON JETTY
+            System.out.println("Available: " + is1.available());
+
             BufferedReader reader = new BufferedReader(new InputStreamReader(is1));
             StringBuilder outx = new StringBuilder();
             String line;
@@ -78,14 +85,14 @@ public class GameServlet extends HttpServlet {
             }
             String body = outx.toString();
             body = body.replace("<!--TEMPLATE_TITLE-->", "\n" + "List of chess players");
-            String tabla ="<table id=\"grid-data\" class=\"table table-condensed table-hover table-striped\">\n" +
-            "        <thead>\n" +
-            "                <tr>\n" +
-            "                        <th data-column-id=\"chessplayer\" data-formatter=\"link\" data-order=\"desc\">Chess players</th>\n" +
-            "                </tr>\n" +
-            "        </thead>\n" +
-            "</table>	\n" +
-            "";
+            String tabla = "<table id=\"grid-data\" class=\"table table-condensed table-hover table-striped\">\n"
+                    + "        <thead>\n"
+                    + "                <tr>\n"
+                    + "                        <th data-column-id=\"chessplayer\" data-formatter=\"link\" data-order=\"desc\">Chess players</th>\n"
+                    + "                </tr>\n"
+                    + "        </thead>\n"
+                    + "</table>	\n"
+                    + "";
             body = body.replace("<!--TEMPLATE_PGN-->", "<br>" + tabla);
 
             response.getWriter().println(body);
@@ -117,11 +124,12 @@ public class GameServlet extends HttpServlet {
                 response.setContentType("text/html;charset=UTF-8");
                 response.setCharacterEncoding("UTF-8");
                 System.out.println("Serving HTML for " + gameid);
-                
-            String uri = request.getRequestURI();
-            Log.log(uri);
-                
-                InputStream is1 = GameServlet.class.getResourceAsStream("../../../../game.html");
+
+                String uri = request.getRequestURI();
+                Log.log(uri);
+
+//                InputStream is1 = GameServlet.class.getResourceAsStream("../../../../game.html");
+                InputStream is1 = new FileInputStream(new File("c:/v/p/rdfchess/src/main/webapp/game.html"));
                 BufferedReader reader = new BufferedReader(new InputStreamReader(is1, "UTF-8"));
                 StringBuilder outx = new StringBuilder();
                 String line;
@@ -130,7 +138,7 @@ public class GameServlet extends HttpServlet {
                 }
                 String body = outx.toString();
                 String ttl2 = StringEscapeUtils.escapeHtml4(ttl);
-                System.out.println("TTL has been escaped");
+                System.out.println("TTL has been escaped " + ttl);
                 Model model = ModelFactory.createDefaultModel();
                 InputStream is = new ByteArrayInputStream(ttl.getBytes(StandardCharsets.UTF_8));
                 RDFDataMgr.read(model, is, Lang.TTL);
@@ -143,52 +151,49 @@ public class GameServlet extends HttpServlet {
                 }
                 if (titulo.equals("Place")) {
                     int ultimo = entidad.toString().lastIndexOf("/");
-                    String name= entidad.toString().substring(ultimo+1, entidad.toString().length());    
+                    String name = entidad.toString().substring(ultimo + 1, entidad.toString().length());
                     System.out.println("Getting name of: " + name);
-                    String name2= ManagerGeonames.getName("http://sws.geonames.org/"+name+"");
-                    String country=ManagerGeonames.getCountry("http://sws.geonames.org/"+name);
-                    
-                    String html="<h2>"+name2+"</h2>";
-                    html+="Country: " + country;
-                    body = body.replace("<!--TEMPLATE_PGN-->", html);                    
-                    
+                    String name2 = ManagerGeonames.getName("http://sws.geonames.org/" + name + "");
+                    String country = ManagerGeonames.getCountry("http://sws.geonames.org/" + name);
+
+                    String html = "<h2>" + name2 + "</h2>";
+                    html += "Country: " + country;
+                    body = body.replace("<!--TEMPLATE_PGN-->", html);
+
                 }
                 if (titulo.equals("ChessGameOpening")) {
                     int ultimo = entidad.toString().lastIndexOf("/");
-                    String eco = entidad.toString().substring(ultimo+1, entidad.toString().length());                
-                    String s = "<h3>"+eco+" "+PGNProcessor.getNameFromOpening(model)+"</h3>";
+                    String eco = entidad.toString().substring(ultimo + 1, entidad.toString().length());
+                    String s = "<h3>" + eco + " " + PGNProcessor.getNameFromOpening(model) + "</h3>";
                     String moves = ChessECOManager.getMoves(eco);
                     String parent = ChessECOManager.getParent(eco);
-                    if (!parent.isEmpty())
-                    {
-                        String ecourl=RDFChess.DATA_URI+"opening/"+parent;
-                        s+="Parent opening: <a href=\"" + ecourl+"\">" + parent + "</a><br/>" ;
+                    if (!parent.isEmpty()) {
+                        String ecourl = RDFChess.DATA_URI + "opening/" + parent;
+                        s += "Parent opening: <a href=\"" + ecourl + "\">" + parent + "</a><br/>";
                     }
                     List<String> children = ChessECOManager.getChildren(eco);
-                    if (!children.isEmpty())
-                    {
-                        s+="Children openings: "; 
-                        for(String child : children)
-                        {
-                            String ecourl=RDFChess.DATA_URI+"opening/"+child;
-                            s+="<a href=\"" + ecourl+"\">" + child + "</a> " ;                            
+                    if (!children.isEmpty()) {
+                        s += "Children openings: ";
+                        for (String child : children) {
+                            String ecourl = RDFChess.DATA_URI + "opening/" + child;
+                            s += "<a href=\"" + ecourl + "\">" + child + "</a> ";
                         }
-                        s+="<br/>";
+                        s += "<br/>";
                     }
-                    
+
                     NodeIterator ni7 = model.listObjectsOfProperty(entidad, model.createProperty("http://www.w3.org/2000/01/rdf-schema#seeAlso"));
                     String sr = "";
                     if (ni7.hasNext()) {
                         Resource clase = ni7.next().asResource();
                         if (clase.toString().startsWith("http://en.wikibooks") || clase.toString().startsWith("https://en.wikibooks")) {
-                            s+="<p>";
-                            s+=ManagerWikipedia.getAbstractFromWikiBook(clase.toString());
-                            s+="</p>";
+                            s += "<p>";
+                            s += ManagerWikipedia.getAbstractFromWikiBook(clase.toString());
+                            s += "</p>";
                         }
                     }
-                     
+
                     String fen = PGNProcessor.getFEN(moves);
-                    
+
                     //ACHTUNG! REMOVE IF IT DOES NOT WORK. ONLY TESTING
                     s += " <div id=\"board3\" class=\"board\"></div>\n"
                             + "      <p class=\"annot\"></p>\n"
@@ -196,13 +201,12 @@ public class GameServlet extends HttpServlet {
                             + moves
                             + "      </pre> ";
                     int ply = PGNProcessor.getPly(moves);
-                    String jquery="loadChessGame( '#game3', { pgn : $('#apertura').html() }, function(chess) {\n chess.transitionTo("+ply+");\n});";
+                    String jquery = "loadChessGame( '#game3', { pgn : $('#apertura').html() }, function(chess) {\n chess.transitionTo(" + ply + ");\n});";
                     body = body.replace("//TEMPLATE_JQUERY", jquery);
-                  
-                    body=body.replace("<!--TEMPLATE_HEADER-->","<base href=\"http://vroddon.linkeddata.es/rdfchess/resource/\">\n");
-                    
+
+                    body = body.replace("<!--TEMPLATE_HEADER-->", "<base href=\"http://vroddon.linkeddata.es/rdfchess/resource/\">\n");
+
                     //END OF TESTING...
-                    
                     s += "\n<hr><div style=\"overflow: hidden; width: 100%;\">\n";
                     List<String> partidas = RDFTripleStore.listGamesByOpening(eco);
                     s += "<h3>Some games</h3>";
@@ -225,11 +229,11 @@ public class GameServlet extends HttpServlet {
                             + "      <pre id=\"pgn-fischer-spassky\">\n"
                             + pgn
                             + "      </pre> ";
-                    
-                    String jquery="loadChessGame( '#game3', { pgn : $('#pgn-fischer-spassky').html()});";
+
+                    String jquery = "loadChessGame( '#game3', { pgn : $('#pgn-fischer-spassky').html()});";
                     body = body.replace("//TEMPLATE_JQUERY", jquery);
-                    body=body.replace("<!--TEMPLATE_HEADER-->","<base href=\"http://vroddon.linkeddata.es/rdfchess/\">\n");
-                    
+                    body = body.replace("<!--TEMPLATE_HEADER-->", "<base href=\"http://vroddon.linkeddata.es/rdfchess/\">\n");
+
                     body = body.replace("<!--TEMPLATE_PGN-->", "\n" + superpgn);
                 }
                 if (titulo.equals("Agent")) {
@@ -238,8 +242,8 @@ public class GameServlet extends HttpServlet {
                     if (ni7.hasNext()) {
                         Resource clase = ni7.next().asResource();
                         if (clase.toString().startsWith("http://dbpedia.org") || clase.toString().startsWith("http://es.dbpedia.org")) {
-                        Log.log("Agente: "+ clase.toString());
-                        String abst = ManagerDBpedia.getAbstract(clase.toString());
+                            Log.log("Agente: " + clase.toString());
+                            String abst = ManagerDBpedia.getAbstract(clase.toString());
                             s += "<h3>" + ManagerDBpedia.getLabel(clase.toString()) + "</h3>";
                             s += "<p><img style=\"float:left;margin:10px 10px;\" src=\"" + ManagerDBpedia.getThumbnailURL(clase.toString()) + "\" />";
                             s += "" + abst + "</p>";
