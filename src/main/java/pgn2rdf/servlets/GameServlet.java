@@ -72,8 +72,12 @@ public class GameServlet extends HttpServlet {
         if (peticion.endsWith("/resource/")) {                               //SERVING THE LIST OF GAMES. Cuando es sin jetty creo que hace /rdfchess/resource/. Pero con jetty, /resource/. 
             System.out.println("Serving HTML for general players");
             response.setContentType("text/html;charset=UTF-8");
-//            InputStream is1 = GameServlet.class.getResourceAsStream("../../../../game.html");   //SIN JETTY
-            InputStream is1 = new FileInputStream(new File("./src/main/webapp/game.html"));       //CON JETTY
+            InputStream is1 = null;
+            if (SystemUtils.IS_OS_LINUX) {
+                is1 = GameServlet.class.getResourceAsStream("../../../../game.html");   //SIN JETTY
+            } else {
+                is1 = new FileInputStream(new File("./src/main/webapp/game.html"));       //CON JETTY
+            }
             System.out.println("Available: " + is1.available());
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(is1));
@@ -127,8 +131,12 @@ public class GameServlet extends HttpServlet {
                 String uri = request.getRequestURI();
                 Log.log(uri);
 
-//                InputStream is1 = GameServlet.class.getResourceAsStream("../../../../game.html");
-                InputStream is1 = new FileInputStream(new File("c:/v/p/rdfchess/src/main/webapp/game.html"));
+                InputStream is1 = null;
+                if (SystemUtils.IS_OS_LINUX) {
+                    is1 = GameServlet.class.getResourceAsStream("../../../../game.html");
+                } else {
+                    is1 = new FileInputStream(new File("c:/v/p/rdfchess/src/main/webapp/game.html"));
+                }
                 BufferedReader reader = new BufferedReader(new InputStreamReader(is1, "UTF-8"));
                 StringBuilder outx = new StringBuilder();
                 String line;
