@@ -61,11 +61,14 @@ public class GameServlet extends HttpServlet {
         } catch (Exception e) {
         }
         if (!initialized) {
+
+/*
             if (SystemUtils.IS_OS_LINUX) {
                 Fuseki.startEmbeddedFuseki("/data/rdfchess/dump/data.nq", "/RDFChess", 3330);
             } else {
-                Fuseki.startEmbeddedFuseki("c:\\data.nq", "/RDFChess", 3330);
-            }
+                Fuseki.startEmbeddedFuseki("c:\\v\\data.nq", "/RDFChess", 3330);
+            }*/
+
             initialized = true;
         }
         String peticion = request.getRequestURI();
